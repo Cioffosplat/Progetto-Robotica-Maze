@@ -29,10 +29,12 @@ void loop()
   // Read the gyroscope data
   imu.readGyro();
 
+    // Convert the gyroscope data degree per second
+  gyroX = imu.calcGyro(imu.gx);
+  gyroY = imu.calcGyro(imu.gy);
+  gyroZ = imu.calcGyro(imu.gz);
+
   // Convert the gyroscope data to a range of 0 to 360 degrees
-  gyroX = imu.calcGyro(imu.gyroX);
-  gyroY = imu.calcGyro(imu.gyroY);
-  gyroZ = imu.calcGyro(imu.gyroZ);
   gyroX = fmod(gyroX + 360, 360);
   gyroY = fmod(gyroY + 360, 360);
   gyroZ = fmod(gyroZ + 360, 360);
