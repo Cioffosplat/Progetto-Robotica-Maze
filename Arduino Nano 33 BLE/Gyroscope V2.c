@@ -1,63 +1,51 @@
 //Author Filippo Schierato (CoFounder of the Robot Maze Project in collaboration with Giulio Semenzato)
 //Both libraries essential 
-#include <Wire.h>
-#include "SparkFunLSM9DS1.h"
-
-// Create an instance of the LSM9DS1 library called `imu` mainly used to detect the hardware
-LSM9DS1 imu;
+#include <Arduino_LSM9DS1.h>
 
 // Declare variables to store the gyroscope data
-float gyroX, gyroY, gyroZ;
+float x, y, z;
 
-void setup()
-{
+void setup() {
   // Initialize the serial port
   Serial.begin(9600);
-  while (!Serial);  // Wait for serial to be available
+  while (!Serial);// Wait for serial to be available
+  Serial.println("Started");
 
-  // Initialize the IMU LSM9DS1
-  if (imu.begin() == false)
-  {
-    Serial.println("Failed to communicate with LSM9DS1.");
+  if (!IMU.begin()) {
+    Serial.println("Failed to initialize IMU!");
     Serial.println("Double-check wiring.");
     while (1);
   }
 }
 
-void loop()
-{
-  // Read the gyroscope data
-  imu.readGyro();
+void loop() {
 
-    // Convert the gyroscope data degree per second
-  gyroX = imu.calcGyro(imu.gx);
-  gyroY = imu.calcGyro(imu.gy);
-  gyroZ = imu.calcGyro(imu.gz);
-
-  // Convert the gyroscope data to a range of 0 to 360 degrees
-  gyroX = fmod(gyroX + 360, 360);
-  gyroY = fmod(gyroY + 360, 360);
-  gyroZ = fmod(gyroZ + 360, 360);
+  // Read and Prepear the gyroscope data
+  if (IMU.gyroscopeAvailable()) {
+    IMU.readGyroscope(x, y, z);
+  }
+  
+  // Print the gyro's x, y, and z values to the serial monitor
+  Serial.print("x: ");
+  Serial.print(x);
+  Serial.print("  y: ");
+  Serial.print(y);
+  Serial.print("  z: ");
+  Serial.println(z);
 
   // Gyroscope data conversion from float to byte
-  byte gyroXByte = (byte)gyroX;
-  byte gyroYByte = (byte)gyroY;
-  byte gyroZByte = (byte)gyroZ;
+    byte gyroXByte = (byte)x;
+    byte gyroYByte = (byte)y;
+    byte gyroZByte = (byte)z;
 
-  // Temporary print for the date of the gyroscope
-  Serial.print("Gyroscope (deg): "); //Data in degrees from 0 to 360
-  Serial.print(gyroX);
-  Serial.print(", ");
-  Serial.print(gyroY);
-  Serial.print(", ");
-  Serial.println(gyroZ);
-  Serial.print("Gyroscope (bytes): "); //Data in bytes converted from degrees aka float values
+  // Print the gyro's x, y, and z values into byte conversion
+  Serial.print("byteX: ");
   Serial.print(gyroXByte);
-  Serial.print(", ");
+  Serial.print("  byteY: ");
   Serial.print(gyroYByte);
-  Serial.print(", ");
-  Serial.println(gyroZByte);
+  Serial.print("  byteZ: ");
+  Serial.println(gyroZByte); 
 
-  // Delay used to lay out the results (variable value from 1 second to anything we like)
+  //Delay for examinating purpouse
   delay(1000);
 }
