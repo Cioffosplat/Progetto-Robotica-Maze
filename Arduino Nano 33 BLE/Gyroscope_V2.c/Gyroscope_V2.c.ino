@@ -7,7 +7,10 @@ float Gx, Gy, Gz;
 float Ax, Ay, Az;
 
 // Declare local variables of a byte array for the serial comunication of x,y and z values 
-byte byteArray[4] = {NULL,NULL,NULL,NULL};
+float globalPos[] = {0.0,0.0,0.0};
+
+float avragePosMove[] = {0.0,0.0,0.0};
+
 
 void setup() {
   // Initialize the serial port
