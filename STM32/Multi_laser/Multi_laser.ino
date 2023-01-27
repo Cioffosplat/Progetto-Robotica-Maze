@@ -22,11 +22,34 @@ void setup() {
   sensor.setTimeout(500);
   if (!sensor.init())
   {
+    Serial.println("Failed to detect and initialize sensor 1!");
+    while (1) {}
+  }
+  TCA9548A(2);
+  sensor.setTimeout(500);
+  if (!sensor.init())
+  {
     Serial.println("Failed to detect and initialize sensor 2!");
     while (1) {}
   }
-  
-  TCA9548A(6);
+}
+  TCA9548A(3);
+  sensor.setTimeout(500);
+  if (!sensor.init())
+  {
+    Serial.println("Failed to detect and initialize sensor 3!");
+    while (1) {}
+  }
+}
+  TCA9548A(4);
+  sensor.setTimeout(500);
+  if (!sensor.init())
+  {
+    Serial.println("Failed to detect and initialize sensor 4!");
+    while (1) {}
+  }
+}
+  TCA9548A(5);
   sensor.setTimeout(500);
   if (!sensor.init())
   {
@@ -34,6 +57,7 @@ void setup() {
     while (1) {}
   }
 }
+
 
 void loop(){
   
@@ -44,9 +68,29 @@ void loop(){
       Serial.print(" TIMEOUT"); 
     }
     Serial.println();
-
-    TCA9548A(6);
-    Serial.print("Sensore 6: ");
+    TCA9548A(2);
+    Serial.print("Sensore 2: ");
+    Serial.print(sensor.readRangeSingleMillimeters());
+    if (sensor.timeoutOccurred()) {
+      Serial.print(" TIMEOUT"); 
+    }
+    Serial.println();
+    TCA9548A(3);
+    Serial.print("Sensore 3: ");
+    Serial.print(sensor.readRangeSingleMillimeters());
+    if (sensor.timeoutOccurred()) {
+      Serial.print(" TIMEOUT"); 
+    }
+    Serial.println();
+    TCA9548A(4);
+    Serial.print("Sensore 4: ");
+    Serial.print(sensor.readRangeSingleMillimeters());
+    if (sensor.timeoutOccurred()) {
+      Serial.print(" TIMEOUT"); 
+    }
+    Serial.println();
+    TCA9548A(5);
+    Serial.print("Sensore 5: ");
     Serial.print(sensor.readRangeSingleMillimeters());
     if (sensor.timeoutOccurred()) {
       Serial.print(" TIMEOUT"); 
