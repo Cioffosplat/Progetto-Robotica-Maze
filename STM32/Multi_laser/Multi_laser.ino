@@ -7,5 +7,9 @@ void setup() {
 }
 
 void loop(){
-  Serial.println(l.getRight());
+  Serial.println("Right:" + l.getRight());
+  /*Serial.println("Left:" + l.getLeft());
+  Serial.println("FrontUp: " + l.getFrontUp());
+  Serial.println("Back: " + l.getBack());
+  Serial.println("Down: " + l.getFrontDown());*/
 }
