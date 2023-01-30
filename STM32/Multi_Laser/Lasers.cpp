@@ -6,7 +6,7 @@
 #define FRONT_UP 4
 #define FRONT_DOWN 5
 
-Lasers::Lasers(){
+void setupLasers(){
   
   Wire.begin();
   
@@ -46,29 +46,29 @@ Lasers::Lasers(){
   }
 }
 
-void Lasers::TCA9548A(uint8_t bus){
+void TCA9548A(uint8_t bus){
   Wire.beginTransmission(0x70);  // TCA9548A address is 0x70
   Wire.write(1 << bus);          // send byte to select bus
   Wire.endTransmission();
 }
 
-uint16_t Lasers::getRight(){
+uint16_t getRight(){
   TCA9548A(RIGHT);
   return sensor.readRangeSingleMillimeters();
 }
-uint16_t Lasers::getLeft(){
+uint16_t getLeft(){
   TCA9548A(LEFT);
   return sensor.readRangeSingleMillimeters();
 }
-uint16_t Lasers::getBack(){
+uint16_t getBack(){
   TCA9548A(BACK);
   return sensor.readRangeSingleMillimeters();
 }
-uint16_t Lasers::getFrontUp(){
+uint16_t getFrontUp(){
   TCA9548A(FRONT_UP);
   return sensor.readRangeSingleMillimeters();
 }
-uint16_t Lasers::getFrontDown(){
+uint16_t getFrontDown(){
   TCA9548A(FRONT_DOWN);
   return sensor.readRangeSingleMillimeters();
 }
