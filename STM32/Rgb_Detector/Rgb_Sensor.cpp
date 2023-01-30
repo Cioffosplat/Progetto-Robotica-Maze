@@ -1,6 +1,6 @@
-@Author Filippo Schierato AKA Papaya
-
 #include "Rgb_Sensor.h"
+#include <Arduino.h>
+#include <Wire.h>
 
 #define S0_PIN 8
 #define S1_PIN 7
@@ -8,30 +8,9 @@
 #define S3_PIN 5
 #define OUT_PIN 4
 
-int Rgb_Sensor::process_red_value() {
-    digitalWrite(S2_PIN, LOW);
-    digitalWrite(S3_PIN, LOW);
-    int pulse_length = pulseIn(OUT_PIN, LOW);
-    return pulse_length;
-}
 
-int Rgb_Sensor::process_blue_value() {
-    digitalWrite(S2_PIN, LOW);
-    digitalWrite(S3_PIN, HIGH);
-    int pulse_length = pulseIn(OUT_PIN, LOW);
-    return pulse_length;
-}
 
-int Rgb_Sensor::process_green_value() {
-    digitalWrite(S2_PIN, HIGH);
-    digitalWrite(S3_PIN, HIGH);
-    int pulse_length = pulseIn(OUT_PIN, LOW);
-    return pulse_length;
-}
-
-//Code to include in the final project, definition
-//of the pins of the sensor itself
-/*void setup(){
+void setupRGB(){
     pinMode(S0_PIN, OUTPUT);
     pinMode(S1_PIN, OUTPUT);
     pinMode(S2_PIN, OUTPUT);
@@ -41,14 +20,33 @@ int Rgb_Sensor::process_green_value() {
     digitalWrite(S0_PIN, HIGH);
     digitalWrite(S1_PIN, LOW);
     // Enable Serial Port for Debugging
-    Serial.begin(38400);
-}*/
-int Rgb_Sensor::r = process_red_value();
-int Rgb_Sensor::g = process_green_value();
-int Rgb_Sensor::b = process_blue_value();
+    Serial.begin(9600);
+}
 
-bool Rgb_Sensor::isBlue() {
-    if (r >= 0 || r <= 25 && g >= 0 || g <= 25 && b >= 230 || b <= 255) {
+int process_red_value() {
+    digitalWrite(S2_PIN, LOW);
+    digitalWrite(S3_PIN, LOW);
+    int pulse_length = pulseIn(OUT_PIN, LOW);
+    return pulse_length;
+}
+
+int process_blue_value() {
+    digitalWrite(S2_PIN, LOW);
+    digitalWrite(S3_PIN, HIGH);
+    int pulse_length = pulseIn(OUT_PIN, LOW);
+    return pulse_length;
+}
+
+int process_green_value() {
+    digitalWrite(S2_PIN, HIGH);
+    digitalWrite(S3_PIN, HIGH);
+    int pulse_length = pulseIn(OUT_PIN, LOW);
+    return pulse_length;
+}
+
+
+bool isBlue() {
+    if (process_red_value() >= 0 || process_red_value() <= 25 && process_green_value() >= 0 || process_green_value() <= 25 && process_blue_value() >= 230 || process_blue_value() <= 255) {
         return true;
         Serial.print("It's Blue");
     } else {
@@ -57,8 +55,8 @@ bool Rgb_Sensor::isBlue() {
     }
 }
 
-bool Rgb_Sensor::isBlack() {
-    if (r >= 0 || r <= 25 && g >= 0 || g <= 25 && b >= 0 || b <= 25) {
+bool isBlack() {
+    if (process_red_value() >= 0 || process_red_value() <= 25 && process_green_value() >= 0 || process_green_value() <= 25 && process_blue_value() >= 0 || process_blue_value() <= 25) {
         return true;
         Serial.print("It's Blue");
     } else {
@@ -66,4 +64,3 @@ bool Rgb_Sensor::isBlack() {
         Serial.print("It's not Blue");
     }
 }
-
