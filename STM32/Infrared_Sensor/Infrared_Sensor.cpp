@@ -1,6 +1,7 @@
 #include "Infrared_Sensor.h"
 #include <Arduino.h>
 #include <Wire.h>
+#define A0;
 
 int IR_pin = A0;   //Pin for the sensor
 int minSilver = 0; //Replace value with the minimum for the Silver tile
