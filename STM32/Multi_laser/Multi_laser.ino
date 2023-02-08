@@ -1,4 +1,7 @@
+#include "Wire.h"
 #include "Lasers.h"
+TwoWire Wire2 (2,I2C_FAST_MODE);
+#define Wire Wire2
 
 void setup() {
   Serial.begin(9600);
