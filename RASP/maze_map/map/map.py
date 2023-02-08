@@ -7,8 +7,8 @@ from core.comunication.directions import Direction
 from core.errors.errors import NoCellsMatch
 from core.navigation.Coordinates import Coord
 from core.navigation.Coordinates import direction_to_coord
-from matrix.cell import AbstractCell
-from matrix.cell import AnonymousCell
+from maze_map.map.map import AbstractCell
+from maze_map.map.map import AnonymousCell
 
 
 class AbstractMap(ABC):

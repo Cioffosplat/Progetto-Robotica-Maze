@@ -3,7 +3,7 @@ from abc import ABC
 import numpy as np
 
 from core.navigation.Coordinates import Coord
-from maze_map.matrix.cell import AnonymousCell
+from maze_map.map.map import AnonymousCell
 
 
 class AbstractMatrix(ABC):
