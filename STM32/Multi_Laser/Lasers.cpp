@@ -1,28 +1,17 @@
 #include "Lasers.h"
-#include "I2Cdev.h"
-#include "MPU6050_6Axis_MotionApps20.h"
-#include "Giroscopio.h"
-Giroscopio *giro;
 
 #define LEFT 1
 #define RIGHT 2
 #define BACK 3
 #define FRONT_UP 4
 #define FRONT_DOWN 5
-#define GYRO 6
-
-void setupGyro(){
-  Wire.begin();
-  Serial.begin(9600);
-  giro = new Giroscopio();
-}
 
 void setupLasers(){
   
   Wire.begin();
   Serial.begin(9600);
 
-Serial.println("Initializing Left");
+  Serial.println("Initializing Left");
   TCA9548A(LEFT);
   sensor.setTimeout(500);
   if (!sensor.init())
@@ -38,7 +27,7 @@ Serial.println("Initializing Left");
     while (1) {}
   }
 
-Serial.println("Initializing Back");
+  Serial.println("Initializing Back");
   TCA9548A(BACK);
   sensor.setTimeout(500);
   if (!sensor.init())
@@ -61,13 +50,6 @@ Serial.println("Initializing Back");
   {
     while (1) {}
   }
-  Serial.println("Initializing Gyro");
-  TCA9548A(GYRO);
-  if (!sensor.init())
-  {
-    while (1) {}
-  }
-  
 }
 
 void TCA9548A(uint8_t bus){
@@ -95,9 +77,4 @@ uint16_t getFrontUp(){
 uint16_t getFrontDown(){
   TCA9548A(FRONT_DOWN);
   return sensor.readRangeSingleMillimeters();
-}
-uint16_t getGyro(){
-  float angolo;
-  angolo = giro->getGradi();
-  return angolo;
 }
