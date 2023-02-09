@@ -20,15 +20,7 @@ private:
     //int chooseSpeed(int speed);
 public:
 
-    Motori(
-        int d1,
-        int d2,
-        //int motored_b,
-        int d3,
-        int d4,
-        //int motored_a,
-        //int defaultSpeed
-    );
+    Motori();
     void avanti(/*int speed = -1*/);
     void indietro(/*int speed = -1*/);
     void destra(/*int speed = -1*/);

@@ -1,26 +1,42 @@
-//#include "Giroscopio.h"
-//#include "Infrared_Sensor.h"
-//#include "Motori.h"
-//#include "Lasers.h"
-//#include "Rgb_Sensor.h"
-//#include "Medikit.h"
+#include "Giroscopio.h"
+#include "Infrared_Sensor.h"
+#include "Motori.h"
+#include "Lasers.h"
+#include "Rgb_Sensor.h"
+#include <Servo.h>
 
+#define MOTORS_PIN_1 A9
+#define MOTORS_PIN_2 A10
+#define MOTORS_PIN_3 A11
+#define MOTORS_PIN_4 A12
+
+#define DELTA_GYRO 3
+
+#define SERVO_PIN PA0;
+
+Servo myServo;
+Motori myMotors;
+Giroscopio *giro;
 
 void setup() {
   Serial.begin(115200);
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB
   }
+  myServo.attach(SERVO_PIN);
+  myMotors = new Motori();
+  giro = new Giroscopio();
+  setupLasers();
 }
-
 
 void loop() {
   if (Serial.available() > 0) {
+    //exemples of commands from rasp: "0\n"; "10\n"; "21\n"
     String data = Serial.readStringUntil('\n');
     char command = data[0];
-    commandCases(command, data);
     Serial.print("You sent me: ");
     Serial.println(data);
+    commandCases(command, data);
   }
 }
 
@@ -29,14 +45,93 @@ void commandCases(char com, String data){
     case '0':
       //send all data from sensors
       break;
+
+    //movement method
     case '1':
       //metodo move(data[1]);
       break;
+
+    //medikit dropper
     case '2':
-      //metodo cagaMattone();
+      int n;
+      n = data[1]-'0';
+      dropMedikit(n);
+      break;
+      
+    case '3':
+      //send only lasers
+      break;
+    case '4':
+      //send only gyroscope
       break;
     default:
-      //richiedi di nuovo il comando seriale da raspberry 
+      //richiedi di nuovo il comando seriale da raspberry
       break;
+  }
+}
+
+int robotGoBack(){
+  
+  while(){
+    
+  }
+}
+
+int robotGoFront(){
+  int front = getFrontDown();
+  int back = getBack();
+  if(back<front){
+    
+  }
+}
+
+int moveRobot(int d){
+  int result;
+  switch{
+    case 0:
+      result = robotGoFront();
+      break;
+    caso 1:
+      result = robotGoBack();
+      break;
+    case 2:
+      rotateRobot(90.0);
+      result = robotGoFront();
+      break;
+    case 3:
+      rotateRobot(-90.0);
+      result = robotGoFront();
+      break;
+  }
+  return result;
+}
+
+
+void rotateRobot(float g){
+  float startG; 
+  float nowG;
+  startG = giro->getGradi();
+  nowG = giro->getGradi();
+  if(g>0){
+    myMotors.destra();
+    while(!(nowG > (startG + g - DELTA_GYRO))){
+      nowG = giro->getGradi();
+    }
+  }else{
+    myMotors.sinistra();
+    while(!(nowG < (startG + g + DELTA_GYRO))){
+      nowG = giro->getGradi();
+    }
+  }
+  myMotors.fermo();
+}
+
+
+void dropMedikit(int n){
+  for(int i=0; i<n; i++){
+    myServo.write(90);
+    delay(1000);
+    myServo.write(0);
+    delay(1000);
   }
 }

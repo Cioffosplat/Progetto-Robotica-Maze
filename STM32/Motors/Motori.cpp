@@ -3,13 +3,13 @@
 // ALL of the commentated methods inside of the class are used to connect
 // the enable pins and regulate the motor's speed and rpm
 
-Motori::Motori(int d1, int d2, int d3, int d4, /*int motored_a,int motored_b, int defaultSpeed*/)
+Motori::Motori()
 {
-    this->d1=d1;
-    this->d2=d2;
+    this->d1=MOTORS_PIN_1;
+    this->d2=MOTORS_PIN_2;
     //this->motored_b=motored_b;
-    this->d3=d3;
-    this->d4=d4;
+    this->d3=MOTORS_PIN_3;
+    this->d4=MOTORS_PIN_4;
     //this->motored_a=motored_a;
     //this->defaultSpeed = defaultSpeed;
 
