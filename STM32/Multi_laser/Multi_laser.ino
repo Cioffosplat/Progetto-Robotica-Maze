@@ -1,11 +1,13 @@
 #include "Wire.h"
 #include "Lasers.h"
-TwoWire Wire2 (2,I2C_FAST_MODE);
-#define Wire Wire2
+#include "I2Cdev.h"
+#include "MPU6050_6Axis_MotionApps20.h"
+#include "Giroscopio.h"
 
 void setup() {
   Serial.begin(9600);
   setupLasers();
+  setupGyro();
 }
 
 void loop(){
@@ -19,5 +21,6 @@ void loop(){
   Serial.print(getBack());
   Serial.print("      FrontDown : ");
   Serial.println(getFrontDown());
+  Serial.println(getGyro());
   delay(500);
 }

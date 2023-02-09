@@ -5,7 +5,6 @@
 Giroscopio *giro;
 void setup() {
   Wire.begin();
-  Wire.setClock(400000);
   Serial.begin(9600);
   giro = new Giroscopio();
 }
