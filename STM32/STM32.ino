@@ -1,8 +1,9 @@
-#include "Giroscopio.h"
-#include "Infrared_Sensor.h"
-#include "Motori.h"
-#include "Lasers.h"
-#include "Rgb_Sensor.h"
+#include "Gyro/Giroscopio.h"
+#include "Gyro/Giroscopio.cpp"
+#include "Infrared_Sensor/Infrared_Sensor.h"
+#include "Motors/Motori.h"
+#include "Multi_Laser/Lasers.h"
+#include "Rgb_Detector/Rgb_Sensor.h"
 #include <Servo.h>
 
 #define MOTORS_PIN_1 A9
