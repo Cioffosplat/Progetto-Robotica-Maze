@@ -13,10 +13,10 @@
 
 #define DELTA_GYRO 3
 
-#define SERVO_PIN PA0;
+#define SERVO_PIN PA0
 
 Servo myServo;
-Motori myMotors;
+Motori *myMotors;
 Giroscopio *giro;
 
 void setup() {
@@ -87,35 +87,35 @@ String robotGoFront(){
   if(back < front){
     float startDIST = back;
     float tmp = back;
-    myMotors.avanti();
+    myMotors->avanti();
     while ( tmp < startDIST + 300.0){
       if (isBlack()){
-        myMotors.indietro();
+        myMotors->indietro();
         while ( tmp > startDIST){
           tmp = getBack();
         }
-        myMotors.fermo();
+        myMotors->fermo();
         return "0";
       }
       tmp = getBack();
     }
-    myMotors.fermo();
+    myMotors->fermo();
   }else{
     float startDIST = front;
     float tmp = front;
-    myMotors.avanti();
+    myMotors->avanti();
     while ( tmp > startDIST - 300.0){
       if (isBlack()){
-        myMotors.indietro();
+        myMotors->indietro();
         while ( tmp < startDIST){
           tmp = getFrontDown();
         }
-        myMotors.fermo();
+        myMotors->fermo();
         return "0";
       }
       tmp = getFrontDown();
     }
-    myMotors.fermo();
+    myMotors->fermo();
   }
   if (isBlue()){
     result += "1";
@@ -130,12 +130,12 @@ String robotGoFront(){
 }
 
 String moveRobot(char d){
-  int result;
+  String result;
   switch (d){
     case '0':
       result = robotGoFront();
       break;
-    caso '1':
+    case '1':
       result = robotGoBack();
       break;
     case '2':
@@ -157,17 +157,17 @@ void rotateRobot(float g){
   startG = giro->getGradi();
   nowG = giro->getGradi();
   if(g>0){
-    myMotors.destra();
+    myMotors->destra();
     while(!(nowG > (startG + g - DELTA_GYRO))){
       nowG = giro->getGradi();
     }
   }else{
-    myMotors.sinistra();
+    myMotors->sinistra();
     while(!(nowG < (startG + g + DELTA_GYRO))){
       nowG = giro->getGradi();
     }
   }
-  myMotors.fermo();
+  myMotors->fermo();
 }
 
 
