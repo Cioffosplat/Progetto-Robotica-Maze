@@ -21,7 +21,7 @@ Giroscopio *giro;
 void setup() {
   Serial.begin(115200);
   while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB
+    ;
   }
   myServo.attach(SERVO_PIN);
   myMotors = new Motori();
@@ -40,17 +40,21 @@ void loop() {
   }
 }
 
-void commandCases(char com, String data){
+String commandCases(char com, String data){
+  String result;
   switch (com) {
-    case '0':
-      //send all data from sensors
-      break;
 
+    //all sensors
+    case '0':
+      
+      result = "1";
+      break;
+      
     //movement method
     case '1':
-      //metodo move(data[1]);
+      result = moveRobot(data[1]);
       break;
-
+      
     //medikit dropper
     case '2':
       int n;
@@ -65,9 +69,10 @@ void commandCases(char com, String data){
       //send only gyroscope
       break;
     default:
-      //richiedi di nuovo il comando seriale da raspberry
+      result = "-1";
       break;
   }
+  return result;
 }
 
 int robotGoBack(){
@@ -77,28 +82,69 @@ int robotGoBack(){
   }
 }
 
-int robotGoFront(){
-  int front = getFrontDown();
-  int back = getBack();
-  if(back<front){
-    
+String robotGoFront(){
+  String result = "1";
+  float front = getFrontDown();
+  float back = getBack();
+  if(back < front){
+    float startDIST = back;
+    float tmp = back;
+    myMotors.avanti();
+    while ( tmp < startDIST + 300.0){
+      if (isBlack()){
+        myMotors.indietro();
+        while ( tmp > startDIST){
+          tmp = getBack();
+        }
+        myMotors.fermo();
+        return "0";
+      }
+      tmp = getBack();
+    }
+    myMotors.fermo();
+  }else{
+    float startDIST = front;
+    float tmp = front;
+    myMotors.avanti();
+    while ( tmp > startDIST - 300.0){
+      if (isBlack()){
+        myMotors.indietro();
+        while ( tmp < startDIST){
+          tmp = getFrontDown();
+        }
+        myMotors.fermo();
+        return "0";
+      }
+      tmp = getFrontDown();
+    }
+    myMotors.fermo();
   }
+  if (isBlue()){
+    result += "1";
+  }
+  else if (isSilver()){
+    result += "2";
+  }
+  else{
+    result += "0";
+  }
+  return result;
 }
 
-int moveRobot(int d){
+String moveRobot(char d){
   int result;
-  switch{
-    case 0:
+  switch (d){
+    case '0':
       result = robotGoFront();
       break;
-    caso 1:
+    caso '1':
       result = robotGoBack();
       break;
-    case 2:
+    case '2':
       rotateRobot(90.0);
       result = robotGoFront();
       break;
-    case 3:
+    case '3':
       rotateRobot(-90.0);
       result = robotGoFront();
       break;
