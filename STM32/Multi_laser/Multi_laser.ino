@@ -1,12 +1,24 @@
 #include "Wire.h"
 #include "Lasers.h"
+#include "I2Cdev.h"
+#include "MPU6050_6Axis_MotionApps20.h"
+#include "gyro/Giroscopio.h"
+#include "gyro/Giroscopio.cpp"
+
+Giroscopio *giro;
 
 void setup() {
-  Serial.begin(9600);
+  Wire.begin();
+  Serial.begin(115200);
+  giro = new Giroscopio();
   setupLasers();
 }
 
 void loop(){
+  float angolo;
+  angolo = giro->getGradi();
+  Serial.print("Angle : ");
+  Serial.println(angolo);
   Serial.print("Left : ");
   Serial.print(getLeft());
   Serial.print("      Right : ");
@@ -17,5 +29,5 @@ void loop(){
   Serial.print(getBack());
   Serial.print("      FrontDown : ");
   Serial.println(getFrontDown());
-  delay(500);
+  delay(50);
 }
