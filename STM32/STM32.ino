@@ -77,10 +77,7 @@ String commandCases(char com, String data){
 }
 
 int robotGoBack(){
-  
-  while(){
-    
-  }
+
 }
 
 String robotGoFront(){
