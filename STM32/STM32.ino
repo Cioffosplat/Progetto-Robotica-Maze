@@ -1,19 +1,23 @@
 #include "Gyro/Giroscopio.h"
 #include "Gyro/Giroscopio.cpp"
 #include "Infrared_Sensor/Infrared_Sensor.h"
+#include "Infrared_Sensor/Infrared_Sensor.cpp"
 #include "Motors/Motori.h"
+#include "Motors/Motori.cpp"
 #include "Multi_Laser/Lasers.h"
+#include "Multi_Laser/Lasers.cpp"
 #include "Rgb_Detector/Rgb_Sensor.h"
+#include "Rgb_Detector/Rgb_Sensor.cpp"
 #include <Servo.h>
 
-#define MOTORS_PIN_1 A9
-#define MOTORS_PIN_2 A10
-#define MOTORS_PIN_3 A11
-#define MOTORS_PIN_4 A12
+#define MOTORS_PIN_1 PA9
+#define MOTORS_PIN_2 PA10
+#define MOTORS_PIN_3 PA11
+#define MOTORS_PIN_4 PA12
 
 #define DELTA_GYRO 3
 
-#define SERVO_PIN PA0
+#define SERVO_PIN PA1
 
 Servo myServo;
 Motori *myMotors;
