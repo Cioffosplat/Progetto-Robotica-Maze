@@ -29,19 +29,18 @@ void setup() {
     ;
   }
   myServo.attach(SERVO_PIN);
-  myMotors = new Motori();
+  myMotors = new Motori(MOTORS_PIN_1, MOTORS_PIN_2, MOTORS_PIN_3, MOTORS_PIN_4);
   giro = new Giroscopio();
   setupLasers();
 }
 
 void loop() {
-  if (Serial.available() > 0) {
-    //exemples of commands from rasp: "0\n"; "10\n"; "21\n"
+  if (Serial.available() > 0){
+    //examples of commands from rasp: "0\n"; "10\n"; "21\n"
     String data = Serial.readStringUntil('\n');
-    char command = data[0];
-    Serial.print("You sent me: ");
-    Serial.println(data);
-    commandCases(command, data);
+    char command = data.charAt(0);
+    String result = commandCases(command, data);
+    Serial.print(result + '\n');
   }
 }
 
@@ -49,33 +48,46 @@ String commandCases(char com, String data){
   String result;
   switch (com) {
 
-    //all sensors
+    //send all sensors
     case '0':
+    {
       
-      result = "1";
       break;
-      
+    } 
     //movement method
     case '1':
+    {
       result = moveRobot(data[1]);
       break;
-      
+    } 
     //medikit dropper
     case '2':
+    {
       int n;
-      n = data[1]-'0';
+      n = data.charAt(1) - '0';
       dropMedikit(n);
+      result = "1";
       break;
-      
+    }
+    //send only lasers
     case '3':
-      //send only lasers
+    {
+      
       break;
+    } 
     case '4':
-      //send only gyroscope
+    {
+      float angle;
+      angle = giro->getGradi();
+      String sAngle = String(angle, 2);
+      result = sAngle;
       break;
+    }
     default:
+    {
       result = "-1";
       break;
+    }
   }
   return result;
 }
