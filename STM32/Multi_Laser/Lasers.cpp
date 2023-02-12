@@ -1,10 +1,10 @@
 #include "Lasers.h"
 
-#define LEFT 1
-#define RIGHT 2
-#define BACK 3
-#define FRONT_UP 4
-#define FRONT_DOWN 5
+#define FRONT_DOWN 0
+#define RIGHT 1
+#define LEFT 2
+#define FRONT_UP 3
+#define BACK 4
 
 void setupLasers(){
   
