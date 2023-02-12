@@ -17,7 +17,7 @@
 
 #define DELTA_GYRO 3
 
-#define SERVO_PIN PA1
+#define SERVO_PIN B1
 
 Servo myServo;
 Motori *myMotors;
@@ -48,18 +48,23 @@ String commandCases(char com, String data){
   String result;
   switch (com) {
 
+
     //send all sensors
     case '0':
     {
-      
+      String s = gyroString() + ";" + lasersString();
       break;
     } 
+
+    
     //movement method
     case '1':
     {
       result = moveRobot(data[1]);
       break;
-    } 
+    }
+
+     
     //medikit dropper
     case '2':
     {
@@ -69,31 +74,100 @@ String commandCases(char com, String data){
       result = "1";
       break;
     }
+
+    
     //send only lasers
     case '3':
     {
-      
+      result = lasersString();    
       break;
     } 
+
+
+    //only gyro
     case '4':
     {
-      float angle;
-      angle = giro->getGradi();
-      String sAngle = String(angle, 2);
-      result = sAngle;
+      result = gyroString();
       break;
     }
+
+    
     default:
     {
       result = "-1";
       break;
     }
+
+    
   }
   return result;
 }
 
-int robotGoBack(){
 
+String gyroString(){
+  float angle = giro->getGradi();
+  String sAngle = String(angle, 2);
+  return sAngle;  
+}
+
+
+String lasersString(){
+  String las = "";
+  las += getFrontUp() + ';';
+  las += getFrontDown() + ";" ;
+  las += getRight() + ";" ;
+  las += getLeft() + ";";
+  las += getBack();
+  return las;
+}
+
+String robotGoBack(){
+  String result = "1";
+  float front = getFrontDown();
+  float back = getBack();
+  if(back < front){
+    float startDIST = back;
+    float tmp = back;
+    myMotors->indietro();
+    while ( tmp > startDIST - 300.0){
+      if (isBlack()){
+        myMotors->avanti();
+        while ( tmp < startDIST){
+          tmp = getBack();
+        }
+        myMotors->fermo();
+        return "0";
+      }
+      tmp = getBack();
+    }
+    myMotors->fermo();
+  }else{
+    float startDIST = front;
+    float tmp = front;
+    myMotors->indietro();
+    while ( tmp < startDIST + 300.0){
+      if (isBlack()){
+        myMotors->avanti();
+        while ( tmp > startDIST){
+          tmp = getFrontDown();
+        }
+        myMotors->fermo();
+        return "0";
+      }
+      tmp = getFrontDown();
+    }
+    myMotors->fermo();
+  }
+  if (isBlue()){
+    result += "1";
+  }
+  else if (isSilver()){
+    result += "2";
+  }
+  else{
+    result += "0";
+  }
+  return result;
 }
 
 String robotGoFront(){
