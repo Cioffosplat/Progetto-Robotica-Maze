@@ -1,0 +1,21 @@
+Commands:
+
+
+"0" 	- send the gyroscope angle and all the laser sensor;
+  	+ return "gyroAngle;L_frontUp;L_frontDown;L_right;L_left;L_back";
+
+-------------------------------------------------------------------------------------------------------------------
+
+"1"	- is the instruction for the robot movement, the second number after is the one that defines the direction:
+		- "0" = forward
+		- "1" = back
+		- "2" = right
+		- "3" = left
+	+ return  "0"  the robot have not moved because the block under him is black;
+	  return "10"  the robot have moved and the block under him is white (neutral);
+	  return "11"  the robot have moved and the block under him is blue (water obstacle);
+	  return "12"  the robot have moved and the block under him is silver (checkpoint);
+
+-------------------------------------------------------------------------------------------------------------------
+   
+"2N"	
