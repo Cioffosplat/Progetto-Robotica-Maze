@@ -94,7 +94,7 @@ String commandCases(char com, String data){
     
     default:
     {
-      result = "-1";
+      result = "X";
       break;
     }
 
