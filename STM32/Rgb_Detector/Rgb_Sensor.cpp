@@ -2,11 +2,11 @@
 #include <Arduino.h>
 #include <Wire.h>
 
-#define S0_PIN 8
-#define S1_PIN 7
-#define S2_PIN 6
-#define S3_PIN 5
-#define OUT_PIN 4
+#define S0_PIN PA0
+#define S1_PIN PA5
+#define S2_PIN PA7
+#define S3_PIN PB0
+#define OUT_PIN PA6
 
 
 
