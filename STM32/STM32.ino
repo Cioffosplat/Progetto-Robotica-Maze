@@ -148,7 +148,7 @@ String robotGoBack(){
     float tmp = back;
     myMotors->indietro();
     while ( tmp > startDIST - 300.0){
-      if (isBlack()){
+      /*if (isBlack()){
         myMotors->avanti();
         while ( tmp < startDIST){
           tmp = getBack();
@@ -156,6 +156,7 @@ String robotGoBack(){
         myMotors->fermo();
         return "0";
       }
+      */
       tmp = getBack();
     }
     myMotors->fermo();
@@ -197,6 +198,7 @@ String robotGoFront(){
     float tmp = back;
     myMotors->avanti();
     while ( tmp < startDIST + 300.0){
+      /*
       if (isBlack()){
         myMotors->indietro();
         while ( tmp > startDIST){
@@ -205,6 +207,7 @@ String robotGoFront(){
         myMotors->fermo();
         return "0";
       }
+      */
       tmp = getBack();
     }
     myMotors->fermo();
@@ -213,6 +216,7 @@ String robotGoFront(){
     float tmp = front;
     myMotors->avanti();
     while ( tmp > startDIST - 300.0){
+      /*
       if (isBlack()){
         myMotors->indietro();
         while ( tmp < startDIST){
@@ -221,6 +225,7 @@ String robotGoFront(){
         myMotors->fermo();
         return "0";
       }
+      */
       tmp = getFrontDown();
     }
     myMotors->fermo();
