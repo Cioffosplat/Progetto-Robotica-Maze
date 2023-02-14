@@ -19,8 +19,13 @@
 
 #define SERVO_PIN B1
 
+//raspberry serial on pins a3 and a2, need to use Serial.write to pass the values to raspberry
+HardwareSerial Serial2(PA3, PA2);
+//servo motor
 Servo myServo;
+//Motors on h bridge
 Motori *myMotors;
+//gyroscope object
 Giroscopio *giro;
 
 
@@ -28,7 +33,9 @@ Giroscopio *giro;
 
 
 void setup() {
-  Serial.begin(115200);
+  //both usb and raspberry serial on pins a3 and a2
+  Serial.begin(9600);
+  Serial2.begin(115200); 
   while (!Serial) {
     ;
   }
@@ -125,6 +132,7 @@ String commandCases(char com, String data){
 
 
 void gyroString(){
+  //possible error in the conversion 
   float angle = giro->getGradi();
   String sAngle = String(angle, 2);
   Serial.println(sAngle);  
@@ -178,6 +186,7 @@ String robotGoBack(){
     }
     myMotors->fermo();
   }
+  /*method to recognise blue and silver atm not needed
   if (isBlue()){
     result += "1";
   }
@@ -186,7 +195,8 @@ String robotGoBack(){
   }
   else{
     result += "0";
-  }
+  }*/
+  result += "0";
   return result;
 }
 
@@ -231,6 +241,7 @@ String robotGoFront(){
     }
     myMotors->fermo();
   }
+  /*method to recognise blue and silver atm not needed
   if (isBlue()){
     result += "1";
   }
@@ -239,7 +250,8 @@ String robotGoFront(){
   }
   else{
     result += "0";
-  }
+  }*/
+  result += "0";
   return result;
 }
 
