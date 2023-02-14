@@ -10,10 +10,10 @@
 #include "Rgb_Detector/Rgb_Sensor.cpp"
 #include <Servo.h>
 
-#define MOTORS_PIN_1 PA9
-#define MOTORS_PIN_2 PA10
-#define MOTORS_PIN_3 PA11
-#define MOTORS_PIN_4 PA12
+#define MOTORS_PIN_1 PA8
+#define MOTORS_PIN_2 PA9
+#define MOTORS_PIN_3 PA10
+#define MOTORS_PIN_4 PA11
 
 #define DELTA_GYRO 3
 
