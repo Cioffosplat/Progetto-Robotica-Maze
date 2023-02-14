@@ -10,10 +10,10 @@
 #include "Rgb_Detector/Rgb_Sensor.cpp"
 #include <Servo.h>
 
-#define MOTORS_PIN_1 PA8
-#define MOTORS_PIN_2 PA9
-#define MOTORS_PIN_3 PA10
-#define MOTORS_PIN_4 PA11
+#define PIN_S1 PA11
+#define PIN_S2 PA10
+#define PIN_S3 PA8
+#define PIN_S4 PA9
 
 #define DELTA_GYRO 3
 
@@ -33,7 +33,7 @@ void setup() {
     ;
   }
   myServo.attach(SERVO_PIN);
-  myMotors = new Motori(MOTORS_PIN_1, MOTORS_PIN_2, MOTORS_PIN_3, MOTORS_PIN_4);
+  myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   giro = new Giroscopio();
   setupLasers();
   setupRGB();
@@ -57,7 +57,8 @@ String commandCases(char com, String data){
     //send all sensors
     case '0':
     {
-      String s = gyroString() + ";" + lasersString();
+      gyroString();
+      lasersString();
       break;
     } 
 
@@ -84,7 +85,7 @@ String commandCases(char com, String data){
     //send only lasers
     case '3':
     {
-      result = lasersString();    
+      lasersString();    
       break;
     } 
 
@@ -92,20 +93,21 @@ String commandCases(char com, String data){
     //only gyro
     case '4':
     {
-      result = gyroString();
+      gyroString();
       break;
     }
 
     case '5':
     {
-      rotateRobot(90.0);
+      rotateRobot(90.00);
       result ="1";
       break;
     }
 
     case '6':
     {
-      rotateRobot(90.0);
+      myMotors->avanti();
+      delay(1000);
       result = "1";
       break;
     }
@@ -122,21 +124,19 @@ String commandCases(char com, String data){
 }
 
 
-String gyroString(){
+void gyroString(){
   float angle = giro->getGradi();
   String sAngle = String(angle, 2);
-  return sAngle;  
+  Serial.println(sAngle);  
 }
 
 
-String lasersString(){
-  String las = "";
-  las += getFrontUp() + ';';
-  las += getFrontDown() + ";" ;
-  las += getRight() + ";" ;
-  las += getLeft() + ";";
-  las += getBack();
-  return las;
+void lasersString(){
+  Serial.println(getFrontUp());
+  Serial.println(getFrontDown());
+  Serial.println(getRight());
+  Serial.println(getLeft());
+  Serial.println(getBack());
 }
 
 String robotGoBack(){
@@ -165,7 +165,7 @@ String robotGoBack(){
     float tmp = front;
     myMotors->indietro();
     while ( tmp < startDIST + 300.0){
-      if (isBlack()){
+      /*if (isBlack()){
         myMotors->avanti();
         while ( tmp > startDIST){
           tmp = getFrontDown();
@@ -173,6 +173,7 @@ String robotGoBack(){
         myMotors->fermo();
         return "0";
       }
+      */
       tmp = getFrontDown();
     }
     myMotors->fermo();
@@ -271,12 +272,14 @@ void rotateRobot(float g){
   nowG = giro->getGradi();
   if(g>0){
     myMotors->destra();
-    while(!(nowG > (startG + g - DELTA_GYRO))){
+    while(nowG < (startG + g)){
+      delay(100);
       nowG = giro->getGradi();
     }
   }else{
     myMotors->sinistra();
-    while(!(nowG < (startG + g + DELTA_GYRO))){
+    while(nowG > (startG + g)){
+      delay(100);
       nowG = giro->getGradi();
     }
   }
