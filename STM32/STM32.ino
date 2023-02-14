@@ -96,6 +96,19 @@ String commandCases(char com, String data){
       break;
     }
 
+    case '5':
+    {
+      rotateRobot(90.0);
+      result ="1";
+      break;
+    }
+
+    case '6':
+    {
+      rotateRobot(90.0);
+      result = "1";
+      break;
+    }
     
     default:
     {
