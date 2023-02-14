@@ -23,6 +23,10 @@ Servo myServo;
 Motori *myMotors;
 Giroscopio *giro;
 
+
+
+
+
 void setup() {
   Serial.begin(115200);
   while (!Serial) {
@@ -32,6 +36,7 @@ void setup() {
   myMotors = new Motori(MOTORS_PIN_1, MOTORS_PIN_2, MOTORS_PIN_3, MOTORS_PIN_4);
   giro = new Giroscopio();
   setupLasers();
+  setupRGB();
 }
 
 void loop() {
