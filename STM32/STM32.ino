@@ -32,6 +32,7 @@ Motori *myMotors;
 Giroscopio *giro;
 
 
+float offsetAngle = 0.00;
 
 
 
@@ -298,21 +299,29 @@ String moveRobot(char d){
 void rotateRobot(float g){
   float startG; 
   float nowG;
-  startG = giro->getGradi();
+  startG = giro->getGradi() + offsetAngle;
   nowG = giro->getGradi();
   if(g>0){
     myMotors->destra();
-    while(nowG < (startG + g)){
+    while((nowG + offsetAngle) < (startG + g)){
+      if(nowG == giro->getGradi()){
+        offsetAngle += nowG;
+        giro = new Giroscopio();
+      }
       nowG = giro->getGradi();
       Serial.println(giro->getGradi());
-      delay(200);
+      delay(10);
     }
   }else{
     myMotors->sinistra();
-    while(nowG > (startG + g)){
+    while((nowG + offsetAngle) > (startG + g)){
+      if(nowG == giro->getGradi()){
+        offsetAngle += nowG;
+        giro = new Giroscopio();
+      }
       nowG = giro->getGradi();
       Serial.println(giro->getGradi());
-      delay(200);
+      delay(10);
     }
   }
   myMotors->fermo();
