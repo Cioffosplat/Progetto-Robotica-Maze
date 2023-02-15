@@ -40,17 +40,21 @@ void setup() {
   Serial.begin(115200);
   mioSeriale.begin(115200);
   // Set the TX and RX pins for the A2/A3 serial port
+  /*
   while (!Serial) {
     ;
   }
+  */
   //myServo.attach(SERVO_PIN);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   giro = new Giroscopio();
-  setupLasers();
+  //setupLasers();
   setupRGB();
 }
 
 void loop() {
+  
+  /*
   if (Serial.available() > 0){
     //examples of commands from rasp: "0\n"; "10\n"; "21\n"
     String data = Serial.readStringUntil('\n');
@@ -58,6 +62,11 @@ void loop() {
     String result = commandCases(command, data);
     Serial.print(result + '\n');
   }
+  */
+  commandCases('1', "13");
+  delay(1000);
+  commandCases('1', "12");
+  delay(1000);
 }
 
 String commandCases(char com, String data){
