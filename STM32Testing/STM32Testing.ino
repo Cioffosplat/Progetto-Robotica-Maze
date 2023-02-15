@@ -9,18 +9,19 @@
 #include "Rgb_Detector/Rgb_Sensor.h"
 #include "Rgb_Detector/Rgb_Sensor.cpp"
 #include <Servo.h>
+#include "Arduino.h"
 
 #define PIN_S1 PA11
 #define PIN_S2 PA10
-#define PIN_S3 PA8
-#define PIN_S4 PA9
+#define PIN_S3 PA9
+#define PIN_S4 PA8
 
 #define DELTA_GYRO 3
 
 #define SERVO_PIN B1
 
 //raspberry serial on pins a3 and a2, need to use Serial.write to pass the values to raspberry
-//HardwareSerial Serial2(PA3, PA2);
+HardwareSerial mioSeriale(USART1,PA3, PA2);
 //servo motor
 Servo myServo;
 //Motors on h bridge
@@ -35,11 +36,12 @@ Giroscopio *giro;
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
   Serial.begin(115200);
-  Serial2.begin(9600); 
+  mioSeriale.begin(115200);
+  // Set the TX and RX pins for the A2/A3 serial port
   while (!Serial) {
     ;
   }
-  myServo.attach(SERVO_PIN);
+  //myServo.attach(SERVO_PIN);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   giro = new Giroscopio();
   setupLasers();
