@@ -9,7 +9,6 @@ Giroscopio *giro;
 
 void setup() {
   Wire.begin();
-  Serial.begin(115200);
   pinMode(33, OUTPUT);
   giro = new Giroscopio();
   setupLasers();
