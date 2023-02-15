@@ -20,7 +20,7 @@
 #define SERVO_PIN B1
 
 //raspberry serial on pins a3 and a2, need to use Serial.write to pass the values to raspberry
-HardwareSerial Serial2(PA3, PA2);
+//HardwareSerial Serial2(PA3, PA2);
 //servo motor
 Servo myServo;
 //Motors on h bridge
@@ -34,8 +34,8 @@ Giroscopio *giro;
 
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
-  Serial.begin(9600);
-  Serial2.begin(115200); 
+  Serial.begin(115200);
+  Serial2.begin(9600); 
   while (!Serial) {
     ;
   }
@@ -149,13 +149,14 @@ void lasersString(){
 
 String robotGoBack(){
   String result = "1";
-  float front = getFrontDown();
-  float back = getBack();
+  int front = getFrontDown();
+  int  back = getBack();
   if(back < front){
-    float startDIST = back;
-    float tmp = back;
+    int startDIST = back;
+    int tmp = back;
     while ( tmp > startDIST - 300.0){
       myMotors->indietro();
+      delay(100);
       /*if (isBlack()){
         myMotors->avanti();
         while ( tmp < startDIST){
@@ -170,10 +171,11 @@ String robotGoBack(){
     myMotors->fermo();
     delay(100);
   }else{
-    float startDIST = front;
-    float tmp = front;
+    int startDIST = front;
+    int tmp = front;
     while ( tmp < startDIST + 300.0){
       myMotors->indietro();
+      delay(100);
       /*if (isBlack()){
         myMotors->avanti();
         while ( tmp > startDIST){
@@ -204,13 +206,14 @@ String robotGoBack(){
 
 String robotGoFront(){
   String result = "1";
-  float front = getFrontDown();
-  float back = getBack();
+  int front = getFrontDown();
+  int back = getBack();
   if(back < front){
-    float startDIST = back;
-    float tmp = back;
-    while ( tmp < startDIST + 300.0){
+    int startDIST = back;
+    int tmp = back;
+    while ( tmp < startDIST + 300){
       myMotors->avanti();
+      delay(100);
       /*
       if (isBlack()){
         myMotors->indietro();
@@ -226,10 +229,11 @@ String robotGoFront(){
     myMotors->fermo();
     delay(100);
   }else{
-    float startDIST = front;
-    float tmp = front;
+    int startDIST = front;
+    int tmp = front;
     while ( tmp > startDIST - 300.0){
       myMotors->avanti();
+      delay(100);
       /*
       if (isBlack()){
         myMotors->indietro();
@@ -259,6 +263,27 @@ String robotGoFront(){
   return result;
 }
 
+void rotateRobot(float g){
+  float startG; 
+  float nowG;
+  startG = giro->getGradi();
+  nowG = giro->getGradi();
+  if(g>0){
+    myMotors->destra();
+    while(nowG < (startG + g)){
+      delay(100);
+      nowG = giro->getGradi();
+    }
+  }else{
+    myMotors->sinistra();
+    while(nowG > (startG + g)){
+      delay(100);
+      nowG = giro->getGradi();
+    }
+  }
+  myMotors->fermo();
+}
+
 String moveRobot(char d){
   String result;
   switch (d){
@@ -269,38 +294,15 @@ String moveRobot(char d){
       result = robotGoBack();
       break;
     case '2':
-      rotateRobot(90.0);
-      result = robotGoFront();
+      rotateRobot(90.00);
       break;
     case '3':
-      rotateRobot(-90.0);
-      result = robotGoFront();
+      rotateRobot(-90.00);
       break;
   }
   return result;
 }
 
-
-void rotateRobot(float g){
-  float startG; 
-  float nowG;
-  startG = giro->getGradi();
-  nowG = giro->getGradi();
-  if(g>0){
-    myMotors->destra();
-    while(nowG < (startG + g)){
-      //delay(100);
-      nowG = giro->getGradi();
-    }
-  }else{
-    myMotors->sinistra();
-    while(nowG > (startG + g)){
-      //delay(100);
-      nowG = giro->getGradi();
-    }
-  }
-  myMotors->fermo();
-}
 
 
 void dropMedikit(int n){
