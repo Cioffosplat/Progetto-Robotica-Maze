@@ -11,7 +11,7 @@
 #include <Servo.h>
 #include "Arduino.h"
 
-#define PIN_S1 PA11
+#define PIN_S1 PA12
 #define PIN_S2 PA10
 #define PIN_S3 PA9
 #define PIN_S4 PA8
@@ -35,10 +35,10 @@ Giroscopio *giro;
 
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
-  Serial.begin(115200);
+  Serial.begin(9600);
   mioSeriale.begin(115200);
   // Set the TX and RX pins for the A2/A3 serial port
-  while (!Serial) {
+  while (!mioSeriale) {
     ;
   }
   //myServo.attach(SERVO_PIN);
@@ -49,12 +49,15 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available() > 0){
+  if (mioSeriale.available() > 0){
     //examples of commands from rasp: "0\n"; "10\n"; "21\n"
-    String data = Serial.readStringUntil('\n');
+    String data = mioSeriale.readStringUntil('\n');
+    Serial.println(data);
     char command = data.charAt(0);
     String result = commandCases(command, data);
-    Serial.print(result + '\n');
+    Serial.print("result: ");
+    Serial.print(result);
+    mioSeriale(result);
   }
 }
 
@@ -106,6 +109,8 @@ String commandCases(char com, String data){
       break;
     }
 
+
+    // the seguent cases were made for debugging of motors
     case '5':
     {
       rotateRobot(90.00);
@@ -137,16 +142,26 @@ void gyroString(){
   //possible error in the conversion 
   float angle = giro->getGradi();
   String sAngle = String(angle, 2);
-  Serial.println(sAngle);  
+  
+  Serial.println(sAngle);
+  mioSeriale.println(sAngle);
 }
 
 
 void lasersString(){
+
+  mioSeriale.println(getFrontUp());
+  mioSeriale.println(getFrontDown());
+  mioSeriale.println(getRight());
+  mioSeriale.println(getLeft());
+  mioSeriale.println(getBack());
+
   Serial.println(getFrontUp());
   Serial.println(getFrontDown());
   Serial.println(getRight());
   Serial.println(getLeft());
   Serial.println(getBack());
+
 }
 
 String robotGoBack(){
