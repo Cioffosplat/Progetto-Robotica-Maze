@@ -1,3 +1,5 @@
+#include "I2Cdev.h"
+#include "MPU6050_6Axis_MotionApps20.h"
 #include "Gyro/Giroscopio.h"
 #include "Gyro/Giroscopio.cpp"
 #include "Infrared_Sensor/Infrared_Sensor.h"
@@ -11,7 +13,7 @@
 #include <Servo.h>
 #include "Arduino.h"
 
-#define PIN_S1 PA11
+#define PIN_S1 PB3
 #define PIN_S2 PA10
 #define PIN_S3 PA9
 #define PIN_S4 PA8
@@ -265,27 +267,6 @@ String robotGoFront(){
   return result;
 }
 
-void rotateRobot(float g){
-  float startG; 
-  float nowG;
-  startG = giro->getGradi();
-  nowG = giro->getGradi();
-  if(g>0){
-    myMotors->destra();
-    while(nowG < (startG + g)){
-      delay(100);
-      nowG = giro->getGradi();
-    }
-  }else{
-    myMotors->sinistra();
-    while(nowG > (startG + g)){
-      delay(100);
-      nowG = giro->getGradi();
-    }
-  }
-  myMotors->fermo();
-}
-
 String moveRobot(char d){
   String result;
   switch (d){
@@ -305,7 +286,28 @@ String moveRobot(char d){
   return result;
 }
 
-
+void rotateRobot(float g){
+  float startG; 
+  float nowG;
+  startG = giro->getGradi();
+  nowG = giro->getGradi();
+  if(g>0){
+    myMotors->destra();
+    while(nowG < (startG + g)){
+      nowG = giro->getGradi();
+      Serial.println(giro->getGradi());
+      delay(200);
+    }
+  }else{
+    myMotors->sinistra();
+    while(nowG > (startG + g)){
+      nowG = giro->getGradi();
+      Serial.println(giro->getGradi());
+      delay(200);
+    }
+  }
+  myMotors->fermo();
+}
 
 void dropMedikit(int n){
   for(int i=0; i<n; i++){
