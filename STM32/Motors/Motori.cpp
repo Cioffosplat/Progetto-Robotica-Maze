@@ -35,8 +35,8 @@ void Motori::destra()
 {
     digitalWrite(d1, LOW);
     digitalWrite(d2, HIGH);
-    digitalWrite(d3, LOW);
-    digitalWrite(d4, HIGH);
+    digitalWrite(d3, HIGH);
+    digitalWrite(d4, LOW);
 
 }
     
@@ -46,8 +46,8 @@ void Motori::sinistra()
 
     digitalWrite(d1, HIGH);
     digitalWrite(d2, LOW);
-    digitalWrite(d3, HIGH);
-    digitalWrite(d4, LOW);
+    digitalWrite(d3, LOW);
+    digitalWrite(d4, HIGH);
 
 }
  

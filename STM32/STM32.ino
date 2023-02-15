@@ -9,18 +9,19 @@
 #include "Rgb_Detector/Rgb_Sensor.h"
 #include "Rgb_Detector/Rgb_Sensor.cpp"
 #include <Servo.h>
+#include "Arduino.h"
 
 #define PIN_S1 PA11
 #define PIN_S2 PA10
-#define PIN_S3 PA8
-#define PIN_S4 PA9
+#define PIN_S3 PA9
+#define PIN_S4 PA8
 
 #define DELTA_GYRO 3
 
 #define SERVO_PIN B1
 
 //raspberry serial on pins a3 and a2, need to use Serial.write to pass the values to raspberry
-HardwareSerial Serial2(PA3, PA2);
+HardwareSerial mioSeriale(USART1,PA3, PA2);
 //servo motor
 Servo myServo;
 //Motors on h bridge
@@ -34,12 +35,13 @@ Giroscopio *giro;
 
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
-  Serial.begin(9600);
-  Serial2.begin(115200); 
+  Serial.begin(115200);
+  mioSeriale.begin(115200);
+  // Set the TX and RX pins for the A2/A3 serial port
   while (!Serial) {
     ;
   }
-  myServo.attach(SERVO_PIN);
+  //myServo.attach(SERVO_PIN);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   giro = new Giroscopio();
   setupLasers();
@@ -149,13 +151,14 @@ void lasersString(){
 
 String robotGoBack(){
   String result = "1";
-  float front = getFrontDown();
-  float back = getBack();
+  int front = getFrontDown();
+  int  back = getBack();
   if(back < front){
-    float startDIST = back;
-    float tmp = back;
-    myMotors->indietro();
+    int startDIST = back;
+    int tmp = back;
     while ( tmp > startDIST - 300.0){
+      myMotors->indietro();
+      delay(100);
       /*if (isBlack()){
         myMotors->avanti();
         while ( tmp < startDIST){
@@ -168,11 +171,13 @@ String robotGoBack(){
       tmp = getBack();
     }
     myMotors->fermo();
+    delay(100);
   }else{
-    float startDIST = front;
-    float tmp = front;
-    myMotors->indietro();
+    int startDIST = front;
+    int tmp = front;
     while ( tmp < startDIST + 300.0){
+      myMotors->indietro();
+      delay(100);
       /*if (isBlack()){
         myMotors->avanti();
         while ( tmp > startDIST){
@@ -185,6 +190,7 @@ String robotGoBack(){
       tmp = getFrontDown();
     }
     myMotors->fermo();
+    delay(100);
   }
   /*method to recognise blue and silver atm not needed
   if (isBlue()){
@@ -202,13 +208,14 @@ String robotGoBack(){
 
 String robotGoFront(){
   String result = "1";
-  float front = getFrontDown();
-  float back = getBack();
+  int front = getFrontDown();
+  int back = getBack();
   if(back < front){
-    float startDIST = back;
-    float tmp = back;
-    myMotors->avanti();
-    while ( tmp < startDIST + 300.0){
+    int startDIST = back;
+    int tmp = back;
+    while ( tmp < startDIST + 300){
+      myMotors->avanti();
+      delay(100);
       /*
       if (isBlack()){
         myMotors->indietro();
@@ -222,11 +229,13 @@ String robotGoFront(){
       tmp = getBack();
     }
     myMotors->fermo();
+    delay(100);
   }else{
-    float startDIST = front;
-    float tmp = front;
-    myMotors->avanti();
+    int startDIST = front;
+    int tmp = front;
     while ( tmp > startDIST - 300.0){
+      myMotors->avanti();
+      delay(100);
       /*
       if (isBlack()){
         myMotors->indietro();
@@ -240,6 +249,7 @@ String robotGoFront(){
       tmp = getFrontDown();
     }
     myMotors->fermo();
+    delay(100);
   }
   /*method to recognise blue and silver atm not needed
   if (isBlue()){
@@ -254,28 +264,6 @@ String robotGoFront(){
   result += "0";
   return result;
 }
-
-String moveRobot(char d){
-  String result;
-  switch (d){
-    case '0':
-      result = robotGoFront();
-      break;
-    case '1':
-      result = robotGoBack();
-      break;
-    case '2':
-      rotateRobot(90.0);
-      result = robotGoFront();
-      break;
-    case '3':
-      rotateRobot(-90.0);
-      result = robotGoFront();
-      break;
-  }
-  return result;
-}
-
 
 void rotateRobot(float g){
   float startG; 
@@ -297,6 +285,26 @@ void rotateRobot(float g){
   }
   myMotors->fermo();
 }
+
+String moveRobot(char d){
+  String result;
+  switch (d){
+    case '0':
+      result = robotGoFront();
+      break;
+    case '1':
+      result = robotGoBack();
+      break;
+    case '2':
+      rotateRobot(90.00);
+      break;
+    case '3':
+      rotateRobot(-90.00);
+      break;
+  }
+  return result;
+}
+
 
 
 void dropMedikit(int n){
