@@ -13,6 +13,7 @@
 #include <Servo.h>
 #include "Arduino.h"
 
+#define PIN_S1 PA11
 #define PIN_S1 PB3
 #define PIN_S2 PA10
 #define PIN_S3 PA9
@@ -32,7 +33,6 @@ Motori *myMotors;
 Giroscopio *giro;
 
 
-float offsetAngle = 0.00;
 
 
 
@@ -41,21 +41,17 @@ void setup() {
   Serial.begin(115200);
   mioSeriale.begin(115200);
   // Set the TX and RX pins for the A2/A3 serial port
-  /*
   while (!Serial) {
     ;
   }
-  */
   //myServo.attach(SERVO_PIN);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   giro = new Giroscopio();
-  //setupLasers();
+  setupLasers();
   setupRGB();
 }
 
 void loop() {
-  
-  /*
   if (Serial.available() > 0){
     //examples of commands from rasp: "0\n"; "10\n"; "21\n"
     String data = Serial.readStringUntil('\n');
@@ -63,11 +59,6 @@ void loop() {
     String result = commandCases(command, data);
     Serial.print(result + '\n');
   }
-  */
-  commandCases('1', "13");
-  delay(1000);
-  commandCases('1', "12");
-  delay(1000);
 }
 
 String commandCases(char com, String data){
@@ -277,6 +268,27 @@ String robotGoFront(){
   return result;
 }
 
+void rotateRobot(float g){
+  float startG; 
+  float nowG;
+  startG = giro->getGradi();
+  nowG = giro->getGradi();
+  if(g>0){
+    myMotors->destra();
+    while(nowG < (startG + g)){
+      delay(100);
+      nowG = giro->getGradi();
+    }
+  }else{
+    myMotors->sinistra();
+    while(nowG > (startG + g)){
+      delay(100);
+      nowG = giro->getGradi();
+    }
+  }
+  myMotors->fermo();
+}
+
 String moveRobot(char d){
   String result;
   switch (d){
@@ -296,38 +308,6 @@ String moveRobot(char d){
   return result;
 }
 
-void rotateRobot(float g){
-  float startG; 
-  float nowG;
-  startG = giro->getGradi() + offsetAngle;
-  nowG = giro->getGradi();
-  if(g>0){
-    while((nowG + offsetAngle) < (startG + g)){
-      myMotors->destra();
-      if(nowG == giro->getGradi()){
-        myMotors->fermo();
-        offsetAngle += nowG;
-        giro = new Giroscopio();
-      }
-      nowG = giro->getGradi();
-      Serial.println(giro->getGradi());
-      delay(10);
-    }
-  }else{
-    while((nowG + offsetAngle) > (startG + g)){
-      myMotors->sinistra();
-      if(nowG == giro->getGradi()){
-        myMotors->fermo();
-        offsetAngle += nowG;
-        giro = new Giroscopio();
-      }
-      nowG = giro->getGradi();
-      Serial.println(giro->getGradi());
-      delay(10);
-    }
-  }
-  myMotors->fermo();
-}
 
 void dropMedikit(int n){
   for(int i=0; i<n; i++){
