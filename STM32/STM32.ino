@@ -302,9 +302,10 @@ void rotateRobot(float g){
   startG = giro->getGradi() + offsetAngle;
   nowG = giro->getGradi();
   if(g>0){
-    myMotors->destra();
     while((nowG + offsetAngle) < (startG + g)){
+      myMotors->destra();
       if(nowG == giro->getGradi()){
+        myMotors->fermo();
         offsetAngle += nowG;
         giro = new Giroscopio();
       }
@@ -313,9 +314,10 @@ void rotateRobot(float g){
       delay(10);
     }
   }else{
-    myMotors->sinistra();
     while((nowG + offsetAngle) > (startG + g)){
+      myMotors->sinistra();
       if(nowG == giro->getGradi()){
+        myMotors->fermo();
         offsetAngle += nowG;
         giro = new Giroscopio();
       }
