@@ -1,7 +1,7 @@
 #include "Giroscopio.h"
 
-//#define LED_PIN 13
-//#define INTERRUPT_PIN 2 // use pin 2 on Arduino Uno & most boards
+#define LED_PIN 13
+#define INTERRUPT_PIN 2 // use pin 2 on Arduino Uno & most boards
 
 volatile bool mpuInterrupt = false; // indicates whether MPU interrupt pin has gone high
 
@@ -27,17 +27,17 @@ Giroscopio::Giroscopio()
     // (115200 chosen because it is required for Teapot Demo output, but it's
     // really up to you depending on your project)
 
-    // Serial.println(F("Initializing I2C devices..."));
+    Serial.println(F("Initializing I2C devices..."));
 
     mpu.initialize();
     pinMode(INTERRUPT_PIN, INPUT);
 
     // verify connection
-    // Serial.println(F("Testing device connections..."));
-    // Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
+    Serial.println(F("Testing device connections..."));
+    Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
 
     // load and configure the DMP
-    // Serial.println(F("Initializing DMP..."));
+    Serial.println(F("Initializing DMP..."));
     uint8_t devStatus = mpu.dmpInitialize();
 
     // supply your own gyro offsets here, scaled for min sensitivity
@@ -54,18 +54,18 @@ Giroscopio::Giroscopio()
         mpu.CalibrateGyro(6);
         mpu.PrintActiveOffsets();
         // turn on the DMP, now that it's ready
-        // Serial.println(F("Enabling DMP..."));
+        Serial.println(F("Enabling DMP..."));
         mpu.setDMPEnabled(true);
 
         // enable Arduino interrupt detection
-        // Serial.print(F("Enabling interrupt detection (Arduino external interrupt "));
-        // Serial.print(digitalPinToInterrupt(INTERRUPT_PIN));
-        // Serial.println(F(")..."));
+        Serial.print(F("Enabling interrupt detection (Arduino external interrupt "));
+        Serial.print(digitalPinToInterrupt(INTERRUPT_PIN));
+        Serial.println(F(")..."));
         attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), dmpDataReady, RISING);
         mpuIntStatus = mpu.getIntStatus();
 
         // set our DMP Ready flag so the main loop() function knows it's okay to use it
-        // Serial.println(F("DMP ready! Waiting for first interrupt..."));
+        Serial.println(F("DMP ready! Waiting for first interrupt..."));
         dmpReady = true;
 
         // get expected DMP packet size for later comparison
@@ -77,9 +77,9 @@ Giroscopio::Giroscopio()
         // 1 = initial memory load failed
         // 2 = DMP configuration updates failed
         // (if it's going to break, usually the code will be 1)
-        // Serial.print(F("DMP Initialization failed (code "));
-        // Serial.print(devStatus);
-        // Serial.println(F(")"));
+        Serial.print(F("DMP Initialization failed (code "));
+        Serial.print(devStatus);
+        Serial.println(F(")"));
     }
 
     // configure LED for output
