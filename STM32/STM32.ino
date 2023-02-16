@@ -19,6 +19,14 @@
 #define PIN_S3 PA9
 #define PIN_S4 PA8
 
+#define L_frontUp 0
+#define L_frontDown 1
+#define L_right 2
+#define L_left 3
+#define L_back 4
+
+const int WALL_MAX = 200; 
+
 #define DELTA_GYRO 3
 
 #define SERVO_PIN B1
@@ -52,6 +60,7 @@ void setup() {
 }
 
 void loop() {
+  /*
   if (Serial.available() > 0){
     //examples of commands from rasp: "0\n"; "10\n"; "21\n"
     String data = Serial.readStringUntil('\n');
@@ -59,12 +68,39 @@ void loop() {
     String result = commandCases(command, data);
     Serial.print(result + '\n');
   }
+  */
+  int laser_fUp  = getFrontUp();
+  int laser_fDown  = getFrontDown();
+  int laser_left = getLeft();
+  int laser_right = getRight();
+  int laser_back  = getBack();
+
+  if(!isWall(laser_right)){
+    commandCases("12");
+    commandCases("10");
+  }else if(!isWall(laser_fDown)){
+    commandCases("10");
+  }else if(!isWall(laser_left)){
+    commandCases("13");
+    commandCases("10");
+  }else {
+    commandCases("11");
+  }
 }
 
-String commandCases(char com, String data){
-  String result;
-  switch (com) {
+bool isWall(int m){
+    if(m < WALL_MAX ){
+      return true;
+    }
+    else{
+      return false;
+    }
+}
 
+String commandCases(String data){
+  String result;
+  char c = data.charAt(0);
+  switch (c) {
 
     //send all sensors
     case '0':
@@ -73,12 +109,11 @@ String commandCases(char com, String data){
       lasersString();
       break;
     } 
-
     
     //movement method
     case '1':
     {
-      result = moveRobot(data[1]);
+      result = moveRobot(data.charAt(1));
       break;
     }
 
