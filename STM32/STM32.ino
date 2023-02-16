@@ -49,9 +49,7 @@ void setup() {
   Serial.begin(115200);
   mioSeriale.begin(115200);
   // Set the TX and RX pins for the A2/A3 serial port
-  while (!Serial) {
-    ;
-  }
+
   //myServo.attach(SERVO_PIN);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   giro = new Giroscopio();
