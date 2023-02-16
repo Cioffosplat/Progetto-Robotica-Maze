@@ -29,7 +29,7 @@
 const float WALL_MAX = 200.00; 
 const float BLOCK_SIZE = 300.00; 
 
-const unsigned long ROTATION_MILLIS = 1500;
+const long ROTATION_MILLIS = 1300;
 
 #define DELTA_GYRO 3
 
@@ -297,7 +297,7 @@ void rotateRobot(bool d){
   }else{
     myMotors->sinistra();
   }
-  delay(1500);
+  delay(ROTATION_MILLIS);
   myMotors->fermo();
 }
 
