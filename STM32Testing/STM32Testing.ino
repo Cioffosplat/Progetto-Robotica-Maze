@@ -1,3 +1,5 @@
+#include "I2Cdev.h"
+#include "MPU6050_6Axis_MotionApps20.h"
 #include "Gyro/Giroscopio.h"
 #include "Gyro/Giroscopio.cpp"
 #include "Infrared_Sensor/Infrared_Sensor.h"
@@ -11,10 +13,23 @@
 #include <Servo.h>
 #include "Arduino.h"
 
-#define PIN_S1 PA12
+#define BAUD 115200
+
+#define PIN_S1 PB3
 #define PIN_S2 PA10
 #define PIN_S3 PA9
 #define PIN_S4 PA8
+
+#define L_frontUp 0
+#define L_frontDown 1
+#define L_right 2
+#define L_left 3
+#define L_back 4
+
+const float WALL_MAX = 200.00; 
+const float BLOCK_SIZE = 300.00; 
+
+const long ROTATION_MILLIS = 1500;
 
 #define DELTA_GYRO 3
 
@@ -35,12 +50,10 @@ Giroscopio *giro;
 
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
-  Serial.begin(9600);
-  mioSeriale.begin(115200);
+  Serial.begin(BAUD);
+  mioSeriale.begin(BAUD);
   // Set the TX and RX pins for the A2/A3 serial port
-  while (!mioSeriale) {
-    ;
-  }
+
   //myServo.attach(SERVO_PIN);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   giro = new Giroscopio();
@@ -49,22 +62,47 @@ void setup() {
 }
 
 void loop() {
-  if (mioSeriale.available() > 0){
+  /*
+  if (Serial.available() > 0){
     //examples of commands from rasp: "0\n"; "10\n"; "21\n"
-    String data = mioSeriale.readStringUntil('\n');
-    Serial.println(data);
+    String data = Serial.readStringUntil('\n');
     char command = data.charAt(0);
     String result = commandCases(command, data);
-    Serial.print("result: ");
-    Serial.print(result);
-    mioSeriale(result);
+    Serial.print(result + '\n');
+  }
+  */
+  int laser_fUp  = getFrontUp();
+  int laser_fDown  = getFrontDown();
+  int laser_left = getLeft();
+  int laser_right = getRight();
+  int laser_back  = getBack();
+
+  if(!isWall(laser_right)){
+    commandCases("12");
+    commandCases("10");
+  }else if(!isWall(laser_fDown)){
+    commandCases("10");
+  }else if(!isWall(laser_left)){
+    commandCases("13");
+    commandCases("10");
+  }else {
+    commandCases("11");
   }
 }
 
-String commandCases(char com, String data){
-  String result;
-  switch (com) {
+bool isWall(int m){
+    if(m < WALL_MAX ){
+      return true;
+    }
+    else{
+      return false;
+    }
+}
 
+String commandCases(String data){
+  String result;
+  char c = data.charAt(0);
+  switch (c) {
 
     //send all sensors
     case '0':
@@ -73,12 +111,11 @@ String commandCases(char com, String data){
       lasersString();
       break;
     } 
-
     
     //movement method
     case '1':
     {
-      result = moveRobot(data[1]);
+      result = moveRobot(data.charAt(1));
       break;
     }
 
@@ -109,23 +146,6 @@ String commandCases(char com, String data){
       break;
     }
 
-
-    // the seguent cases were made for debugging of motors
-    case '5':
-    {
-      rotateRobot(90.00);
-      result ="1";
-      break;
-    }
-
-    case '6':
-    {
-      myMotors->avanti();
-      delay(1000);
-      result = "1";
-      break;
-    }
-    
     default:
     {
       result = "X";
@@ -142,26 +162,16 @@ void gyroString(){
   //possible error in the conversion 
   float angle = giro->getGradi();
   String sAngle = String(angle, 2);
-  
-  Serial.println(sAngle);
-  mioSeriale.println(sAngle);
+  Serial.println(sAngle);  
 }
 
 
 void lasersString(){
-
-  mioSeriale.println(getFrontUp());
-  mioSeriale.println(getFrontDown());
-  mioSeriale.println(getRight());
-  mioSeriale.println(getLeft());
-  mioSeriale.println(getBack());
-
   Serial.println(getFrontUp());
   Serial.println(getFrontDown());
   Serial.println(getRight());
   Serial.println(getLeft());
   Serial.println(getBack());
-
 }
 
 String robotGoBack(){
@@ -171,7 +181,7 @@ String robotGoBack(){
   if(back < front){
     int startDIST = back;
     int tmp = back;
-    while ( tmp > startDIST - 300.0){
+    while ( tmp > startDIST - BLOCK_SIZE){
       myMotors->indietro();
       delay(100);
       /*if (isBlack()){
@@ -190,7 +200,7 @@ String robotGoBack(){
   }else{
     int startDIST = front;
     int tmp = front;
-    while ( tmp < startDIST + 300.0){
+    while ( tmp < startDIST + BLOCK_SIZE){
       myMotors->indietro();
       delay(100);
       /*if (isBlack()){
@@ -228,7 +238,7 @@ String robotGoFront(){
   if(back < front){
     int startDIST = back;
     int tmp = back;
-    while ( tmp < startDIST + 300){
+    while ( tmp < startDIST + BLOCK_SIZE){
       myMotors->avanti();
       delay(100);
       /*
@@ -248,7 +258,7 @@ String robotGoFront(){
   }else{
     int startDIST = front;
     int tmp = front;
-    while ( tmp > startDIST - 300.0){
+    while ( tmp > startDIST - BLOCK_SIZE){
       myMotors->avanti();
       delay(100);
       /*
@@ -280,6 +290,20 @@ String robotGoFront(){
   return result;
 }
 
+void rotateRobot(bool d){
+  long START_MS = millis();
+  if(d){
+    myMotors->destra();
+  }else{
+    myMotors->sinistra();
+  }
+  while(millis() - START_MS <= ROTATION_MILLIS ){
+    ;
+  }
+  myMotors->fermo();
+}
+
+/*
 void rotateRobot(float g){
   float startG; 
   float nowG;
@@ -300,6 +324,7 @@ void rotateRobot(float g){
   }
   myMotors->fermo();
 }
+*/
 
 String moveRobot(char d){
   String result;
@@ -311,15 +336,14 @@ String moveRobot(char d){
       result = robotGoBack();
       break;
     case '2':
-      rotateRobot(90.00);
+      rotateRobot(true);
       break;
     case '3':
-      rotateRobot(-90.00);
+      rotateRobot(false);
       break;
   }
   return result;
 }
-
 
 
 void dropMedikit(int n){

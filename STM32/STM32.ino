@@ -13,7 +13,6 @@
 #include <Servo.h>
 #include "Arduino.h"
 
-#define PIN_S1 PA11
 #define PIN_S1 PB3
 #define PIN_S2 PA10
 #define PIN_S3 PA9
