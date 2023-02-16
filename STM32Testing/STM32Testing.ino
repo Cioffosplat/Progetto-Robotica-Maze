@@ -292,13 +292,12 @@ String robotGoFront(){
 
 void rotateRobot(bool d){
   unsigned long START_MS = millis();
-  if(d){
+  if(d==true){
     myMotors->destra();
   }else{
     myMotors->sinistra();
   }
-  while((millis() - START_MS) <= ROTATION_MILLIS){
-  }
+  delay(1500);
   myMotors->fermo();
 }
 
