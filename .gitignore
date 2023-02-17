@@ -4,3 +4,8 @@ STM32Testing/Motors/.idea/modules.xml
 STM32Testing/Motors/.idea/Motors.iml
 STM32Testing/Motors/.idea/workspace.xml
 STM32/Motors/.idea/workspace.xml
+STM32Testing/Gyro/Gyro/Giroscopio.cpp
+STM32Testing/Gyro/Gyro/Giroscopio.h
+STM32Testing/Gyro/Gyro/Gyro.ino
+STM32Testing/Gyro/Gyro/Motori.cpp
+STM32Testing/Gyro/Gyro/Motori.h
