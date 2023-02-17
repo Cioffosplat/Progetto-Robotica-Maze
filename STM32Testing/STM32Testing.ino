@@ -77,6 +77,12 @@ void loop() {
   int laser_right = getRight();
   int laser_back  = getBack();
 
+  if(isWall(laser_fDown)){
+    wallAdjustament(false);
+  }
+  if(isWall(laser_back)){
+    wallAdjustament(true);
+  }
   if(!isWall(laser_right)){
     commandCases("12");
     commandCases("10");
@@ -289,6 +295,30 @@ String robotGoFront(){
   }*/
   result += "0";
   return result;
+}
+
+void wallAdjustament(bool back){
+  if(back == true){
+    myMotors->indietro();
+    while(getBack() <= 30){      
+    }
+    myMotors->fermo();
+    int startL = getBack();
+    myMotors->avanti();
+    while(getBack() < (StartL + 20)){
+    }
+    myMotors->fermo();
+  }else{
+    myMotors->avanti();
+    while(getFrontDown() <= 30){      
+    }
+    myMotors->fermo();
+    int startL = getFrontDown()();
+    myMotors->indietro();
+    while(getFrontDown() < (StartL + 20)){
+    }
+    myMotors->fermo();
+  }
 }
 
 void rotateRobot(bool d){
