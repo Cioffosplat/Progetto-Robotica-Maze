@@ -29,7 +29,7 @@
 const float WALL_MAX = 200.00; 
 const float BLOCK_SIZE = 300.00; 
 
-unsigned long ROTATION_MILLIS = 1000;
+unsigned long ROTATION_MILLIS = 900;
 
 #define DELTA_GYRO 3
 
@@ -86,7 +86,8 @@ void loop() {
     commandCases("13");
     commandCases("10");
   }else {
-    commandCases("11");
+    commandCases("14");
+    commandCases("10");
   }
 }
 
@@ -291,7 +292,6 @@ String robotGoFront(){
 }
 
 void rotateRobot(bool d){
-  unsigned long START_MS = millis();
   if(d==true){
     myMotors->destra();
   }else{
@@ -339,10 +339,18 @@ String moveRobot(char d){
     case '3':
       rotateRobot(false);
       break;
+    case '4':
+      invertRotation();
   }
   return result;
 }
 
+
+void invertRotation(){
+  myMotors->destra();
+  delay((ROTATION_MILLIS*2));
+  myMotors->fermo();
+}
 
 void dropMedikit(int n){
   for(int i=0; i<n; i++){

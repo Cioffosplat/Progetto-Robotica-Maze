@@ -13,6 +13,8 @@
 #include <Servo.h>
 #include "Arduino.h"
 
+#define BAUD 115200
+
 #define PIN_S1 PB3
 #define PIN_S2 PA10
 #define PIN_S3 PA9
@@ -24,7 +26,10 @@
 #define L_left 3
 #define L_back 4
 
-const int WALL_MAX = 200; 
+const float WALL_MAX = 200.00; 
+const float BLOCK_SIZE = 300.00; 
+
+unsigned long ROTATION_MILLIS = 900;
 
 #define DELTA_GYRO 3
 
@@ -45,8 +50,8 @@ Giroscopio *giro;
 
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
-  Serial.begin(115200);
-  mioSeriale.begin(115200);
+  Serial.begin(BAUD);
+  mioSeriale.begin(BAUD);
   // Set the TX and RX pins for the A2/A3 serial port
 
   //myServo.attach(SERVO_PIN);
@@ -81,7 +86,8 @@ void loop() {
     commandCases("13");
     commandCases("10");
   }else {
-    commandCases("11");
+    commandCases("14");
+    commandCases("10");
   }
 }
 
@@ -141,21 +147,6 @@ String commandCases(String data){
       break;
     }
 
-    case '5':
-    {
-      rotateRobot(90.00);
-      result ="1";
-      break;
-    }
-
-    case '6':
-    {
-      myMotors->avanti();
-      delay(1000);
-      result = "1";
-      break;
-    }
-    
     default:
     {
       result = "X";
@@ -191,7 +182,7 @@ String robotGoBack(){
   if(back < front){
     int startDIST = back;
     int tmp = back;
-    while ( tmp > startDIST - 300.0){
+    while ( tmp > startDIST - BLOCK_SIZE){
       myMotors->indietro();
       delay(100);
       /*if (isBlack()){
@@ -210,7 +201,7 @@ String robotGoBack(){
   }else{
     int startDIST = front;
     int tmp = front;
-    while ( tmp < startDIST + 300.0){
+    while ( tmp < startDIST + BLOCK_SIZE){
       myMotors->indietro();
       delay(100);
       /*if (isBlack()){
@@ -248,7 +239,7 @@ String robotGoFront(){
   if(back < front){
     int startDIST = back;
     int tmp = back;
-    while ( tmp < startDIST + 300){
+    while ( tmp < startDIST + BLOCK_SIZE){
       myMotors->avanti();
       delay(100);
       /*
@@ -268,7 +259,7 @@ String robotGoFront(){
   }else{
     int startDIST = front;
     int tmp = front;
-    while ( tmp > startDIST - 300.0){
+    while ( tmp > startDIST - BLOCK_SIZE){
       myMotors->avanti();
       delay(100);
       /*
@@ -300,6 +291,17 @@ String robotGoFront(){
   return result;
 }
 
+void rotateRobot(bool d){
+  if(d==true){
+    myMotors->destra();
+  }else{
+    myMotors->sinistra();
+  }
+  delay(ROTATION_MILLIS);
+  myMotors->fermo();
+}
+
+/*
 void rotateRobot(float g){
   float startG; 
   float nowG;
@@ -320,6 +322,7 @@ void rotateRobot(float g){
   }
   myMotors->fermo();
 }
+*/
 
 String moveRobot(char d){
   String result;
@@ -331,15 +334,23 @@ String moveRobot(char d){
       result = robotGoBack();
       break;
     case '2':
-      rotateRobot(90.00);
+      rotateRobot(true);
       break;
     case '3':
-      rotateRobot(-90.00);
+      rotateRobot(false);
       break;
+    case '4':
+      invertRotation();
   }
   return result;
 }
 
+
+void invertRotation(){
+  myMotors->destra();
+  delay((ROTATION_MILLIS*2));
+  myMotors->fermo();
+}
 
 void dropMedikit(int n){
   for(int i=0; i<n; i++){
