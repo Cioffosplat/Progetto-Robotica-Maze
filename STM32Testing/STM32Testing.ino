@@ -29,7 +29,8 @@
 const float WALL_MAX = 200.00; 
 const float BLOCK_SIZE = 300.00; 
 
-unsigned long ROTATION_MILLIS = 900;
+unsigned long ROTATION_MILLIS = 890;
+unsigned long SB_MS = 1500;
 
 #define DELTA_GYRO 3
 
@@ -43,9 +44,6 @@ Servo myServo;
 Motori *myMotors;
 //gyroscope object
 Giroscopio *giro;
-
-
-
 
 
 void setup() {
@@ -76,25 +74,57 @@ void loop() {
   int laser_left = getLeft();
   int laser_right = getRight();
   int laser_back  = getBack();
-
-  if(isWall(laser_fDown)){
-    wallAdjustament(false);
-  }
-  if(isWall(laser_back)){
-    wallAdjustament(true);
-  }
+  
   if(!isWall(laser_right)){
     commandCases("12");
+    laser_fDown  = getFrontDown();
+    laser_back  = getBack();
+    if(isWall(laser_fDown)){
+      wallAdjustament(false);
+    }
+    if(isWall(laser_back)){
+      wallAdjustament(true);
+    }
     commandCases("10");
   }else if(!isWall(laser_fDown)){
     commandCases("10");
   }else if(!isWall(laser_left)){
     commandCases("13");
+    laser_fDown  = getFrontDown();
+    laser_back  = getBack();
+    if(isWall(laser_fDown)){
+      wallAdjustament(false);
+    }
+    if(isWall(laser_back)){
+      wallAdjustament(true);
+    }
     commandCases("10");
-  }else {
-    commandCases("14");
+  }else if(!isWall(laser_back)){
+    commandCases("12");
+    laser_fDown  = getFrontDown();
+    laser_back  = getBack();
+    if(isWall(laser_fDown)){
+      wallAdjustament(false);
+    }
+    if(isWall(laser_back)){
+      wallAdjustament(true);
+    }
+    commandCases("12");
+    laser_fDown  = getFrontDown();
+    laser_back  = getBack();
+    if(isWall(laser_fDown)){
+      wallAdjustament(false);
+    }
+    if(isWall(laser_back)){
+      wallAdjustament(true);
+    }
     commandCases("10");
   }
+  laser_fUp  = getFrontUp();
+  laser_fDown  = getFrontDown();
+  laser_left = getLeft();
+  laser_right = getRight();
+  laser_back  = getBack();
 }
 
 bool isWall(int m){
@@ -300,8 +330,7 @@ String robotGoFront(){
 void wallAdjustament(bool back){
   if(back == true){
     myMotors->indietro();
-    while(getBack() <= 30){      
-    }
+    delay(SB_MS);
     myMotors->fermo();
     int startL = getBack();
     myMotors->avanti();
@@ -310,8 +339,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
   }else{
     myMotors->avanti();
-    while(getFrontDown() <= 30){      
-    }
+    delay(SB_MS);
     myMotors->fermo();
     int startL = getFrontDown();
     myMotors->indietro();
@@ -371,6 +399,7 @@ String moveRobot(char d){
       break;
     case '4':
       invertRotation();
+      break;
   }
   return result;
 }
