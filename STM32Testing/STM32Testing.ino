@@ -30,7 +30,7 @@ const float WALL_MAX = 200.00;
 const float BLOCK_SIZE = 300.00; 
 
 unsigned long ROTATION_MILLIS = 890;
-unsigned long SB_MS = 1500;
+unsigned long SB_MS = 2500;
 
 #define DELTA_GYRO 3
 
@@ -60,15 +60,15 @@ void setup() {
 }
 
 void loop() {
-  /*
+  Serial.println("READY");
   if (Serial.available() > 0){
     //examples of commands from rasp: "0\n"; "10\n"; "21\n"
     String data = Serial.readStringUntil('\n');
     char command = data.charAt(0);
-    String result = commandCases(command, data);
-    Serial.print(result + '\n');
+    commandCases(command, data);
+    //Serial.print(result + '\n');
   }
-  */
+  /*
   int laser_fUp  = getFrontUp();
   int laser_fDown  = getFrontDown();
   int laser_left = getLeft();
@@ -77,11 +77,6 @@ void loop() {
   
   if(!isWall(laser_right)){
     commandCases("12");
-    laser_fDown  = getFrontDown();
-    laser_back  = getBack();
-    if(isWall(laser_fDown)){
-      wallAdjustament(false);
-    }
     if(isWall(laser_back)){
       wallAdjustament(true);
     }
@@ -120,11 +115,7 @@ void loop() {
     }
     commandCases("10");
   }
-  laser_fUp  = getFrontUp();
-  laser_fDown  = getFrontDown();
-  laser_left = getLeft();
-  laser_right = getRight();
-  laser_back  = getBack();
+  */
 }
 
 bool isWall(int m){
@@ -199,7 +190,7 @@ void gyroString(){
   //possible error in the conversion 
   float angle = giro->getGradi();
   String sAngle = String(angle, 2);
-  Serial.println(sAngle);  
+  Serial.println(sAngle);
 }
 
 
@@ -399,6 +390,12 @@ String moveRobot(char d){
       break;
     case '4':
       invertRotation();
+      break;
+    case '5':
+      wallAdjustament(true);
+      break;
+    case '6':
+      wallAdjustament(false);
       break;
   }
   return result;
