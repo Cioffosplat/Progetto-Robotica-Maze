@@ -59,7 +59,7 @@ void loop() {
   }
 }
 
-String commandCases(String data){
+void commandCases(String data){
   String result;
   char c = data.charAt(0);
   switch (c) {
@@ -74,7 +74,7 @@ String commandCases(String data){
     //movement method
     case '1':
     {
-      result = moveRobot(data.charAt(1));
+      moveRobot(data.charAt(1));
       break;
     }
 
@@ -105,7 +105,6 @@ String commandCases(String data){
 
     
   }
-  return result;
 }
 
 
@@ -117,7 +116,7 @@ void lasersString(){
   Serial.println(getBack());
 }
 
-String robotGoFront(){
+void robotGoFront(){
   String result = "1";
   int front = getFrontDown();
   int back = getBack();
@@ -173,7 +172,7 @@ String robotGoFront(){
     result += "0";
   }*/
   result += "0";
-  return result;
+  Serial.println(result);
 }
 
 void wallAdjustament(bool back){
@@ -208,11 +207,11 @@ void rotateRobot(bool d){
   myMotors->fermo();
 }
 
-String moveRobot(char d){
+void moveRobot(char d){
   String result;
   switch (d){
     case '0':
-      result = robotGoFront();
+      robotGoFront();
       break;
     case '1':
       //result = robotGoBack();
@@ -233,7 +232,6 @@ String moveRobot(char d){
       wallAdjustament(false);
       break;
   }
-  return result;
 }
 
 
