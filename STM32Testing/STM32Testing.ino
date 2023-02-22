@@ -36,25 +36,17 @@ unsigned long SB_MS = 2500;
 
 #define SERVO_PIN B1
 
-//raspberry serial on pins a3 and a2, need to use Serial.write to pass the values to raspberry
-HardwareSerial mioSeriale(USART1,PA3, PA2);
 //servo motor
 Servo myServo;
 //Motors on h bridge
 Motori *myMotors;
-//gyroscope object
-Giroscopio *giro;
 
 
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
   Serial.begin(BAUD);
-  mioSeriale.begin(BAUD);
-  // Set the TX and RX pins for the A2/A3 serial port
-
   //myServo.attach(SERVO_PIN);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
-  giro = new Giroscopio();
   setupLasers();
   setupRGB();
 }
@@ -62,69 +54,9 @@ void setup() {
 void loop() {
   Serial.println("READY");
   if (Serial.available() > 0){
-    //examples of commands from rasp: "0\n"; "10\n"; "21\n"
     String data = Serial.readStringUntil('\n');
-    char command = data.charAt(0);
-    commandCases(command, data);
-    //Serial.print(result + '\n');
+    commandCases(data);
   }
-  /*
-  int laser_fUp  = getFrontUp();
-  int laser_fDown  = getFrontDown();
-  int laser_left = getLeft();
-  int laser_right = getRight();
-  int laser_back  = getBack();
-  
-  if(!isWall(laser_right)){
-    commandCases("12");
-    if(isWall(laser_back)){
-      wallAdjustament(true);
-    }
-    commandCases("10");
-  }else if(!isWall(laser_fDown)){
-    commandCases("10");
-  }else if(!isWall(laser_left)){
-    commandCases("13");
-    laser_fDown  = getFrontDown();
-    laser_back  = getBack();
-    if(isWall(laser_fDown)){
-      wallAdjustament(false);
-    }
-    if(isWall(laser_back)){
-      wallAdjustament(true);
-    }
-    commandCases("10");
-  }else if(!isWall(laser_back)){
-    commandCases("12");
-    laser_fDown  = getFrontDown();
-    laser_back  = getBack();
-    if(isWall(laser_fDown)){
-      wallAdjustament(false);
-    }
-    if(isWall(laser_back)){
-      wallAdjustament(true);
-    }
-    commandCases("12");
-    laser_fDown  = getFrontDown();
-    laser_back  = getBack();
-    if(isWall(laser_fDown)){
-      wallAdjustament(false);
-    }
-    if(isWall(laser_back)){
-      wallAdjustament(true);
-    }
-    commandCases("10");
-  }
-  */
-}
-
-bool isWall(int m){
-    if(m < WALL_MAX ){
-      return true;
-    }
-    else{
-      return false;
-    }
 }
 
 String commandCases(String data){
@@ -135,7 +67,6 @@ String commandCases(String data){
     //send all sensors
     case '0':
     {
-      gyroString();
       lasersString();
       break;
     } 
@@ -166,14 +97,6 @@ String commandCases(String data){
       break;
     } 
 
-
-    //only gyro
-    case '4':
-    {
-      gyroString();
-      break;
-    }
-
     default:
     {
       result = "X";
@@ -186,77 +109,12 @@ String commandCases(String data){
 }
 
 
-void gyroString(){
-  //possible error in the conversion 
-  float angle = giro->getGradi();
-  String sAngle = String(angle, 2);
-  Serial.println(sAngle);
-}
-
-
 void lasersString(){
   Serial.println(getFrontUp());
   Serial.println(getFrontDown());
   Serial.println(getRight());
   Serial.println(getLeft());
   Serial.println(getBack());
-}
-
-String robotGoBack(){
-  String result = "1";
-  int front = getFrontDown();
-  int  back = getBack();
-  if(back < front){
-    int startDIST = back;
-    int tmp = back;
-    while ( tmp > startDIST - BLOCK_SIZE){
-      myMotors->indietro();
-      delay(100);
-      /*if (isBlack()){
-        myMotors->avanti();
-        while ( tmp < startDIST){
-          tmp = getBack();
-        }
-        myMotors->fermo();
-        return "0";
-      }
-      */
-      tmp = getBack();
-    }
-    myMotors->fermo();
-    delay(100);
-  }else{
-    int startDIST = front;
-    int tmp = front;
-    while ( tmp < startDIST + BLOCK_SIZE){
-      myMotors->indietro();
-      delay(100);
-      /*if (isBlack()){
-        myMotors->avanti();
-        while ( tmp > startDIST){
-          tmp = getFrontDown();
-        }
-        myMotors->fermo();
-        return "0";
-      }
-      */
-      tmp = getFrontDown();
-    }
-    myMotors->fermo();
-    delay(100);
-  }
-  /*method to recognise blue and silver atm not needed
-  if (isBlue()){
-    result += "1";
-  }
-  else if (isSilver()){
-    result += "2";
-  }
-  else{
-    result += "0";
-  }*/
-  result += "0";
-  return result;
 }
 
 String robotGoFront(){
@@ -350,29 +208,6 @@ void rotateRobot(bool d){
   myMotors->fermo();
 }
 
-/*
-void rotateRobot(float g){
-  float startG; 
-  float nowG;
-  startG = giro->getGradi();
-  nowG = giro->getGradi();
-  if(g>0){
-    myMotors->destra();
-    while(nowG < (startG + g)){
-      delay(100);
-      nowG = giro->getGradi();
-    }
-  }else{
-    myMotors->sinistra();
-    while(nowG > (startG + g)){
-      delay(100);
-      nowG = giro->getGradi();
-    }
-  }
-  myMotors->fermo();
-}
-*/
-
 String moveRobot(char d){
   String result;
   switch (d){
@@ -380,7 +215,7 @@ String moveRobot(char d){
       result = robotGoFront();
       break;
     case '1':
-      result = robotGoBack();
+      //result = robotGoBack();
       break;
     case '2':
       rotateRobot(true);
@@ -389,7 +224,7 @@ String moveRobot(char d){
       rotateRobot(false);
       break;
     case '4':
-      invertRotation();
+      //invertRotation();
       break;
     case '5':
       wallAdjustament(true);
