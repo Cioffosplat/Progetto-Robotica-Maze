@@ -20,15 +20,6 @@ if __name__ == '__main__':
     ser = serial.Serial('/dev/ttyACM0', 115200, timeout=5)
     ser.reset_input_buffer()
     condition = True
-    lasers = []
-    while condition:
-        while ser.in_waiting == 0:
-            time.sleep(0.001)
-        line = (ser.readline().decode('utf-8').rstrip())
-        print(line)
-        if line == "READY":
-            condition = False
-    condition = True
     while condition:
         ser.write("3\n".encode('utf-8'))
         print(3)
@@ -36,8 +27,8 @@ if __name__ == '__main__':
         for i in range(5):
             while ser.in_waiting == 0:
                 time.sleep(0.001)
-            line = (ser.readline().decode('utf-8').rstrip())
-            print("laser " + i + " = " + line)
+            line = float((ser.readline().decode('utf-8').rstrip()))
+            print("laser = " + str(line))
             lasers.append(line)
         if isNotWall(lasers[L_right]):
             print("DESTRA")
@@ -73,4 +64,3 @@ if __name__ == '__main__':
             ser.write("10\n".encode('utf-8'))
         if line == "11":
             time.sleep(5)
-
