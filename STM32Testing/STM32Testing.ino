@@ -31,7 +31,6 @@ const float BLOCK_SIZE = 300.00;
 
 unsigned long ROTATION_MILLIS = 1000;
 unsigned long SB_MS = 2500;
-const float SB_DS = 40.0;
 
 #define DELTA_GYRO 3
 
@@ -196,7 +195,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getBack();
     myMotors->avanti();
-    while(getBack() < (startL + SB_DS)){
+    while(getBack() < (startL + 40)){
     }
     myMotors->fermo();
   }else{
@@ -205,7 +204,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getFrontDown();
     myMotors->indietro();
-    while(getFrontDown() < (startL + SB_DS)){
+    while(getFrontDown() < (startL + 40)){
     }
     myMotors->fermo();
   }
