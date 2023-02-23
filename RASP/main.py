@@ -9,11 +9,11 @@ L_right = 2
 L_left = 3
 L_back = 4
 
-def isNotWall(millis):
+def isWall(millis):
     if  millis < const_distaces.WALL_MAX:
-        return False
-    else:
         return True
+    else:
+        return False
 
 
 if __name__ == '__main__':
@@ -30,22 +30,22 @@ if __name__ == '__main__':
             line = float((ser.readline().decode('utf-8').rstrip()))
             print("laser = " + str(line))
             lasers.append(line)
-        if isNotWall(lasers[L_right]):
+        if not isWall(lasers[L_right]):
             print("DESTRA")
             ser.write("12\n".encode('utf-8'))
-            if not isNotWall(lasers[L_left]):
+            if isWall(lasers[L_left]):
                 ser.write("15\n".encode('utf-8'))
             ser.write("10\n".encode('utf-8'))
-        elif isNotWall(lasers[L_frontDown]):
+        elif not isWall(lasers[L_frontDown]):
             print("AVANTI")
             ser.write("10\n".encode('utf-8'))
-        elif isNotWall(lasers[L_left]):
+        elif not isWall(lasers[L_left]):
             print("SINISTRA")
             ser.write("13\n".encode('utf-8'))
-            if not isNotWall(lasers[L_right]):
+            if isWall(lasers[L_right]):
                 ser.write("15\n".encode('utf-8'))
             ser.write("10\n".encode('utf-8'))
-        elif isNotWall(lasers[L_back]):
+        elif not isWall(lasers[L_back]):
             print("INDIETRO")
             ser.write("12\n".encode('utf-8'))
             ser.write("15\n".encode('utf-8'))

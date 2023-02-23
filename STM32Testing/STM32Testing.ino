@@ -26,11 +26,12 @@
 #define L_left 3
 #define L_back 4
 
-const float WALL_MAX = 200.00; 
+const float WALL_MAX = 300.00; 
 const float BLOCK_SIZE = 300.00; 
 
-unsigned long ROTATION_MILLIS = 1200;
+unsigned long ROTATION_MILLIS = 1000;
 unsigned long SB_MS = 2500;
+const float SB_DS = 40.0;
 
 #define DELTA_GYRO 3
 
@@ -195,7 +196,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getBack();
     myMotors->avanti();
-    while(getBack() < (startL + 20)){
+    while(getBack() < (startL + SB_DS)){
     }
     myMotors->fermo();
   }else{
@@ -204,7 +205,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getFrontDown();
     myMotors->indietro();
-    while(getFrontDown() < (startL + 20)){
+    while(getFrontDown() < (startL + SB_DS)){
     }
     myMotors->fermo();
   }

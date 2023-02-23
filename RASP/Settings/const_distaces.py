@@ -1,2 +1,2 @@
 
-WALL_MAX = 200.00
+WALL_MAX = 300.00
