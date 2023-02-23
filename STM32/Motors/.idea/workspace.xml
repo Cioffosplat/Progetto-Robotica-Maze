@@ -10,17 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01281956-b42b-4cc9-b3d1-8e95b852d978" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Infrared_Sensor/Infrared_Sensor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Infrared_Sensor/Infrared_Sensor.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Motori.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Motori.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Motori.h" beforeDir="false" afterPath="$PROJECT_DIR$/Motori.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-dfu/usb_device.cat" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-dfu/usb_device.cat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-dfu/usb_device.inf" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-dfu/usb_device.inf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-serial/usb_device.cat" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-serial/usb_device.cat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-serial/usb_device.inf" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-serial/usb_device.inf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/usb_driver/usb_device.cat" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/usb_driver/usb_device.cat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/usb_driver/usb_device.inf" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/usb_driver/usb_device.inf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Multi_laser/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Multi_laser/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +56,8 @@
       <workItem from="1676122486721" duration="7000" />
       <workItem from="1676126639914" duration="98000" />
       <workItem from="1676127298217" duration="38000" />
+      <workItem from="1677135935468" duration="289000" />
+      <workItem from="1677136257727" duration="8000" />
     </task>
     <servers />
   </component>

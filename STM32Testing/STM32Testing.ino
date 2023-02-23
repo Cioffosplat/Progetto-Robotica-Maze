@@ -1,7 +1,7 @@
 #include "I2Cdev.h"
-#include "MPU6050_6Axis_MotionApps20.h"
-#include "Gyro/Giroscopio.h"
-#include "Gyro/Giroscopio.cpp"
+//#include "MPU6050_6Axis_MotionApps20.h"
+//#include "Gyro/Giroscopio.h"
+//#include "Gyro/Giroscopio.cpp"
 #include "Infrared_Sensor/Infrared_Sensor.h"
 #include "Infrared_Sensor/Infrared_Sensor.cpp"
 #include "Motors/Motori.h"
@@ -15,10 +15,10 @@
 
 #define BAUD 115200
 
-#define PIN_S1 PB3
-#define PIN_S2 PA10
-#define PIN_S3 PA9
-#define PIN_S4 PA8
+#define PIN_S1 PA9
+#define PIN_S2 PA8
+#define PIN_S3 PA10
+#define PIN_S4 PB3
 
 #define L_frontUp 0
 #define L_frontDown 1
@@ -29,7 +29,7 @@
 const float WALL_MAX = 200.00; 
 const float BLOCK_SIZE = 300.00; 
 
-unsigned long ROTATION_MILLIS = 890;
+unsigned long ROTATION_MILLIS = 1200;
 unsigned long SB_MS = 2500;
 
 #define DELTA_GYRO 3
@@ -44,15 +44,14 @@ Motori *myMotors;
 
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
-  Serial.begin(BAUD);
+  Serial.begin(115200);
   //myServo.attach(SERVO_PIN);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   setupLasers();
-  setupRGB();
+  //setupRGB();
 }
 
 void loop() {
-  Serial.println("READY");
   if (Serial.available() > 0){
     String data = Serial.readStringUntil('\n');
     commandCases(data);
@@ -63,7 +62,7 @@ void commandCases(String data){
   String result;
   char c = data.charAt(0);
   switch (c) {
-
+    
     //send all sensors
     case '0':
     {
@@ -74,7 +73,24 @@ void commandCases(String data){
     //movement method
     case '1':
     {
-      moveRobot(data.charAt(1));
+      if (data == "10"){
+        robotGoFront();
+      }
+      if (data == "12"){
+        rotateRobot(true);
+      }
+      if (data == "13"){
+        rotateRobot(false);
+      }
+      if (data == "14"){
+        //invertRotation();
+      }
+      if (data == "15"){
+        wallAdjustament(true);
+      }
+      if (data == "16"){
+        wallAdjustament(false);
+      }
       break;
     }
 
@@ -102,11 +118,8 @@ void commandCases(String data){
       result = "X";
       break;
     }
-
-    
   }
 }
-
 
 void lasersString(){
   Serial.println(getFrontUp());
@@ -208,15 +221,17 @@ void rotateRobot(bool d){
 }
 
 void moveRobot(char d){
-  String result;
+  
   switch (d){
     case '0':
+      Serial.println("vanti");
       robotGoFront();
       break;
     case '1':
       //result = robotGoBack();
       break;
     case '2':
+      Serial.println("r o t a t e");
       rotateRobot(true);
       break;
     case '3':
@@ -232,6 +247,7 @@ void moveRobot(char d){
       wallAdjustament(false);
       break;
   }
+  
 }
 
 
