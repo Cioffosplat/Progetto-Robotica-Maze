@@ -13,7 +13,7 @@ L_left = 3
 L_back = 4
 
 busses = Camera.list_cameras()
-l_camera = Camera(2, right=False)
+l_camera = Camera('/dev/video2', right=False)
 
 def isWall(millis):
     if  millis < const_distaces.WALL_MAX:
