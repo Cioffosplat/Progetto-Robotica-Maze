@@ -54,9 +54,14 @@ def robotIndietro():
 
 
 if __name__ == '__main__':
-    ser = serial.Serial('/dev/ttyACM0', 115200, timeout=5)
-    ser.reset_input_buffer()
-    condition = True
+    condition = False
+    while not condition:
+        try:
+            ser = serial.Serial('/dev/ttyACM0', 115200, timeout=5)
+            ser.reset_input_buffer()
+            condition = True
+        except:
+            print("Serial waiting")
     while condition:
         lasers = getLasers()
         if not isWall(lasers[L_right]):
@@ -68,10 +73,8 @@ if __name__ == '__main__':
             robotAvanti()
         elif not isWall(lasers[L_left]):
             print("SINISTRA")
-            ser.write("13\n".encode('utf-8'))
-            if isWall(lasers[L_right]):
-                ser.write("15\n".encode('utf-8'))
-            ser.write("10\n".encode('utf-8'))
+            robotSinastra()
+            robotAvanti()
         elif not isWall(lasers[L_back]):
             print("INDIETRO")
             robotIndietro()
