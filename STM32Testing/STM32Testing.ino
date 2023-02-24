@@ -30,7 +30,7 @@ const float WALL_MAX = 300.00;
 const float BLOCK_SIZE = 300.00; 
 
 unsigned long ROTATION_MILLIS = 1000;
-unsigned long SB_MS = 2500;
+unsigned long SB_MS = 1500;
 
 #define DELTA_GYRO 3
 

@@ -7,8 +7,7 @@
 #define BACK 4
 
 void setupLasers(){
-  
-  Wire.begin(); 
+  Wire.begin();
 
   TCA9548A(LEFT);
   sensor.setTimeout(500);
