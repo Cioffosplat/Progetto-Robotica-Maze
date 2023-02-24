@@ -12,7 +12,7 @@ L_right = 2
 L_left = 3
 L_back = 4
 
-cum1 = Camera(2)
+cum1 = Camera(0)
 
 def isWall(millis):
     if  millis < const_distaces.WALL_MAX:
