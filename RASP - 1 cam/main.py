@@ -45,7 +45,7 @@ def read_walls(right):
         return 0
 
 
-def readLCum():
+def readCum():
     result = read_walls(False)
     print("cum result:")
     print(result)
