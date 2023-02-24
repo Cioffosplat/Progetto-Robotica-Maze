@@ -14,7 +14,6 @@ L_back = 4
 
 busses = Camera.list_cameras()
 l_camera = Camera(2, right=False)
-r_camera = Camera(0, right=True)
 
 def isWall(millis):
     if  millis < const_distaces.WALL_MAX:
@@ -33,15 +32,6 @@ def read_walls(right):
                 out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
             if out > 0:
                 return out << 4
-
-        else:
-            letter, color = read_all(r_camera)
-            print(f'R: letter({letter}) color({color})')
-            out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
-            if out == 0:
-                out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
-            if out > 0:
-                return out
         return 0
 
 
