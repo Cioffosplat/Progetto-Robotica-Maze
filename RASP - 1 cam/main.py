@@ -13,7 +13,7 @@ L_left = 3
 L_back = 4
 
 busses = Camera.list_cameras()
-l_camera = Camera(0, right=False)
+l_camera = Camera('/dev/video0', right=False)
 
 def isWall(millis):
     if  millis < const_distaces.WALL_MAX:
@@ -24,7 +24,6 @@ def isWall(millis):
 def read_walls():
         time.sleep(.5)
         out = 0
-
         letter, color = read_all(l_camera)
         print(f'L: letter({letter}) color({color})')
         out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
@@ -33,11 +32,6 @@ def read_walls():
         if out > 0:
             return out << 4
 
-
-def readCum():
-    result = read_walls()
-    print("cum result:")
-    print(result)
 
 def robotSinistra():
     ser.write("13\n".encode('utf-8'))
@@ -86,7 +80,7 @@ if __name__ == '__main__':
         except:
             print("Serial waiting")
     while condition:
-        readCum()
+        read_walls()
         lasers = getLasers()
         if not isWall(lasers[L_right]):
             print("DESTRA")
