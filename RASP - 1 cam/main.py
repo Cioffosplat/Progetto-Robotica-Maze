@@ -13,7 +13,7 @@ L_left = 3
 L_back = 4
 
 busses = Camera.list_cameras()
-l_camera = Camera('/dev/video2', right=False)
+l_camera = Camera(0, right=False)
 
 def isWall(millis):
     if  millis < const_distaces.WALL_MAX:
@@ -21,25 +21,23 @@ def isWall(millis):
     else:
         return False
 
-def read_walls(right):
+def read_walls():
         time.sleep(.5)
         out = 0
-        if not right:
-            letter, color = read_all(l_camera)
-            print(f'L: letter({letter}) color({color})')
-            out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
-            if out == 0:
-                out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
-            if out > 0:
-                return out << 4
-        return 0
+
+        letter, color = read_all(l_camera)
+        print(f'L: letter({letter}) color({color})')
+        out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
+        if out == 0:
+            out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
+        if out > 0:
+            return out << 4
 
 
 def readCum():
-    result = read_walls(False)
+    result = read_walls()
     print("cum result:")
     print(result)
-
 
 def robotSinistra():
     ser.write("13\n".encode('utf-8'))
