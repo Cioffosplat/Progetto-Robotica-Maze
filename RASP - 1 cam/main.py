@@ -41,7 +41,7 @@ def readCum():
     print(result)
 
 
-def robotSinastra():
+def robotSinistra():
     ser.write("13\n".encode('utf-8'))
     if isWall(lasers[L_right]):
         ser.write("15\n".encode('utf-8'))
@@ -99,7 +99,7 @@ if __name__ == '__main__':
             robotAvanti()
         elif not isWall(lasers[L_left]):
             print("SINISTRA")
-            robotSinastra()
+            robotSinistra()
             robotAvanti()
         elif not isWall(lasers[L_back]):
             print("INDIETRO")
