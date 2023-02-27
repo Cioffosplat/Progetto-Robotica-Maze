@@ -23,11 +23,10 @@ def isWall(millis):
         return False
 
 def read_wallsL():
-    time.sleep(.5)
+    time.sleep(1.5)
     out = 0
     letter, color = read_all(l_camera)
     print(f'L: letter({letter}) color({color})')
-    out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
     out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
     if out == 0:
         out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
@@ -36,7 +35,7 @@ def read_wallsL():
 
 
 def read_wallsR():
-    time.sleep(.5)
+    time.sleep(1.5)
     out = 0
     letter, color = read_all(r_camera)
     print(f'R: letter({letter}) color({color})')
@@ -84,14 +83,19 @@ def robotIndietro():
     ser.write("10\n".encode('utf-8'))
 
 
+def forwardCase():
+    print('zio pera')
+
 if __name__ == '__main__':
     time.sleep(5)
     ser = serial.Serial('/dev/ttyACM0', 115200, timeout=5)
     ser.reset_input_buffer()
     condition = True
     while condition:
-        read_wallsL()
-        read_wallsR()
+        a = read_wallsL()
+        print(a)
+        b = read_wallsR()
+        print(b)
         lasers = getLasers()
         if not isWall(lasers[L_right]):
             print("DESTRA")
