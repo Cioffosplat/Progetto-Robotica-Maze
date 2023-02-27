@@ -14,7 +14,7 @@ L_back = 4
 
 busses = Camera.list_cameras()
 l_camera = Camera('/dev/video0', right=False)
-r_camera = Camera('/dev/video1', right=True)
+# r_camera = Camera('/dev/video1', right=True)
 
 def isWall(millis):
     if  millis < const_distaces.WALL_MAX:
@@ -23,27 +23,29 @@ def isWall(millis):
         return False
 
 def read_wallsL():
-        time.sleep(.5)
-        out = 0
-        letter, color = read_all(l_camera)
-        print(f'L: letter({letter}) color({color})')
-        out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
-        if out == 0:
-            out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
+    time.sleep(.5)
+    out = 0
+    letter, color = read_all(l_camera)
+    print(f'L: letter({letter}) color({color})')
+    out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
+    if out > 0:
+        return out << 4
+    if out == 0:
+        out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
         if out > 0:
             return out << 4
 
 
-def read_wallsR():
-    time.sleep(.5)
-    out = 0
-    letter, color = read_all(r_camera)
-    print(f'L: letter({letter}) color({color})')
-    out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
-    if out == 0:
-        out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
-    if out > 0:
-        return out << 4
+# def read_wallsR():
+#     time.sleep(.5)
+#     out = 0
+#     letter, color = read_all(r_camera)
+#     print(f'R: letter({letter}) color({color})')
+#     out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
+#     if out == 0:
+#         out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
+#     if out > 0:
+#         return out << 4
 
 
 def robotSinistra():
@@ -84,17 +86,13 @@ def robotIndietro():
 
 
 if __name__ == '__main__':
-    condition = False
-    while not condition:
-        try:
-            ser = serial.Serial('/dev/ttyACM0', 115200, timeout=5)
-            ser.reset_input_buffer()
-            condition = True
-        except:
-            print("Serial waiting")
+    time.sleep(5)
+    ser = serial.Serial('/dev/ttyACM0', 115200, timeout=5)
+    ser.reset_input_buffer()
+    condition = True
     while condition:
         read_wallsL()
-        read_wallsR()
+        # read_wallsR()
         lasers = getLasers()
         if not isWall(lasers[L_right]):
             print("DESTRA")
