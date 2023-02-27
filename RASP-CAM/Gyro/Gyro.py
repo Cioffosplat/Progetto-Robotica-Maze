@@ -16,8 +16,8 @@ def get_pitch():
     z = accel_data['z']
     pitch = math.atan2(-x, math.sqrt(y*y + z*z))
     pitch_deg = pitch * RAD_TO_DEG
-    if pitch_deg < 0:
-        pitch_deg = 360 + pitch_deg
+    if pitch_deg > 180:
+        pitch_deg = pitch_deg - 360
     return pitch_deg
 
 # Main loop
