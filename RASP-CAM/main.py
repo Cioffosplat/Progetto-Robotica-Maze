@@ -92,10 +92,10 @@ if __name__ == '__main__':
     ser.reset_input_buffer()
     condition = True
     while condition:
-        a = read_wallsL()
-        print(a)
-        b = read_wallsR()
-        print(b)
+        read_wallsL()
+        print('stu cazz')
+        read_wallsR()
+        print('stu cazz')
         lasers = getLasers()
         if not isWall(lasers[L_right]):
             print("DESTRA")
