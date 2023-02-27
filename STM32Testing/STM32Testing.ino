@@ -83,7 +83,7 @@ void commandCases(String data){
         rotateRobot(false);
       }
       if (data == "14"){
-        //invertRotation();
+        goUntillSerial();
       }
       if (data == "15"){
         wallAdjustament(true);
@@ -116,6 +116,17 @@ void commandCases(String data){
     default:
     {
       result = "X";
+      break;
+    }
+  }
+}
+
+void goUntillSerial(){
+  myMotors->avanti();
+  while(true){
+    if(Serial.available()>0){
+      myMotors->fermo();
+      String tmp= Serial.readStringUntil('\n');
       break;
     }
   }
@@ -220,48 +231,16 @@ void rotateRobot(bool d){
   myMotors->fermo();
 }
 
-void moveRobot(char d){
-  
-  switch (d){
-    case '0':
-      Serial.println("vanti");
-      robotGoFront();
-      break;
-    case '1':
-      //result = robotGoBack();
-      break;
-    case '2':
-      Serial.println("r o t a t e");
-      rotateRobot(true);
-      break;
-    case '3':
-      rotateRobot(false);
-      break;
-    case '4':
-      //invertRotation();
-      break;
-    case '5':
-      wallAdjustament(true);
-      break;
-    case '6':
-      wallAdjustament(false);
-      break;
-  }
-  
-}
-
-
-void invertRotation(){
-  myMotors->destra();
-  delay((ROTATION_MILLIS*2));
-  myMotors->fermo();
-}
 
 void dropMedikit(int n){
   for(int i=0; i<n; i++){
-    myServo.write(90);
-    delay(1000);
-    myServo.write(0);
-    delay(1000);
+    for(int j=0; j<110; j++){
+      myServo.write(i);
+      delay(100);
+    }
+    for(int j=110; j>0; j--){
+      myServo.write(i);
+      delay(100);
+    }
   }
 }
