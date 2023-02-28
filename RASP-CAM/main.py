@@ -80,7 +80,7 @@ def robotDx():
     if isWall(lasers[L_left]):
         ser.write("15\n".encode('utf-8'))
     elif isWall(lasers[L_right]):
-        ser.write("15\n".encode('utf-8'))
+        ser.write("16\n".encode('utf-8'))
 
 def getLasers():
     ser.write("3\n".encode('utf-8'))
