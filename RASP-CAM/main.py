@@ -24,7 +24,6 @@ L_right = 2
 L_left = 3
 L_back = 4
 
-
 busses = Camera.list_cameras()
 r_camera = Camera('/dev/video0')
 #r_camera = Camera('/dev/video2')
@@ -57,7 +56,6 @@ def isWall(millis):
 #    if out > 0:
 #        return out << 4
 
-
 def read_wallR():
     time.sleep(1.5)
     out = 0
@@ -68,15 +66,12 @@ def read_wallR():
         out += {'': 0, 'u': 1, 's': 3, 'h': 4}[letter]
     cagaMattoni(out)
     
-
-
 def robotSx():
     ser.write("13\n".encode('utf-8'))
     if isWall(lasers[L_right]):
         ser.write("15\n".encode('utf-8'))
     elif isWall(lasers[L_left]):
         ser.write("16\n".encode('utf-8'))
-
 
 def robotDx():
     ser.write("12\n".encode('utf-8'))
@@ -96,7 +91,6 @@ def getLasers():
         print("laser = " + str(line))
         lasers.append(line)
     return lasers
-
 
 def ctrlCam():
     ls = getLasers()
@@ -165,10 +159,8 @@ def robotBack():
     ser.write("12\n".encode('utf-8'))
     ser.write("15\n".encode('utf-8'))
 
-
 def robotForward():
     ser.write("10\n".encode('utf-8'))
-
 
 def forwardCase():
     ls = getLasers()
@@ -217,4 +209,3 @@ if __name__ == '__main__':
             robotBack()
         if line == "11":
             time.sleep(5)
-
