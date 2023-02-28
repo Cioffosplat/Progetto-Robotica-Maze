@@ -34,7 +34,7 @@ unsigned long SB_MS = 1500;
 
 #define DELTA_GYRO 3
 
-//#define SERVO_PIN PB1
+#define SERVO_PIN PB1
 
 //servo motor
 Servo myServo;
@@ -45,8 +45,8 @@ Motori *myMotors;
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
   Serial.begin(115200);
-  //myServo.attach(SERVO_PIN);
-  //myServo.write(0);
+  myServo.attach(SERVO_PIN);
+  myServo.write(0);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   setupLasers();
   setupRGB();
@@ -232,11 +232,11 @@ void rotateRobot(bool d){
 
 void dropMedikit(){
   for (int i = 0; i < 100; i++){
-    //myServo.write(i);
+    myServo.write(i);
     delay(100);
   }
   for (int i = 100; i >= 0; i--){
-    //myServo.write(i);
+    myServo.write(i);
     delay(100);
   }
 }
