@@ -21,8 +21,8 @@ L_back = 4
 
 
 busses = Camera.list_cameras()
-l_camera = Camera('/dev/video0', right=False)
-r_camera = Camera('/dev/video2', right=True)
+r_camera = Camera('/dev/video0')
+#r_camera = Camera('/dev/video2')
 
 def get_pitch():
     accel_data = sensor.get_accel_data()
@@ -47,16 +47,16 @@ def isWall(millis):
     else:
         return False
 
-def read_wallsL():
-    time.sleep(1.5)
-    out = 0
-    letter, color = read_all(l_camera)
-    print(f'L: letter({letter}) color({color})')
-    out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
-    if out == 0:
-        out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
-    if out > 0:
-        return out << 4
+#def read_wallsL():
+#    time.sleep(1.5)
+#    out = 0
+#    letter, color = read_all(l_camera)
+#    print(f'L: letter({letter}) color({color})')
+#    out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
+#    if out == 0:
+#        out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
+#    if out > 0:
+#        return out << 4
 
 
 def read_wallsR():
@@ -96,8 +96,8 @@ def getLasers():
     return lasers
 
 
-def robotAvanti():
-    ser.write("10\n".encode('utf-8'))
+def ctrlCam():
+    print('zio pera')
 
 
 def robotIndietro():
@@ -105,11 +105,13 @@ def robotIndietro():
     ser.write("15\n".encode('utf-8'))
     ser.write("12\n".encode('utf-8'))
     ser.write("15\n".encode('utf-8'))
-    ser.write("10\n".encode('utf-8'))
 
 
 def forwardCase():
-    print('zio pera')
+    ls = getLasers()
+    up = ls[L_frontUp]
+    down = ls[L_frontDown]
+    if()
 
 if __name__ == '__main__':
     time.sleep(5)
@@ -117,22 +119,23 @@ if __name__ == '__main__':
     ser.reset_input_buffer()
     condition = True
     while condition:
-        read_wallsL()
+        ctrlCam()
         lasers = getLasers()
         if not isWall(lasers[L_right]):
             print("DESTRA")
             robotDestra()
-            robotAvanti()
+            forwardCase()
         elif not isWall(lasers[L_frontUp]):
             print("AVANTI")
-            robotAvanti()
+            forwardCase()
         elif not isWall(lasers[L_left]):
             print("SINISTRA")
             robotSinistra()
-            robotAvanti()
+            forwardCase()
         elif not isWall(lasers[L_back]):
             print("INDIETRO")
             robotIndietro()
+            forwardCase()
         while ser.in_waiting == 0:
             time.sleep(0.001)
         line = (ser.readline().decode('utf-8').rstrip())
