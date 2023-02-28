@@ -59,7 +59,7 @@ def isWall(millis):
 #        return out << 4
 
 
-def read_wallsR():
+def read_wallR():
     time.sleep(1.5)
     out = 0
     letter, color = read_all(r_camera)
@@ -71,17 +71,20 @@ def read_wallsR():
         return out << 4
 
 
-def robotSinistra():
+def robotSx():
     ser.write("13\n".encode('utf-8'))
     if isWall(lasers[L_right]):
         ser.write("15\n".encode('utf-8'))
+    elif isWall(lasers[L_left]):
+        ser.write("16\n".encode('utf-8'))
 
 
-def robotDestra():
+def robotDx():
     ser.write("12\n".encode('utf-8'))
     if isWall(lasers[L_left]):
         ser.write("15\n".encode('utf-8'))
-
+    elif isWall(lasers[L_right]):
+        ser.write("15\n".encode('utf-8'))
 
 def getLasers():
     ser.write("3\n".encode('utf-8'))
@@ -97,21 +100,80 @@ def getLasers():
 
 
 def ctrlCam():
-    print('zio pera')
+    ls = getLasers()
+    rotation = 0
+    if isWall(ls[L_right]):
+        read_wallR()
+    if isWall(ls[L_frontUp]):
+        rotation = -1
+        robotSx()
+        read_wallR()
+    if rotation == -1:
+        if isWall(ls[L_left]):
+            robotSx()
+            read_wallR()
+            rotation = -2
+        if isWall(ls[L_back]):
+            if rotation == -2:
+                robotSx()
+                read_wallR()
+                robotSx()
+                rotation = 0
+            else:
+                robotSx()
+                robotSx()
+                read_wallR()
+                robotSx()
+                rotation = 0
+    else:
+        if isWall(ls[L_back]):
+            robotDx()
+            read_wallR()
+            rotation = 1
+        if isWall(ls[L_left]):
+            if rotation == 1:
+                robotDx()
+                read_wallR()
+                rotation = 2
+            else:
+                robotDx()
+                robotDx()
+                read_wallR()
+                rotation = 2
+    if rotation > 0:
+        for i in range(rotation):
+            robotSx()
+    else:
+        for i in range((-rotation)):
+            robotDx()
 
 
-def robotIndietro():
+def robotBack():
     ser.write("12\n".encode('utf-8'))
     ser.write("15\n".encode('utf-8'))
     ser.write("12\n".encode('utf-8'))
     ser.write("15\n".encode('utf-8'))
+
+
+def robotForward():
+    ser.write("10\n".encode('utf-8'))
 
 
 def forwardCase():
     ls = getLasers()
     up = ls[L_frontUp]
     down = ls[L_frontDown]
-    if()
+    if (up - down) > const_distaces.DELTA_FRONT and (up > const_distaces.MIN_FRONT_UP and down > const_distaces.MIN_FRONT_DOWN):
+        c = True
+        ser.write("14\n".encode('utf-8'))
+        time.sleep(const_distaces.TIME_BEFORE_RAMPA)
+        pitch = get_pitch()
+        while c:
+            if pitch > -const_distaces.DELTA_PENDENZA and  pitch < const_distaces.DELTA_PENDENZA:
+                ser.write("ZIO PERA\n".encode('utf-8'))
+                c = False
+    else:
+        robotForward()
 
 if __name__ == '__main__':
     time.sleep(5)
@@ -123,25 +185,25 @@ if __name__ == '__main__':
         lasers = getLasers()
         if not isWall(lasers[L_right]):
             print("DESTRA")
-            robotDestra()
+            robotDx()
             forwardCase()
         elif not isWall(lasers[L_frontUp]):
             print("AVANTI")
             forwardCase()
         elif not isWall(lasers[L_left]):
             print("SINISTRA")
-            robotSinistra()
+            robotSx()
             forwardCase()
         elif not isWall(lasers[L_back]):
             print("INDIETRO")
-            robotIndietro()
+            robotBack()
             forwardCase()
         while ser.in_waiting == 0:
             time.sleep(0.001)
         line = (ser.readline().decode('utf-8').rstrip())
         print(line)
         if line == "0":
-            robotIndietro()
+            robotBack()
         if line == "11":
             time.sleep(5)
 
