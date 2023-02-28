@@ -1,10 +1,12 @@
 import serial
 import time
 import math
+import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
 
 from mpu6050 import mpu6050
 from camera import Camera
 from analysis import read_all
+from time import sleep # Import the sleep function from the time
 
 from Settings import const_distaces
 
@@ -12,6 +14,10 @@ from Settings import const_distaces
 sensor = mpu6050(0x68)
 # Define constant for MPU6050
 RAD_TO_DEG = 57.295779513082320876798154814105
+# Definiton of the blinking Led
+GPIO.setwarnings(False) # Ignore warning for now
+GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+GPIO.setup(8, GPIO.OUT, initial=GPIO.LOW) # Set pin 8 to be an output pin and set initial value to low (off)
 
 L_frontUp = 0
 L_frontDown = 1
@@ -66,9 +72,9 @@ def read_wallR():
     print(f'R: letter({letter}) color({color})')
     out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
     if out == 0:
-        out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
-    if out > 0:
-        return out << 4
+        out += {'': 0, 'u': 1, 's': 3, 'h': 4}[letter]
+    cagaMattoni(out)
+    
 
 
 def robotSx():
@@ -147,6 +153,18 @@ def ctrlCam():
         for i in range((-rotation)):
             robotDx()
 
+def blinkVictim():
+    for i in range (6):
+        GPIO.output(8, GPIO.HIGH) # Turn on
+        sleep(.5) 
+        GPIO.output(8, GPIO.LOW) # Turn off
+        sleep(.5)
+
+def cagaMattoni(n):
+    if n > 0:
+        blinkVictim()
+    for i in range(1,n):
+        ser.write("21\n".encode('utf-8'))
 
 def robotBack():
     ser.write("12\n".encode('utf-8'))
