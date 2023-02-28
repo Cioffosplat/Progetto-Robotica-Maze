@@ -64,6 +64,8 @@ def read_wallR():
     out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
     if out == 0:
         out += {'': 0, 'u': 1, 's': 3, 'h': 4}[letter]
+    print("numero mattoni")
+    print(out)
     cagaMattoni(out)
     
 def robotSx():
