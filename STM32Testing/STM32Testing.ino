@@ -34,7 +34,7 @@ unsigned long SB_MS = 1500;
 
 #define DELTA_GYRO 3
 
-#define SERVO_PIN B1
+#define SERVO_PIN PB1
 
 //servo motor
 Servo myServo;
@@ -45,10 +45,11 @@ Motori *myMotors;
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
   Serial.begin(115200);
-  //myServo.attach(SERVO_PIN);
+  myServo.attach(SERVO_PIN);
+  myServo.write(0);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   setupLasers();
-  //setupRGB();
+  setupRGB();
 }
 
 void loop() {
@@ -98,10 +99,7 @@ void commandCases(String data){
     //medikit dropper
     case '2':
     {
-      int n;
-      n = data.charAt(1) - '0';
-      dropMedikit(n);
-      result = "1";
+      dropMedikit();
       break;
     }
 
@@ -232,15 +230,13 @@ void rotateRobot(bool d){
 }
 
 
-void dropMedikit(int n){
-  for(int i=0; i<n; i++){
-    for(int j=0; j<110; j++){
-      myServo.write(i);
-      delay(100);
-    }
-    for(int j=110; j>0; j--){
-      myServo.write(i);
-      delay(100);
-    }
+void dropMedikit(){
+  for (int i = 0; i > -100; i--){
+    myServo.write(i);
+    delay(100);
+  }
+  for (int i = -100; i <= 0; i++){
+    myServo.write(i);
+    delay(100);
   }
 }
