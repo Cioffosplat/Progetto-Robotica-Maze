@@ -67,6 +67,7 @@ def read_wallR():
     cagaMattoni(out)
     
 def robotSx():
+    lasers = getLasers()
     ser.write("13\n".encode('utf-8'))
     if isWall(lasers[L_right]):
         ser.write("15\n".encode('utf-8'))
@@ -74,6 +75,7 @@ def robotSx():
         ser.write("16\n".encode('utf-8'))
 
 def robotDx():
+    lasers = getLasers()
     ser.write("12\n".encode('utf-8'))
     if isWall(lasers[L_left]):
         ser.write("15\n".encode('utf-8'))
