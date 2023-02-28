@@ -70,16 +70,20 @@ def robotSx():
     lasers = getLasers()
     ser.write("13\n".encode('utf-8'))
     if isWall(lasers[L_right]):
+        print('Back adjust')
         ser.write("15\n".encode('utf-8'))
-    elif isWall(lasers[L_left]):
+    elif isWall(lasers[L_left]):        
+        print('Front adjust')
         ser.write("16\n".encode('utf-8'))
 
 def robotDx():
     lasers = getLasers()
     ser.write("12\n".encode('utf-8'))
     if isWall(lasers[L_left]):
+        print('Back adjust')
         ser.write("15\n".encode('utf-8'))
     elif isWall(lasers[L_right]):
+        print('Front adjust')
         ser.write("16\n".encode('utf-8'))
 
 def getLasers():
@@ -186,7 +190,9 @@ if __name__ == '__main__':
     ser.reset_input_buffer()
     condition = True
     while condition:
+        print("-----CAM MOVEMENTS-----")
         ctrlCam()
+        print("-----RUN MOVEMENTS-----")
         lasers = getLasers()
         if not isWall(lasers[L_right]):
             print("DESTRA")
