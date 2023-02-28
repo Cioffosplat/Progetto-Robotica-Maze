@@ -1,12 +1,11 @@
 import serial
 import time
 import math
-import RPi.GPIO as GPIO # Import Raspberry Pi GPIO library
+import RPi.GPIO as GPIO
 
 from mpu6050 import mpu6050
 from camera import Camera
 from analysis import read_all
-from time import sleep # Import the sleep function from the time
 
 from Settings import const_distaces
 
@@ -40,12 +39,6 @@ def get_pitch():
     if pitch_deg > 180:
         pitch_deg = pitch_deg - 360
     return pitch_deg
-
-# Main loop example to implement in the code
-#while True:
-    #pitch = get_pitch()
-    #print("Pitch: {:.2f}".format(pitch))
-    #time.sleep(0.1)
 
 def isWall(millis):
     if  millis < const_distaces.WALL_MAX:
@@ -156,15 +149,15 @@ def ctrlCam():
 def blinkVictim():
     for i in range (6):
         GPIO.output(8, GPIO.HIGH) # Turn on
-        sleep(.5) 
+        time.sleep(.5) 
         GPIO.output(8, GPIO.LOW) # Turn off
-        sleep(.5)
+        time.sleep(.5)
 
 def cagaMattoni(n):
     if n > 0:
         blinkVictim()
     for i in range(1,n):
-        ser.write("21\n".encode('utf-8'))
+        ser.write("2\n".encode('utf-8'))
 
 def robotBack():
     ser.write("12\n".encode('utf-8'))
