@@ -176,6 +176,7 @@ def forwardCase():
     down = ls[L_frontDown]
     if (up - down) > const_distaces.DELTA_FRONT and (up > const_distaces.MIN_FRONT_UP and down > const_distaces.MIN_FRONT_DOWN):
         c = True
+        print("RAMPA")
         ser.write("14\n".encode('utf-8'))
         time.sleep(const_distaces.TIME_BEFORE_RAMPA)
         pitch = get_pitch()
@@ -184,6 +185,7 @@ def forwardCase():
                 ser.write("ZIO PERA\n".encode('utf-8'))
                 c = False
     else:
+        print()
         robotForward()
 
 if __name__ == '__main__':
