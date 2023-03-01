@@ -26,11 +26,13 @@
 #define L_left 3
 #define L_back 4
 
-const float WALL_MAX = 300.00; 
-const float BLOCK_SIZE = 300.00; 
+const float BLOCK_SIZE = 300; 
+const float MAX_DISTANCE = 750;
+
 
 unsigned long ROTATION_MILLIS = 1000;
 unsigned long SB_MS = 1500;
+unsigned long MOVE_MS = 1000;
 
 #define DELTA_GYRO 3
 
@@ -143,45 +145,84 @@ void robotGoFront(){
   int front = getFrontDown();
   int back = getBack();
   if(back < front){
-    int startDIST = back;
-    int tmp = back;
-    while ( tmp < startDIST + BLOCK_SIZE){
+    if(back>=MAX_DISTANCE){
+      int tmp_t = millis();
       myMotors->avanti();
-      delay(100);
-      /*
-      if (isBlack()){
-        myMotors->indietro();
-        while ( tmp > startDIST){
-          tmp = getBack();
+      while((millis() - tmp_t) < MOVE_MS){
+        /*
+        if (isBlack()){
+          myMotors->indietro();
+          while ( tmp > startDIST){
+            tmp = getBack();
+          }
+          myMotors->fermo();
+          return "0";
         }
-        myMotors->fermo();
-        return "0";
+        */
+        delay(100);
       }
-      */
-      tmp = getBack();
+      myMotors->fermo();
+    }else{
+      int startDIST = back;
+      int tmp = back;
+      while ( tmp < startDIST + BLOCK_SIZE){
+        myMotors->avanti();
+        delay(100);
+        /*
+        if (isBlack()){
+          myMotors->indietro();
+          while ( tmp > startDIST){
+            tmp = getBack();
+          }
+          myMotors->fermo();
+          return "0";
+        }
+        */
+        tmp = getBack();
+      }
+      myMotors->fermo();
+      delay(100);
     }
-    myMotors->fermo();
-    delay(100);
   }else{
     int startDIST = front;
     int tmp = front;
-    while ( tmp > startDIST - BLOCK_SIZE){
+    if(front >= (MAX_DISTANCE + 300)){
+      int tmp_t = millis();
       myMotors->avanti();
-      delay(100);
-      /*
-      if (isBlack()){
-        myMotors->indietro();
-        while ( tmp < startDIST){
-          tmp = getFrontDown();
+      while((millis() - tmp_t) < MOVE_MS){
+        /*
+        if (isBlack()){
+          myMotors->indietro();
+          while ( tmp > startDIST){
+            tmp = getBack();
+          }
+          myMotors->fermo();
+          return "0";
         }
-        myMotors->fermo();
-        return "0";
+        */
+        delay(100);
       }
-      */
-      tmp = getFrontDown();
+      myMotors->fermo();
+    }else{
+      while ( tmp > startDIST - BLOCK_SIZE){
+        myMotors->avanti();
+        delay(100);
+        /*
+        if (isBlack()){
+          myMotors->indietro();
+          while ( tmp < startDIST){
+            tmp = getFrontDown();
+          }
+          myMotors->fermo();
+          Serial.println("0");
+          return;
+        }
+        */
+        tmp = getFrontDown();
+      }
+      myMotors->fermo();
+      delay(100);
     }
-    myMotors->fermo();
-    delay(100);
   }
   /*method to recognise blue and silver atm not needed
   if (isBlue()){
