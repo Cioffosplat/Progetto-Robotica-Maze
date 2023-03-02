@@ -64,6 +64,7 @@ def read_wallR():
     cagaMattoni(out)
     
 def robotSx():
+    print("GIRAMENTO A SINISTRA")
     lasers = getLasers()
     ser.write("13\n".encode('utf-8'))
     if isWall(lasers[L_right]):
@@ -74,6 +75,7 @@ def robotSx():
         ser.write("16\n".encode('utf-8'))
 
 def robotDx():
+    print("GIRAMENTO A DESTRA")
     lasers = getLasers()
     ser.write("12\n".encode('utf-8'))
     if isWall(lasers[L_left]):
@@ -100,51 +102,50 @@ def ctrlCam():
     rotation = 0
     if isWall(ls[L_right]):
         read_wallR()
-    if isWall(ls[L_frontUp]):
         rotation = -1
+    if isWall(ls[L_frontUp]):
+        rotation += 2
         robotSx()
         read_wallR()
-    if rotation == -1:
+    if rotation == 1:
         if isWall(ls[L_left]):
             robotSx()
             read_wallR()
-            rotation = -2
-        if isWall(ls[L_back]):
-            if rotation == -2:
-                robotSx()
-                read_wallR()
-                robotSx()
-                rotation = 0
-            else:
-                robotSx()
-                robotSx()
-                read_wallR()
-                robotSx()
-                rotation = 0
-    else:
-        if isWall(ls[L_back]):
+    elif rotation == -1:
+        if isWall(ls[L_left]):
+            robotSx()
+            robotSx()
+            read_wallR()
             robotDx()
-            read_wallR()
-            rotation = 1
+            robotDx()
+    elif rotation == 2:
         if isWall(ls[L_left]):
-            if rotation == 1:
-                robotDx()
-                read_wallR()
-                rotation = 2
-            else:
-                robotDx()
-                robotDx()
-                read_wallR()
-                rotation = 2
-    if rotation > 0:
-        for i in range(rotation):
             robotSx()
-    else:
-        for i in range((-rotation)):
+            read_wallR()
+            robotDx()
+            robotDx()
+        else: 
+            robotDx()
+    elif rotation == 0:
+        if isWall(ls[L_left]):
+            robotSx()
+            robotSx()
+            read_wallR()
+            robotDx()
             robotDx()
 
 def blinkVictim():
     ser.write("0\n".encode('utf-8'))
+
+def getDirection(lasers):
+    if not isWall(lasers[L_right]):
+        result = 1
+    elif not isWall(lasers[L_frontUp]):
+        result = 0
+    elif not isWall(lasers[L_left]):
+        result = -1
+    elif not isWall(lasers[L_back]):
+        result = -2
 
 def cagaMattoni(n):
     print("N mattoni + 1 :")
@@ -182,7 +183,6 @@ def forwardCase():
         robotForward()
 
 if __name__ == '__main__':
-    time.sleep(5)
     ser = serial.Serial('/dev/ttyACM0', 115200, timeout=5)
     ser.reset_input_buffer()
     condition = True
