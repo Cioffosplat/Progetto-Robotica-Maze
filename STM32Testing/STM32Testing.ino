@@ -247,10 +247,6 @@ void rotateRobot(bool d){
 
 
 void dropMedikit(){
-  for (int i = 0; i < 100; i++){
-    myServo.write(i);
-  }
-  for (int i = 100; i >= 0; i--){
-    myServo.write(i);
-  }
+  myServo.write(100);
+  myServo.write(0);
 }
