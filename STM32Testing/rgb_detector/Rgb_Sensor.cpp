@@ -46,7 +46,7 @@ int process_green_value() {
 
 
 bool isBlue() {
-    if (process_red_value() >= 185 && process_red_value() <= 210 && process_green_value() >= 140 && process_green_value() <= 170 && process_blue_value() >= 55 && process_blue_value() <= 80) {
+    if (process_red_value() >= 160 && process_red_value() <= 180 && process_green_value() >= 120 && process_green_value() <= 150 && process_blue_value() >= 40 && process_blue_value() <= 75) {
         return true;
         Serial.print("It's Blue");
     } else {
@@ -56,7 +56,7 @@ bool isBlue() {
 }
 
 bool isBlack() {
-    if (process_red_value() >= 210 && process_green_value() >= 210 && process_blue_value() >= 125 && process_blue_value() <= 150) {
+    if (process_red_value() >= 200 && process_green_value() >= 200 && process_blue_value() >= 125 && process_blue_value() <= 155) {
         return true;
         Serial.print("It's Blue");
     } else {
