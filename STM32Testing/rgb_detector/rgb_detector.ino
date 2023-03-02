@@ -6,11 +6,10 @@ void setup(){
 
 void loop() 
 {
- Serial.print("Red Value: ");
- Serial.print(process_red_value());
- Serial.print("     Green Value: ");
- Serial.print(process_green_value());
- Serial.print("     Blue Value: ");
- Serial.println(process_blue_value());
+ Serial.print("IS BLUE? ");
+ Serial.println(isBlue());
+ Serial.print("IS BLACK? ");
+ Serial.println(isBlack());
+ delay(500);
  delay(500);
 }

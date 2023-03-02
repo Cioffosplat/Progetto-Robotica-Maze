@@ -163,16 +163,15 @@ void robotGoFront(){
       while ( tmp < startDIST + BLOCK_SIZE){
         myMotors->avanti();
         delay(100);
-        /*
         if (isBlack()){
           myMotors->indietro();
           while ( tmp > startDIST){
             tmp = getBack();
           }
           myMotors->fermo();
-          return "0";
+          Serial.println("0");
+          return;
         }
-        */
         tmp = getBack();
       }
       myMotors->fermo();
@@ -182,8 +181,7 @@ void robotGoFront(){
     int tmp = front;
       while ( tmp > startDIST - BLOCK_SIZE){
         myMotors->avanti();
-        delay(100);
-        /*
+        delay(50);
         if (isBlack()){
           myMotors->indietro();
           while ( tmp < startDIST){
@@ -193,23 +191,22 @@ void robotGoFront(){
           Serial.println("0");
           return;
         }
-        */
         tmp = getFrontDown();
       }
       myMotors->fermo();
       delay(100);
   }
-  /*method to recognise blue and silver atm not needed
+  //method to recognise blue and silver atm not needed
   if (isBlue()){
     result += "1";
   }
-  else if (isSilver()){
+  /*else if (isSilver()){
     result += "2";
   }
+  */
   else{
     result += "0";
-  }*/
-  result += "0";
+  }
   Serial.println(result);
 }
 
