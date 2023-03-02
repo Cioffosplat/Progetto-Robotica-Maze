@@ -20,6 +20,8 @@
 #define PIN_S3 PA10
 #define PIN_S4 PB3
 
+#define LED_PIN PB5
+
 #define L_frontUp 0
 #define L_frontDown 1
 #define L_right 2
@@ -52,6 +54,7 @@ void setup() {
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   setupLasers();
   setupRGB();
+  pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
@@ -61,6 +64,16 @@ void loop() {
   }
 }
 
+void led_blink(){
+  for(int i = 0; i < 12; i++){
+    digitalWrite(LED_PIN, HIGH);
+    delay(250);
+    digitalWrite(LED_PIN, LOW);
+    delay(250);
+  }
+}
+
+
 void commandCases(String data){
   String result;
   char c = data.charAt(0);
@@ -69,7 +82,7 @@ void commandCases(String data){
     //send all sensors
     case '0':
     {
-      lasersString();
+      led_blink();
       break;
     } 
     
