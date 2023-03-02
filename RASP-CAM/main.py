@@ -1,7 +1,6 @@
 import serial
 import time
 import math
-import RPi.GPIO as GPIO
 
 from mpu6050 import mpu6050
 from camera import Camera
@@ -13,10 +12,6 @@ from Settings import const_distaces
 sensor = mpu6050(0x68)
 # Define constant for MPU6050
 RAD_TO_DEG = 57.295779513082320876798154814105
-# Definiton of the blinking Led
-GPIO.setwarnings(False) # Ignore warning for now
-GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
-GPIO.setup(8, GPIO.OUT, initial=GPIO.LOW) # Set pin 8 to be an output pin and set initial value to low (off)
 
 L_frontUp = 0
 L_frontDown = 1
@@ -149,11 +144,7 @@ def ctrlCam():
             robotDx()
 
 def blinkVictim():
-    for i in range (6):
-        GPIO.output(8, GPIO.HIGH) # Turn on
-        time.sleep(.5) 
-        GPIO.output(8, GPIO.LOW) # Turn off
-        time.sleep(.5)
+    ser.write("0\n".encode('utf-8'))
 
 def cagaMattoni(n):
     if n > 0:
