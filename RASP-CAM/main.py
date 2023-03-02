@@ -52,6 +52,7 @@ def isWall(millis):
 #        return out << 4
 
 def read_wallR():
+    print("lettura cum")
     time.sleep(1.5)
     out = 0
     letter, color = read_all(r_camera)
