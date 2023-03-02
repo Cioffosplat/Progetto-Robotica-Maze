@@ -179,7 +179,7 @@ if __name__ == '__main__':
     condition = True
     while condition:
         print("-----CAM MOVEMENTS-----")
-        #ctrlCam()
+        ctrlCam()
         print("-----RUN MOVEMENTS-----")
         lasers = getLasers()
         if not isWall(lasers[L_right]):
