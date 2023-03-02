@@ -147,9 +147,11 @@ def blinkVictim():
     ser.write("0\n".encode('utf-8'))
 
 def cagaMattoni(n):
+    print("N mattoni + 1 :")
+    print(n)
     if n > 0:
         blinkVictim()
-    for i in range(1,n):
+    for i in range(n-1):
         ser.write("2\n".encode('utf-8'))
 
 def robotBack():

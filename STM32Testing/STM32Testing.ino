@@ -158,24 +158,6 @@ void robotGoFront(){
   int front = getFrontDown();
   int back = getBack();
   if(back < front){
-    if(back>=MAX_DISTANCE){
-      int tmp_t = millis();
-      myMotors->avanti();
-      while((millis() - tmp_t) < MOVE_MS){
-        /*
-        if (isBlack()){
-          myMotors->indietro();
-          while ( tmp > startDIST){
-            tmp = getBack();
-          }
-          myMotors->fermo();
-          return "0";
-        }
-        */
-        delay(100);
-      }
-      myMotors->fermo();
-    }else{
       int startDIST = back;
       int tmp = back;
       while ( tmp < startDIST + BLOCK_SIZE){
@@ -195,28 +177,9 @@ void robotGoFront(){
       }
       myMotors->fermo();
       delay(100);
-    }
   }else{
     int startDIST = front;
     int tmp = front;
-    if(front >= (MAX_DISTANCE + 300)){
-      int tmp_t = millis();
-      myMotors->avanti();
-      while((millis() - tmp_t) < MOVE_MS){
-        /*
-        if (isBlack()){
-          myMotors->indietro();
-          while ( tmp > startDIST){
-            tmp = getBack();
-          }
-          myMotors->fermo();
-          return "0";
-        }
-        */
-        delay(100);
-      }
-      myMotors->fermo();
-    }else{
       while ( tmp > startDIST - BLOCK_SIZE){
         myMotors->avanti();
         delay(100);
@@ -235,7 +198,6 @@ void robotGoFront(){
       }
       myMotors->fermo();
       delay(100);
-    }
   }
   /*method to recognise blue and silver atm not needed
   if (isBlue()){
@@ -287,10 +249,8 @@ void rotateRobot(bool d){
 void dropMedikit(){
   for (int i = 0; i < 100; i++){
     myServo.write(i);
-    delay(100);
   }
   for (int i = 100; i >= 0; i--){
     myServo.write(i);
-    delay(100);
   }
 }
