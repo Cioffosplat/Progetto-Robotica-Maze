@@ -138,16 +138,6 @@ def ctrlCam():
 def blinkVictim():
     ser.write("0\n".encode('utf-8'))
 
-def getDirection(lasers):
-    if not isWall(lasers[L_right]):
-        result = 1
-    elif not isWall(lasers[L_frontUp]):
-        result = 0
-    elif not isWall(lasers[L_left]):
-        result = -1
-    elif not isWall(lasers[L_back]):
-        result = -2
-
 def cagaMattoni(n):
     print("N mattoni + 1 :")
     print(n)
@@ -189,7 +179,7 @@ if __name__ == '__main__':
     condition = True
     while condition:
         print("-----CAM MOVEMENTS-----")
-        ctrlCam()
+        #ctrlCam()
         print("-----RUN MOVEMENTS-----")
         lasers = getLasers()
         if not isWall(lasers[L_right]):
