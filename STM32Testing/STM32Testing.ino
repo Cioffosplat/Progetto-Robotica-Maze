@@ -217,7 +217,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getBack();
     myMotors->avanti();
-    while(getBack() < (startL + 40)){
+    while(getBack() < (startL + 60)){
     }
     myMotors->fermo();
   }else{
@@ -226,7 +226,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getFrontDown();
     myMotors->indietro();
-    while(getFrontDown() < (startL + 40)){
+    while(getFrontDown() < (startL + 60)){
     }
     myMotors->fermo();
   }
