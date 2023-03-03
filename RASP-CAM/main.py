@@ -104,7 +104,7 @@ def ctrlCam():
     if isWall(ls[L_right]):
         read_wallR()
         rotation = -1
-    if isWall(ls[L_frontUp]):
+    if isWall(ls[L_frontDown]):
         rotation += 2
         robotSx()
         read_wallR()
@@ -154,22 +154,7 @@ def robotForward():
     ser.write("10\n".encode('utf-8'))
 
 def forwardCase():
-    ls = getLasers()
-    up = ls[L_frontUp]
-    down = ls[L_frontDown]
-    if (up - down) > const_distaces.DELTA_FRONT and (up > const_distaces.MIN_FRONT_UP and down > const_distaces.MIN_FRONT_DOWN):
-        c = True
-        print("RAMPA")
-        ser.write("14\n".encode('utf-8'))
-        time.sleep(const_distaces.TIME_BEFORE_RAMPA)
-        pitch = get_pitch()
-        while c:
-            if pitch > -const_distaces.DELTA_PENDENZA and  pitch < const_distaces.DELTA_PENDENZA:
-                ser.write("ZIO PERA\n".encode('utf-8'))
-                c = False
-    else:
-        print()
-        robotForward()
+    robotForward()
 
 if __name__ == '__main__':
     ser = serial.Serial('/dev/ttyACM0', 115200, timeout=5)
@@ -184,7 +169,7 @@ if __name__ == '__main__':
             print("DESTRA")
             robotDx()
             forwardCase()
-        elif not isWall(lasers[L_frontUp]):
+        elif not isWall(lasers[L_frontDown]):
             print("AVANTI")
             forwardCase()
         elif not isWall(lasers[L_left]):

@@ -10,6 +10,5 @@ void loop()
  Serial.println(isBlue());
  Serial.print("IS BLACK? ");
  Serial.println(isBlack());
- delay(500);
- delay(500);
+ delay(300);
 }

@@ -245,5 +245,8 @@ void rotateRobot(bool d){
 
 void dropMedikit(){
   myServo.write(100);
+  delay(1000);
   myServo.write(0);
+  delay(1000);
+  
 }

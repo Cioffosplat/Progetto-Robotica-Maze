@@ -20,7 +20,6 @@ void setupRGB(){
     digitalWrite(S0_PIN, HIGH);
     digitalWrite(S1_PIN, LOW);
     // Enable Serial Port for Debugging
-    Serial.begin(9600);
 }
 
 int process_red_value() {
@@ -46,21 +45,17 @@ int process_green_value() {
 
 
 bool isBlue() {
-    if (process_red_value() >= 160 && process_red_value() <= 180 && process_green_value() >= 120 && process_green_value() <= 150 && process_blue_value() >= 40 && process_blue_value() <= 75) {
+    if (process_red_value() >= 160 && process_red_value() <= 180 && process_green_value() >= 140 && process_green_value() <= 160 && process_blue_value() >= 70 && process_blue_value() <= 90) {
         return true;
-        Serial.print("It's Blue");
     } else {
         return false;
-        Serial.print("It's not Blue");
     }
 }
 
 bool isBlack() {
-    if (process_red_value() >= 200 && process_green_value() >= 200 && process_blue_value() >= 125 && process_blue_value() <= 155) {
+    if (process_red_value() >= 200 && process_green_value() >= 200 && process_blue_value() >= 120 && process_blue_value() <= 160) {
         return true;
-        Serial.print("It's Blue");
     } else {
         return false;
-        Serial.print("It's not Blue");
     }
 }
