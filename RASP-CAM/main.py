@@ -147,10 +147,8 @@ def cagaMattoni(n):
         ser.write("2\n".encode('utf-8'))
 
 def robotBack():
-    ser.write("12\n".encode('utf-8'))
-    ser.write("15\n".encode('utf-8'))
-    ser.write("12\n".encode('utf-8'))
-    ser.write("15\n".encode('utf-8'))
+    robotDx()
+    robotDx()
 
 def robotForward():
     ser.write("10\n".encode('utf-8'))
