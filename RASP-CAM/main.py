@@ -176,9 +176,9 @@ if __name__ == '__main__':
     ser.reset_input_buffer()
     condition = True
     while condition:
-        print("-----CAM MOVEMENTS-----")
+        print("\n-----CAM MOVEMENTS-----")
         ctrlCam()
-        print("-----RUN MOVEMENTS-----")
+        print("\n-----RUN MOVEMENTS-----")
         lasers = getLasers()
         if not isWall(lasers[L_right]):
             print("DESTRA")
@@ -198,7 +198,9 @@ if __name__ == '__main__':
         while ser.in_waiting == 0:
             time.sleep(0.001)
         line = (ser.readline().decode('utf-8').rstrip())
+        print("result of movement :")
         print(line)
+        print("\n")
         if line == "0":
             robotBack()
         if line == "11":
