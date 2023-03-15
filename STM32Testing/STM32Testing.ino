@@ -1,7 +1,4 @@
 #include "I2Cdev.h"
-//#include "MPU6050_6Axis_MotionApps20.h"
-//#include "Gyro/Giroscopio.h"
-//#include "Gyro/Giroscopio.cpp"
 #include "Infrared_Sensor/Infrared_Sensor.h"
 #include "Infrared_Sensor/Infrared_Sensor.cpp"
 #include "Motors/Motori.h"
@@ -32,7 +29,6 @@ const float BLOCK_SIZE = 300;
 const float MAX_DISTANCE = 750;
 
 
-unsigned long ROTATION_MILLIS = 1000;
 unsigned long SB_MS = 1500;
 unsigned long MOVE_MS = 1000;
 
@@ -238,8 +234,14 @@ void rotateRobot(bool d){
   }else{
     myMotors->sinistra();
   }
-  delay(ROTATION_MILLIS);
+  while(Serial.available()==0){
+    ;
+  }
   myMotors->fermo();
+  while(Serial.available()>0){
+    Serial.read();
+    delay(10);
+  }
 }
 
 
