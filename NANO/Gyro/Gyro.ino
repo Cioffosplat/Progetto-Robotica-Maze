@@ -3,7 +3,6 @@
 #include "Giroscopio.h"
 
 Giroscopio *giro;
-  
 void setup() {
   Wire.begin();
   Serial.begin(9600);
@@ -13,7 +12,5 @@ void setup() {
 void loop() {
   float angolo;
   angolo = giro->getGradi();
-  Serial.print("ZAngle is;");
   Serial.println(angolo);
-  delay(100);
 }
