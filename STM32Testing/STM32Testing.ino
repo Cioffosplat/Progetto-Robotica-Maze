@@ -19,11 +19,11 @@
 
 #define LED_PIN PB5
 
-#define L_frontUp 0
-#define L_frontDown 1
-#define L_right 2
-#define L_left 3
-#define L_back 4
+//#define L_frontUp 0
+//#define L_frontDown 1
+//#define L_right 2
+//#define L_left 3
+//#define L_back 4
 
 const float BLOCK_SIZE = 300; 
 const float MAX_DISTANCE = 750;
@@ -142,17 +142,20 @@ void goUntillSerial(){
 }
 
 void lasersString(){
-  Serial.println(getFrontUp());
-  Serial.println(getFrontDown());
-  Serial.println(getRight());
-  Serial.println(getLeft());
-  Serial.println(getBack());
+  Serial.println(getFront_L());
+  Serial.println(getFornt_R());
+  Serial.println(getRight_L());
+  Serial.println(getRight_R());
+  Serial.println(getBack_R());
+  Serial.println(getBack_L());
+  Serial.println(getLeft_L());
+  Serial.println(getLeft_R());
 }
 
 void robotGoFront(){
   String result = "1";
-  int front = getFrontDown();
-  int back = getBack();
+  int front = getFront_R();
+  int back = getBack_R();
   if(back < front){
       int startDIST = back;
       int tmp = back;
@@ -162,13 +165,13 @@ void robotGoFront(){
         if (isBlack()){
           myMotors->indietro();
           while ( tmp > startDIST){
-            tmp = getBack();
+            tmp = getBack_R();
           }
           myMotors->fermo();
           Serial.println("0");
           return;
         }
-        tmp = getBack();
+        tmp = getBack_R();
       }
       myMotors->fermo();
       delay(100);
@@ -181,13 +184,13 @@ void robotGoFront(){
         if (isBlack()){
           myMotors->indietro();
           while ( tmp < startDIST){
-            tmp = getFrontDown();
+            tmp = getFront_R();
           }
           myMotors->fermo();
           Serial.println("0");
           return;
         }
-        tmp = getFrontDown();
+        tmp = getFront_R();
       }
       myMotors->fermo();
       delay(100);
