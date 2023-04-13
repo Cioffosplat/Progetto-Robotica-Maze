@@ -6,11 +6,14 @@
 
     void setupLasers();
     void TCA9548A(uint8_t bus);
-    uint16_t getRight();
-    uint16_t getLeft();
-    uint16_t getBack();
-    uint16_t getFrontUp();
-    uint16_t getFrontDown();
+    uint16_t getRightL();
+    uint16_t getRightR();
+    uint16_t getLeftL();
+    uint16_t getLeftR();
+    uint16_t getFrontL();
+    uint16_t getFrontR();
+    uint16_t getBackL();
+    uint16_t getBackR();
     VL53L0X sensor;
 
 #endif

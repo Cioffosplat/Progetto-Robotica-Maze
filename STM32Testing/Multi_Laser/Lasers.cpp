@@ -1,48 +1,64 @@
 #include "Lasers.h"
 
-#define FRONT_DOWN 0
-#define RIGHT 1
-#define LEFT 2
-#define FRONT_UP 3
-#define BACK 4
+#define FRONT_L 0
+#define FRONT_R 1
+#define RIGHT_L 2
+#define RIGHT_R 3
+#define LEFT_L 4
+#define LEFT_R 5
+#define BACK_L 6
+#define BACK_R 7
 
-void setupLasers(){
-  Wire.begin();
+void setupLasers() {
+    Wire.begin();
 
-  TCA9548A(LEFT);
-  sensor.setTimeout(500);
-  if (!sensor.init())
-  {
-    while (1) {}
-  }
-  
-  TCA9548A(RIGHT);
-  sensor.setTimeout(500);
-  if (!sensor.init())
-  {
-    while (1) {}
-  }
+    TCA9548A(FRONT_L);
+    sensor.setTimeout(500);
+    if (!sensor.init()) {
+        while (1) {}
+    }
 
-  TCA9548A(BACK);
-  sensor.setTimeout(500);
-  if (!sensor.init())
-  {
-    while (1) {}
-  }
+    TCA9548A(FRONT_R);
+    sensor.setTimeout(500);
+    if (!sensor.init()) {
+        while (1) {}
+    }
 
-  TCA9548A(FRONT_UP);
-  sensor.setTimeout(500);
-  if (!sensor.init())
-  {
-    while (1) {}
-  }
+    TCA9548A(RIGHT_L);
+    sensor.setTimeout(500);
+    if (!sensor.init()) {
+        while (1) {}
+    }
 
-  TCA9548A(FRONT_DOWN);
-  sensor.setTimeout(500);
-  if (!sensor.init())
-  {
-    while (1) {}
-  }
+    TCA9548A(RIGHT_R);
+    sensor.setTimeout(500);
+    if (!sensor.init()) {
+        while (1) {}
+    }
+
+    TCA9548A(LEFT_L);
+    sensor.setTimeout(500);
+    if (!sensor.init()) {
+        while (1) {}
+    }
+
+    TCA9548A(LEFT_R);
+    sensor.setTimeout(500);
+    if (!sensor.init()) {
+        while (1) {}
+    }
+
+    TCA9548A(BACK_L);
+    sensor.setTimeout(500);
+    if (!sensor.init()) {
+        while (1) {}
+    }
+
+    TCA9548A(BACK_R);
+    sensor.setTimeout(500);
+    if (!sensor.init()) {
+        while (1) {}
+    }
 }
 
 void TCA9548A(uint8_t bus){
@@ -51,23 +67,35 @@ void TCA9548A(uint8_t bus){
   Wire.endTransmission();
 }
 
-uint16_t getRight(){
-  TCA9548A(RIGHT);
-  return sensor.readRangeSingleMillimeters();
+    uint16_t getRightL(){
+        TCA9548A(RIGHT_L);
+        return sensor.readRangeSingleMillimeters();
+    }
+    uint16_t getRightR(){
+        TCA9548A(RIGHT_R);
+        return sensor.readRangeSingleMillimeters();
 }
-uint16_t getLeft(){
-  TCA9548A(LEFT);
-  return sensor.readRangeSingleMillimeters();
+    uint16_t getLeftL(){
+        TCA9548A(LEFT_L);
+        return sensor.readRangeSingleMillimeters();
 }
-uint16_t getBack(){
-  TCA9548A(BACK);
-  return sensor.readRangeSingleMillimeters();
+    uint16_t getLeftR(){
+        TCA9548A(LEFT_R);
+        return sensor.readRangeSingleMillimeters();
 }
-uint16_t getFrontUp(){
-  TCA9548A(FRONT_UP);
-  return sensor.readRangeSingleMillimeters();
+    uint16_t getFrontL(){
+        TCA9548A(FRONT_L);
+        return sensor.readRangeSingleMillimeters();
 }
-uint16_t getFrontDown(){
-  TCA9548A(FRONT_DOWN);
-  return sensor.readRangeSingleMillimeters();
+    uint16_t getFrontR(){
+        TCA9548A(FRONT_R);
+        return sensor.readRangeSingleMillimeters();
+}
+    uint16_t getBackL(){
+        TCA9548A(BACK_L);
+        return sensor.readRangeSingleMillimeters();
+}
+    uint16_t getBackR(){
+        TCA9548A(BACK_R);
+        return sensor.readRangeSingleMillimeters();
 }
