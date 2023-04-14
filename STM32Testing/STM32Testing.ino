@@ -7,6 +7,8 @@
 #include "Multi_Laser/Lasers.cpp"
 #include "Rgb_Detector/Rgb_Sensor.h"
 #include "Rgb_Detector/Rgb_Sensor.cpp"
+#include "Finecorsa/Finecorsa.h"
+#include "Finecorsa/Finecorsa.cpp"
 #include <Servo.h>
 #include "Arduino.h"
 
@@ -50,6 +52,7 @@ void setup() {
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   setupLasers();
   setupRGB();
+  setupCorsa();
   pinMode(LED_PIN, OUTPUT);
 }
 
@@ -142,20 +145,20 @@ void goUntillSerial(){
 }
 
 void lasersString(){
-  Serial.println(getFront_L());
-  Serial.println(getFornt_R());
-  Serial.println(getRight_L());
-  Serial.println(getRight_R());
-  Serial.println(getBack_R());
-  Serial.println(getBack_L());
-  Serial.println(getLeft_L());
-  Serial.println(getLeft_R());
+  Serial.println(getFrontL());
+  Serial.println(getFrontR());
+  Serial.println(getRightL());
+  Serial.println(getRightR());
+  Serial.println(getBackR());
+  Serial.println(getBackL());
+  Serial.println(getLeftL());
+  Serial.println(getLeftR());
 }
 
 void robotGoFront(){
   String result = "1";
-  int front = getFront_R();
-  int back = getBack_R();
+  int front = getFrontR();
+  int back = getBackR();
   if(back < front){
       int startDIST = back;
       int tmp = back;
@@ -165,13 +168,13 @@ void robotGoFront(){
         if (isBlack()){
           myMotors->indietro();
           while ( tmp > startDIST){
-            tmp = getBack_R();
+            tmp = getBackR();
           }
           myMotors->fermo();
           Serial.println("0");
           return;
         }
-        tmp = getBack_R();
+        tmp = getBackR();
       }
       myMotors->fermo();
       delay(100);
@@ -184,13 +187,13 @@ void robotGoFront(){
         if (isBlack()){
           myMotors->indietro();
           while ( tmp < startDIST){
-            tmp = getFront_R();
+            tmp = getFrontR();
           }
           myMotors->fermo();
           Serial.println("0");
           return;
         }
-        tmp = getFront_R();
+        tmp = getFrontR();
       }
       myMotors->fermo();
       delay(100);
@@ -214,18 +217,18 @@ void wallAdjustament(bool back){
     myMotors->indietro();
     while(!backClick()){;}
     myMotors->fermo();
-    int startL = getBack();
+    int startL = getBackR();
     myMotors->avanti();
-    while(getBack_R() < 75){
+    while(getBackR() < 75){
     }
     myMotors->fermo();
   }else{
     myMotors->avanti();
     while(!frontClick()){;}
     myMotors->fermo();
-    int startL = getFront_R();
+    int startL = getFrontR();
     myMotors->indietro();
-    while(getFront_R() < 75){
+    while(getFrontR() < 75){
     }
     myMotors->fermo();
   }
