@@ -28,16 +28,35 @@ def isWall(millisL, millisR):
         return False
 
 
-def robotSinistra():
+def getNano():
+    serNano.write("0\n".encode('utf-8'))
+    while serNano.in_waiting == 0:
+        time.sleep(0.001)
+    line = float((serNano.readline().decode('utf-8').rstrip()))
+    return line
 
+def robotSinistra():
+    start = getNano()
+    finish = start - 90
+    if(start < -90):
+        finish = 0
     serSTM.write("13\n".encode('utf-8'))
+    while(getNano() > finish):
+        pass
+    serSTM.write("1\n".encode('utf-8'))
     if isWall(lasers[L_right_L], lasers[L_right_R]):
         serSTM.write("15\n".encode('utf-8'))
 
-
 def robotDestra():
+    start = getNano()
+    finish = start + 90
+    if (start > 90):
+        finish = 0
     serSTM.write("12\n".encode('utf-8'))
-    if isWall(lasers[L_left_L], lasers[L_left_R]):
+    while (getNano() < finish):
+        pass
+    serSTM.write("1\n".encode('utf-8'))
+    if isWall(lasers[L_right_L], lasers[L_right_R]):
         serSTM.write("15\n".encode('utf-8'))
 
 
