@@ -12,7 +12,8 @@ void setup(){
 
 void loop(){
   if(Serial.available()>0){
-     if (Serial.readString() == '0'){
+    String data = Serial.readStringUntil('\n');
+     if (data == "0"){
         float angolo = giro->getGradi();
         Serial.println(angolo);
       Serial.flush();
