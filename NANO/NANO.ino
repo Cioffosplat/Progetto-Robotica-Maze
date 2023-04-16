@@ -12,11 +12,10 @@ void setup(){
 
 void loop(){
   if(Serial.available()>0){
-    while(Serial.available()>0){
-      Serial.read();
-      delay(1);
+     if (Serial.readString() == '0'){
+        float angolo = giro->getGradi();
+        Serial.println(angolo);
+      Serial.flush();
     }
-    float angolo = giro->getGradi();
-    Serial.println(angolo);
   }
 }
