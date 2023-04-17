@@ -16,6 +16,7 @@ void setup(){
 
 void loop(){
   if(Serial.available()>0){
+    String data = Serial.readStringUntil('\n');
     char c = data.charAt(0);
   switch (c) {
     case '0':
