@@ -11,7 +11,6 @@ void setup() {
   mpu.initialize();
   mpu.dmpInitialize();
   mpu.setDMPEnabled(true);
-  Serial.println("MPU6050 initialized.");
   giro = new Giroscopio();
 }
 
