@@ -5,18 +5,17 @@ Giroscopio *giro;
 
 void setup(){
   Wire.begin();
-  Serial.begin(115200);
+  Serial.begin(57600);
   giro = new Giroscopio(); 
   Serial.println("READY"); 
 }
 
 void loop(){
   if(Serial.available()>0){
-    String data = Serial.readStringUntil('\n');
-     if (data == "0"){
-        float angolo = giro->getGradi();
-        Serial.println(angolo);
+    float angolo = giro->getGradi();
+    Serial.println(angolo);
+    while(Serial.available()>0){
+      Serial.read();
     }
-    Serial.flush();
   }
 }

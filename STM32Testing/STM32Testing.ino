@@ -244,7 +244,9 @@ void rotateRobot(bool d){
     ;
   }
   myMotors->fermo();
-  Serial.flush();
+  while(Serial.available()>0){
+    Serial.read();
+  }
 }
 
 
