@@ -42,13 +42,19 @@ def isWall(millisL, millisR):
         return False
 
 
-def getNano():
+def getNanoZ():
     serNano.write("0\n".encode('utf-8'))
     while serNano.in_waiting == 0:
         time.sleep(0.001)
     line = float((serNano.readline().decode('utf-8').rstrip()))
     return line
 
+def getNanoX():
+    serNano.write("1\n".encode('utf-8'))
+    while serNano.in_waiting == 0:
+        time.sleep(0.001)
+    line = float((serNano.readline().decode('utf-8').rstrip()))
+    return line
 
 def read_wallR():
     print("lettura cum")
@@ -66,14 +72,14 @@ def read_wallR():
 
 def robotSinistra():
     print("GIRAMENTO A SINISTRA")
-    angle = getNano()
+    angle = getNanoZ()
     finish = angle - 90
     if angle < -90:
         finish = 0
     lasers = getLasers()
     serSTM.write("13\n".encode('utf-8'))
     while angle > finish:
-        angle = getNano()
+        angle = getNanoZ()
         print(angle)
     serNano.write("1\n".encode('utf-8'))
     if isWall(lasers[L_right_L], lasers[L_right_R]):
@@ -85,14 +91,14 @@ def robotSinistra():
 
 def robotDestra():
     print("GIRAMENTO A DESTRA")
-    angle = getNano()
+    angle = getNanoZ()
     finish = angle + 90
     if angle > 90:
         finish = 0
     lasers = getLasers()
     serSTM.write("12\n".encode('utf-8'))
     while angle < finish:
-        angle = getNano()
+        angle = getNanoZ()
         print(angle)
     serNano.write("1\n".encode('utf-8'))
     if isWall(lasers[L_right_L], lasers[L_right_R]):
