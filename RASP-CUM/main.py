@@ -40,16 +40,6 @@ def isWall(millis):
     else:
         return False
 
-#def read_wallsL():
-#    time.sleep(1.5)
-#    out = 0
-#    letter, color = read_all(l_camera)
-#    print(f'L: letter({letter}) color({color})')
-#    out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
-#    if out == 0:
-#        out += {'': 0, 'u': 0, 's': 0, 'h': 0}[letter]
-#    if out > 0:
-#        return out << 4
 
 def read_wallR():
     print("lettura cum")

@@ -1,5 +1,9 @@
 import serial
 import time
+import math
+
+from camera import Camera
+from analysis import read_all
 
 from RPi import GPIO
 from Settings import const_distaces
@@ -18,6 +22,9 @@ L_back_L = 5
 L_left_L = 6
 L_left_R = 7
 
+#cameras
+busses = Camera.list_cameras()
+r_camera = Camera('/dev/video0')
 
 # /dev/ttyACM0 is STM32F103C8
 # /dev/ttyUSB0 is Arduino Nano
@@ -43,33 +50,57 @@ def getNano():
     return line
 
 
+def read_wallR():
+    print("lettura cum")
+    time.sleep(1.5)
+    out = 0
+    letter, color = read_all(r_camera)
+    print(f'R: letter({letter}) color({color})')
+    out += {'': 0, 'g': 1, 'y': 2, 'r': 2}[color]
+    if out == 0:
+        out += {'': 0, 'u': 1, 's': 3, 'h': 4}[letter]
+    print("numero mattoni")
+    print(out)
+    cagaMattoni(out)
+
+
 def robotSinistra():
+    print("GIRAMENTO A SINISTRA")
     angle = getNano()
     finish = angle - 90
     if angle < -90:
         finish = 0
+    lasers = getLasers()
     serSTM.write("13\n".encode('utf-8'))
     while angle > finish:
         angle = getNano()
         print(angle)
     serNano.write("1\n".encode('utf-8'))
     if isWall(lasers[L_right_L], lasers[L_right_R]):
+        print('Back adjust')
         serSTM.write("15\n".encode('utf-8'))
-
+    elif isWall(lasers[L_left_L], lasers[L_left_R]):
+        print('Front adjust')
+        serSTM.write("16\n".encode('utf-8'))
 
 def robotDestra():
+    print("GIRAMENTO A DESTRA")
     angle = getNano()
     finish = angle + 90
     if angle > 90:
         finish = 0
+    lasers = getLasers()
     serSTM.write("12\n".encode('utf-8'))
     while angle < finish:
         angle = getNano()
         print(angle)
     serNano.write("1\n".encode('utf-8'))
     if isWall(lasers[L_right_L], lasers[L_right_R]):
+        print('Back adjust')
         serSTM.write("15\n".encode('utf-8'))
-
+    elif isWall(lasers[L_left_L], lasers[L_left_R]):
+        print('Front adjust')
+        serSTM.write("16\n".encode('utf-8'))
 
 def getLasers():
     serSTM.write("3\n".encode('utf-8'))
@@ -77,23 +108,69 @@ def getLasers():
     lasers = []
     for i in range(8):
         while serSTM.in_waiting == 0:
-            time.sleep(0.001)
+            time.sleep(0.002)
         line = float((serSTM.readline().decode('utf-8').rstrip()))
         print("laser = " + str(line))
         lasers.append(line)
     return lasers
 
+def ctrlCam():
+    ls = getLasers()
+    rotation = 0
+    if isWall(ls[L_right_R],ls[L_right_L]):
+        read_wallR()
+        rotation = -1
+    if isWall(ls[L_front_R], ls[L_front_L]):
+        rotation += 2
+        robotSinistra()
+        read_wallR()
+    if rotation == 1:
+        if isWall(ls[L_left_R], ls[L_left_L]):
+            robotSinistra()
+            read_wallR()
+    elif rotation == -1:
+        if isWall(ls[L_left_R], ls[L_left_L]):
+            robotSinistra()
+            robotSinistra()
+            read_wallR()
+            robotDestra()
+            robotDestra()
+    elif rotation == 2:
+        if isWall(ls[L_left_R], ls[L_left_L]):
+            robotSinistra()
+            read_wallR()
+            robotDestra()
+            robotDestra()
+        else:
+            robotDestra()
+    elif rotation == 0:
+        if isWall(ls[L_left_R], ls[L_left_L]):
+            robotSinistra()
+            robotSinistra()
+            read_wallR()
+            robotDestra()
+            robotDestra()
 
-def robotAvanti():
+def blinkVictim():
+    serSTM.write("0\n".encode('utf-8'))
+
+def cagaMattoni(n):
+    print("N mattoni + 1 :")
+    print(n)
+    if n > 0:
+        blinkVictim()
+    for i in range(n-1):
+        serSTM.write("2\n".encode('utf-8'))
+
+def robotBack():
+    robotDestra()
+    robotDestra()
+
+def robotForward():
     serSTM.write("10\n".encode('utf-8'))
 
-
-def robotIndietro():
-    serSTM.write("12\n".encode('utf-8'))
-    serSTM.write("15\n".encode('utf-8'))
-    serSTM.write("12\n".encode('utf-8'))
-    serSTM.write("15\n".encode('utf-8'))
-    serSTM.write("10\n".encode('utf-8'))
+def forwardCase():
+    robotForward()
 
 
 if __name__ == '__main__':
@@ -104,38 +181,52 @@ if __name__ == '__main__':
     serNano.reset_input_buffer()
     while True:
         while not isLack():
+            print("\n-----CAM MOVEMENTS-----")
+            ctrlCam()
+            print("\n-----RUN MOVEMENTS-----")
             lasers = getLasers()
             if not isWall(lasers[L_right_L], lasers[L_right_R]):
                 print("DESTRA")
                 robotDestra()
-                robotAvanti()
+                forwardCase()
             elif not isWall(lasers[L_front_L], lasers[L_front_R]):
                 print("AVANTI")
-                robotAvanti()
+                forwardCase()
             elif not isWall(lasers[L_left_L], lasers[L_left_R]):
                 print("SINISTRA")
                 robotSinistra()
-                robotAvanti()
+                forwardCase()
             elif not isWall(lasers[L_back_L], lasers[L_back_R]):
                 print("INDIETRO")
-                robotIndietro()
+                robotBack()
+                forwardCase()
             while serSTM.in_waiting == 0:
                 time.sleep(0.001)
             line = (serSTM.readline().decode('utf-8').rstrip())
+            print("result of movement :")
             print(line)
+            print("\n")
             if line == "0":
                 robotIndietro()
             if line == "11":
                 time.sleep(5)
+
         while isLack():
+            print("Resetting STM")
+            print("\n")
             serSTM.setDTR(False)
             time.sleep(0.5)
             serSTM.setDTR(True)
             serSTM.setRTS(False)
             serSTM.setRTS(True)
 
+            print("Resetting Nano")
+            print("\n")
             serNano.setDTR(False)
             time.sleep(0.5)
             serNano.setDTR(True)
             serNano.setRTS(False)
             serNano.setRTS(True)
+
+            print("Waiting for Lack Button")
+            time.sleep(1)

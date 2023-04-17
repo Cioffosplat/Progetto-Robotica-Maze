@@ -78,7 +78,7 @@ void commandCases(String data){
   char c = data.charAt(0);
   switch (c) {
     
-    //send all sensors
+    //blink led
     case '0':
     {
       led_blink();
