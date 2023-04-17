@@ -16,7 +16,7 @@ void loop(){
      if (data == "0"){
         float angolo = giro->getGradi();
         Serial.println(angolo);
-      Serial.flush();
     }
+    Serial.flush();
   }
 }

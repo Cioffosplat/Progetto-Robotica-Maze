@@ -18,8 +18,9 @@ L_back_L = 5
 L_left_L = 6
 L_left_R = 7
 
-#/dev/ttyACM0 is STM32F103C8
-#/dev/ttyUSB0 is Arduino Nano
+
+# /dev/ttyACM0 is STM32F103C8
+# /dev/ttyUSB0 is Arduino Nano
 
 def isWall(millisL, millisR):
     if (millisR + millisL) < (const_distaces.WALL_MAX * 2):
@@ -35,17 +36,19 @@ def getNano():
     line = float((serNano.readline().decode('utf-8').rstrip()))
     return line
 
+
 def robotSinistra():
     start = getNano()
     finish = start - 90
-    if(start < -90):
+    if (start < -90):
         finish = 0
     serSTM.write("13\n".encode('utf-8'))
-    while(getNano() > finish):
+    while (getNano() > finish):
         pass
     serNano.write("1\n".encode('utf-8'))
     if isWall(lasers[L_right_L], lasers[L_right_R]):
         serSTM.write("15\n".encode('utf-8'))
+
 
 def robotDestra():
     start = getNano()
@@ -76,6 +79,7 @@ def getLasers():
 def robotAvanti():
     serSTM.write("10\n".encode('utf-8'))
 
+
 def robotIndietro():
     serSTM.write("12\n".encode('utf-8'))
     serSTM.write("15\n".encode('utf-8'))
@@ -88,9 +92,9 @@ if __name__ == '__main__':
     condition = False
     while not condition:
         try:
-            serSTM = serial.Serial('/dev/ttyACM0', 115200, timeout=5) #ACM0 == STM32F103C8
+            serSTM = serial.Serial('/dev/ttyACM0', 115200, timeout=2)  # ACM0 == STM32F103C8
             serSTM.reset_input_buffer()
-            serNano = serial.Serial('/dev/ttyUSB0', 115200, timeout=5)  #USB0 == Arduino Nano
+            serNano = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)  # USB0 == Arduino Nano
             serNano.reset_input_buffer()
             condition = True
         except:
