@@ -43,7 +43,7 @@ def robotSinistra():
     serSTM.write("13\n".encode('utf-8'))
     while(getNano() > finish):
         pass
-    serSTM.write("1\n".encode('utf-8'))
+    serNano.write("1\n".encode('utf-8'))
     if isWall(lasers[L_right_L], lasers[L_right_R]):
         serSTM.write("15\n".encode('utf-8'))
 
@@ -55,7 +55,7 @@ def robotDestra():
     serSTM.write("12\n".encode('utf-8'))
     while (getNano() < finish):
         pass
-    serSTM.write("1\n".encode('utf-8'))
+    serNano.write("1\n".encode('utf-8'))
     if isWall(lasers[L_right_L], lasers[L_right_R]):
         serSTM.write("15\n".encode('utf-8'))
 
