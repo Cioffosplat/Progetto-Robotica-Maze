@@ -18,10 +18,16 @@ if __name__ == '__main__':
     stm32.setDTR(True)
     stm32.setRTS(False)
     stm32.setRTS(True)
-    while stm32.in_waiting == 0:
-        time.sleep(0.001)
-    line = (stm32.readline().decode('utf-8').rstrip())
-    print(line)
+
+    stm32.write("3\n".encode('utf-8'))
+    lasers = []
+    for i in range(8):
+        while stm32.in_waiting == 0:
+            time.sleep(0.001)
+        line = float((stm32.readline().decode('utf-8').rstrip()))
+        print("laser = " + str(line))
+
+    arduino.write("3\n".encode('utf-8'))
     while arduino.in_waiting == 0:
         time.sleep(0.001)
     line = (arduino.readline().decode('utf-8').rstrip())
