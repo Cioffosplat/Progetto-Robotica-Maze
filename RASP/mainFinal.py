@@ -56,6 +56,20 @@ def getNanoX():
     line = float((serNano.readline().decode('utf-8').rstrip()))
     return line
 
+def isRamp():
+    angle = getNanoX()
+    if (angle > 20 | angle < -20):
+        return True
+    else:
+        return False
+
+def rampRide():
+    print("RIDING RAMP")
+    serSTM.write("14\n".encode('utf-8'))
+    while(isRamp()):
+        pass
+    serSTM.write("\n".encode('utf-8'))
+
 def read_wallR():
     print("lettura cum")
     time.sleep(1.5)
