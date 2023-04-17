@@ -6,6 +6,9 @@ Giroscopio *giro;
 void setup(){
   Wire.begin();
   Serial.begin(57600);
+  mpu.initialize();
+  mpu.dmpInitialize();
+  mpu.setDMPEnabled(true);
   giro = new Giroscopio(); 
 }
 
