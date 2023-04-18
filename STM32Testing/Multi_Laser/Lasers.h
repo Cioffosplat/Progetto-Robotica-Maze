@@ -8,7 +8,7 @@
     void TCA9548A(uint8_t bus);
     uint16_t getFrontR();
     uint16_t getFrontL();
-    uint16_t getLeftR();
+    //uint16_t getLeftR();
     uint16_t getLeftL();
     uint16_t getBackL();
     uint16_t getBackR();

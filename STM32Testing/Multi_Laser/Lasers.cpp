@@ -2,7 +2,7 @@
 
 #define FRONT_R 0
 #define FRONT_L 1
-#define LEFT_R 2
+//#define LEFT_R 2
 #define LEFT_L 3
 #define BACK_L 4
 #define BACK_R 5
@@ -23,11 +23,11 @@ void setupLasers() {
         while (1) {}
     }
 
-    TCA9548A(LEFT_R);
+    /*TCA9548A(LEFT_R);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
-    }
+    }*/
 
     TCA9548A(LEFT_L);
     sensor.setTimeout(500);
@@ -68,10 +68,10 @@ void TCA9548A(uint8_t bus){
         TCA9548A(FRONT_L);
         return sensor.readRangeSingleMillimeters();
     }
-    uint16_t getLeftR(){
+    /*uint16_t getLeftR(){
         TCA9548A(LEFT_R);
         return sensor.readRangeSingleMillimeters();
-    }
+    }*/
     uint16_t getLeftL(){
         TCA9548A(LEFT_L);
         return sensor.readRangeSingleMillimeters();

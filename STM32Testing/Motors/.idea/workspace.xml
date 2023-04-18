@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="CMakePresetLoader">{
   &quot;useNewFormat&quot;: true
 }</component>
@@ -10,17 +13,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01281956-b42b-4cc9-b3d1-8e95b852d978" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Infrared_Sensor/Infrared_Sensor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Infrared_Sensor/Infrared_Sensor.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Motori.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Motori.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Motori.h" beforeDir="false" afterPath="$PROJECT_DIR$/Motori.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-dfu/usb_device.cat" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-dfu/usb_device.cat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-dfu/usb_device.inf" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-dfu/usb_device.inf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-serial/usb_device.cat" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-serial/usb_device.cat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-serial/usb_device.inf" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/maple-serial/usb_device.inf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/usb_driver/usb_device.cat" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/usb_driver/usb_device.cat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/usb_driver/usb_device.inf" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32 Drivers And Software/Arduino_STM32-Master/drivers/win/usb_driver/usb_device.inf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../STM32.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Multi_Laser/Lasers.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../Multi_Laser/Lasers.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Multi_Laser/Lasers.h" beforeDir="false" afterPath="$PROJECT_DIR$/../Multi_Laser/Lasers.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Multi_Laser/Multi_laser.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../Multi_Laser/Multi_laser.ino" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../STM32Testing.ino" beforeDir="false" afterPath="$PROJECT_DIR$/../STM32Testing.ino" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,17 +38,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -65,6 +66,7 @@
       <workItem from="1676122486721" duration="7000" />
       <workItem from="1676126639914" duration="98000" />
       <workItem from="1676127298217" duration="38000" />
+      <workItem from="1681850188991" duration="610000" />
     </task>
     <servers />
   </component>

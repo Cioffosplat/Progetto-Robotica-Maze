@@ -146,7 +146,7 @@ void goUntillSerial(){
 void lasersString(){
   Serial.println(getFrontR());
   Serial.println(getFrontL());
-  Serial.println(getLeftR());
+  //Serial.println(getLeftR());
   Serial.println(getLeftL());
   Serial.println(getBackL());
   Serial.println(getBackR());
@@ -162,6 +162,7 @@ void robotGoFront(){
       int tmp = back;
       while ( tmp < startDIST + BLOCK_SIZE){
         myMotors->avanti();
+        Serial.println("ANDANDO AVANTI");
         delay(100);
         if (isBlack()){
           myMotors->indietro();
