@@ -15,7 +15,7 @@ GPIO.setup(23, GPIO.IN)
 #Lasers
 L_front_R = 0
 L_front_L = 1
-L_left_R = 2
+#L_left_R = 2 removed for now cause of hardware problems
 L_left_L = 3
 L_back_L = 4
 L_back_R = 5
@@ -98,7 +98,7 @@ def robotSinistra():
     if isWall(lasers[L_right_R], lasers[L_right_R]):
         print('Back adjust')
         serSTM.write("15\n".encode('utf-8'))
-    elif isWall(lasers[L_left_L], lasers[L_left_R]):
+    elif isWall(lasers[L_left_L], lasers[L_left_L]):
         print('Front adjust')
         serSTM.write("16\n".encode('utf-8'))
 
@@ -117,7 +117,7 @@ def robotDestra():
     if isWall(lasers[L_right_R], lasers[L_right_R]):
         print('Back adjust')
         serSTM.write("15\n".encode('utf-8'))
-    elif isWall(lasers[L_left_L], lasers[L_left_R]):
+    elif isWall(lasers[L_left_L], lasers[L_left_L]):
         print('Front adjust')
         serSTM.write("16\n".encode('utf-8'))
 
@@ -144,18 +144,18 @@ def ctrlCam():
         robotSinistra()
         read_wallR()
     if rotation == 1:
-        if isWall(ls[L_left_R], ls[L_left_L]):
+        if isWall(ls[L_left_L], ls[L_left_L]):
             robotSinistra()
             read_wallR()
     elif rotation == -1:
-        if isWall(ls[L_left_R], ls[L_left_L]):
+        if isWall(ls[L_left_L], ls[L_left_L]):
             robotSinistra()
             robotSinistra()
             read_wallR()
             robotDestra()
             robotDestra()
     elif rotation == 2:
-        if isWall(ls[L_left_R], ls[L_left_L]):
+        if isWall(ls[L_left_L], ls[L_left_L]):
             robotSinistra()
             read_wallR()
             robotDestra()
@@ -163,7 +163,7 @@ def ctrlCam():
         else:
             robotDestra()
     elif rotation == 0:
-        if isWall(ls[L_left_R], ls[L_left_L]):
+        if isWall(ls[L_left_L], ls[L_left_L]):
             robotSinistra()
             robotSinistra()
             read_wallR()
@@ -211,7 +211,7 @@ if __name__ == '__main__':
             elif not isWall(lasers[L_front_L], lasers[L_front_R]):
                 print("AVANTI")
                 forwardCase()
-            elif not isWall(lasers[L_left_L], lasers[L_left_R]):
+            elif not isWall(lasers[L_left_L], lasers[L_left_L]):
                 print("SINISTRA")
                 robotSinistra()
                 forwardCase()
