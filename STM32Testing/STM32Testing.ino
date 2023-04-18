@@ -58,6 +58,7 @@ void setup() {
 void loop() {
   if (Serial.available() > 0){
     String data = Serial.readStringUntil('\n');
+    Serial.println(data);
     commandCases(data);
   }
 }
@@ -88,27 +89,27 @@ void commandCases(String data){
     case '1':
     {
       Serial.println("entered case 1");
-      if (data == "10"){
+      if (data.charAt(1) == '0'){
         Serial.println("entered case 10");
         robotGoFront();
       }
-      if (data == "12"){
+      if (data.charAt(1) == '2'){
         Serial.println("entered case 12");
         rotateRobot(true);
       }
-      if (data == "13"){
+      if (data.charAt(1) == '3'){
         Serial.println("entered case 13");
         rotateRobot(false);
       }
-      if (data == "14"){
+      if (data.charAt(1) == '4'){
         Serial.println("entered case 14");
         goUntillSerial();
       }
-      if (data == "15"){
+      if (data.charAt(1) == '5'){
         Serial.println("entered case 15");
         wallAdjustament(true);
       }
-      if (data == "16"){
+      if (data.charAt(1) == '6'){
         Serial.println("entered case 16");
         wallAdjustament(false);
       }
