@@ -87,22 +87,29 @@ void commandCases(String data){
     //movement method
     case '1':
     {
+      Serial.println("entered case 1");
       if (data == "10"){
+        Serial.println("entered case 10");
         robotGoFront();
       }
       if (data == "12"){
+        Serial.println("entered case 12");
         rotateRobot(true);
       }
       if (data == "13"){
+        Serial.println("entered case 13");
         rotateRobot(false);
       }
       if (data == "14"){
+        Serial.println("entered case 14");
         goUntillSerial();
       }
       if (data == "15"){
+        Serial.println("entered case 15");
         wallAdjustament(true);
       }
       if (data == "16"){
+        Serial.println("entered case 16");
         wallAdjustament(false);
       }
       break;
@@ -155,8 +162,10 @@ void lasersString(){
 
 void robotGoFront(){
   String result = "1";
+  Serial.println("started method go on");
   int front = getFrontR();
   int back = getBackR();
+  Serial.println("achieved the lasers data");
   if(back < front){
       int startDIST = back;
       int tmp = back;
