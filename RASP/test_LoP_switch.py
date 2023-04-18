@@ -11,7 +11,8 @@ def isLack():
         return False
     
 if __name__ == '__main__':
-    if isLack():
-        print("ocio che xe lack")
-    else:
-        print("tutto regolare boss")
+    while True:
+        if isLack():
+            print("ocio che xe lack")
+        else:
+            print("tutto regolare boss")
