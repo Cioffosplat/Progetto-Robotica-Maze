@@ -9,55 +9,49 @@
 #define RIGHT_R 6
 
 void setupLasers() {
-    Serial.println("Starting 0");
+    
     TCA9548A(FRONT_R);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
     }
 
-    Serial.println("Starting 1");
+    
     TCA9548A(FRONT_L);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
     }
-Serial.println("Starting 2");
+
     TCA9548A(LEFT_R);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
     }
-Serial.println("Starting 3");
+
     TCA9548A(LEFT_L);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
     }
-    Serial.println("Starting 4");
+    
     TCA9548A(BACK_L);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
     }
-    Serial.println("Starting 5");
+    
     TCA9548A(BACK_R);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
     }
-    Serial.println("Starting 6");
+    
     TCA9548A(RIGHT_R);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
     }
-    /*Serial.println("Starting 7");
-    TCA9548A(RIGHT_L);
-    sensor.setTimeout(500);
-    if (!sensor.init()) {
-        while (1) {}
-    }*/
 }
 
 void TCA9548A(uint8_t bus){
@@ -94,7 +88,3 @@ void TCA9548A(uint8_t bus){
         TCA9548A(RIGHT_R);
         return sensor.readRangeSingleMillimeters();
     }
-    /*uint16_t getRightL(){
-        TCA9548A(RIGHT_L);
-        return sensor.readRangeSingleMillimeters();
-    }*/

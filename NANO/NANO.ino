@@ -23,6 +23,7 @@ void loop(){
     {
       float angolo = giro->getGradi();
       Serial.println(angolo);
+      break;
     } 
     case '1':
     {
@@ -38,6 +39,7 @@ void loop(){
       // Map the X-axis acceleration to a range of -180 to 180 degrees
       float x_angle = map(ax, -32768, 32767, -180, 180);
       Serial.println(x_angle);
+      break;
     } 
     
   }

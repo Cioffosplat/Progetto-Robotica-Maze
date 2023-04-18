@@ -13,7 +13,6 @@
     uint16_t getBackL();
     uint16_t getBackR();
     uint16_t getRightR();
-    //uint16_t getRightL();
     VL53L0X sensor;
 
 #endif

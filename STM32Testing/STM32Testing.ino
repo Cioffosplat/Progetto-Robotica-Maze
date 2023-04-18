@@ -11,6 +11,7 @@
 #include "Finecorsa/Finecorsa.cpp"
 #include <Servo.h>
 #include "Arduino.h"
+#include "Wire.h"
 
 #define BAUD 115200
 
@@ -20,12 +21,6 @@
 #define PIN_S4 PB3
 
 #define LED_PIN PB5
-
-//#define L_frontUp 0
-//#define L_frontDown 1
-//#define L_right 2
-//#define L_left 3
-//#define L_back 4
 
 const float BLOCK_SIZE = 300; 
 const float MAX_DISTANCE = 750;
@@ -47,10 +42,14 @@ Motori *myMotors;
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
   Serial.begin(115200);
+  Wire.begin();
   myServo.attach(SERVO_PIN);
   myServo.write(0);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
+  delay(1000);
+  Serial.println("SETUP LASER");
   setupLasers();
+  Serial.println("DONE SETUP");
   setupRGB();
   setupCorsa();
   pinMode(LED_PIN, OUTPUT);
@@ -121,7 +120,6 @@ void commandCases(String data){
     //send only lasers
     case '3':
     {
-      Serial.println("diocan");
       lasersString();    
       break;
     } 
@@ -146,14 +144,13 @@ void goUntillSerial(){
 }
 
 void lasersString(){
-  Serial.println(getFrontL());
   Serial.println(getFrontR());
-  Serial.println(getRightL());
-  Serial.println(getRightR());
-  Serial.println(getBackR());
-  Serial.println(getBackL());
-  Serial.println(getLeftL());
+  Serial.println(getFrontL());
   Serial.println(getLeftR());
+  Serial.println(getLeftL());
+  Serial.println(getBackL());
+  Serial.println(getBackR());
+  Serial.println(getRightR());
 }
 
 void robotGoFront(){
