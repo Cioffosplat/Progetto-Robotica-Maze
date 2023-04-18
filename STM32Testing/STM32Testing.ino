@@ -121,6 +121,7 @@ void commandCases(String data){
     //send only lasers
     case '3':
     {
+      Serial.println("diocan");
       lasersString();    
       break;
     } 

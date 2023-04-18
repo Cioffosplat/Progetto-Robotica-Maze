@@ -13,14 +13,13 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.IN)
 
 #Lasers
-L_front_L = 0
-L_front_R = 1
-L_right_L = 2
-L_right_R = 3
-L_back_R = 4
-L_back_L = 5
-L_left_L = 6
-L_left_R = 7
+L_front_R = 0
+L_front_L = 1
+L_left_R = 2
+L_left_L = 3
+L_back_L = 4
+L_back_R = 5
+L_right_R = 6
 
 #cameras
 busses = Camera.list_cameras()
@@ -96,7 +95,7 @@ def robotSinistra():
         angle = getNanoZ()
         print(angle)
     serNano.write("1\n".encode('utf-8'))
-    if isWall(lasers[L_right_L], lasers[L_right_R]):
+    if isWall(lasers[L_right_R], lasers[L_right_R]):
         print('Back adjust')
         serSTM.write("15\n".encode('utf-8'))
     elif isWall(lasers[L_left_L], lasers[L_left_R]):
@@ -115,7 +114,7 @@ def robotDestra():
         angle = getNanoZ()
         print(angle)
     serNano.write("1\n".encode('utf-8'))
-    if isWall(lasers[L_right_L], lasers[L_right_R]):
+    if isWall(lasers[L_right_R], lasers[L_right_R]):
         print('Back adjust')
         serSTM.write("15\n".encode('utf-8'))
     elif isWall(lasers[L_left_L], lasers[L_left_R]):
@@ -137,7 +136,7 @@ def getLasers():
 def ctrlCam():
     ls = getLasers()
     rotation = 0
-    if isWall(ls[L_right_R],ls[L_right_L]):
+    if isWall(ls[L_right_R],ls[L_right_R]):
         read_wallR()
         rotation = -1
     if isWall(ls[L_front_R], ls[L_front_L]):
@@ -205,7 +204,7 @@ if __name__ == '__main__':
             ctrlCam()
             print("\n-----RUN MOVEMENTS-----")
             lasers = getLasers()
-            if not isWall(lasers[L_right_L], lasers[L_right_R]):
+            if not isWall(lasers[L_right_R], lasers[L_right_R]):
                 print("DESTRA")
                 robotDestra()
                 forwardCase()
@@ -227,7 +226,7 @@ if __name__ == '__main__':
             print(line)
             print("\n")
             if line == "0":
-                robotIndietro()
+                robotBack()
             if line == "11":
                 time.sleep(5)
 
