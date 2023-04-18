@@ -29,7 +29,7 @@ r_camera = Camera('/dev/video0')
 # /dev/ttyUSB0 is Arduino Nano
 
 def isLack():
-    if GPIO.input(23):
+    if not GPIO.input(23):
         return True
     else:
         return False
@@ -230,7 +230,8 @@ if __name__ == '__main__':
             if line == "11":
                 time.sleep(5)
 
-        while isLack():
+        if isLack():
+            print("-----LACK OF PROGRESS-----")
             print("Resetting STM")
             print("\n")
             serSTM.setDTR(False)
@@ -238,7 +239,6 @@ if __name__ == '__main__':
             serSTM.setDTR(True)
             serSTM.setRTS(False)
             serSTM.setRTS(True)
-
             print("Resetting Nano")
             print("\n")
             serNano.setDTR(False)
@@ -246,6 +246,6 @@ if __name__ == '__main__':
             serNano.setDTR(True)
             serNano.setRTS(False)
             serNano.setRTS(True)
-
-            print("Waiting for Lack Button")
-            time.sleep(1)
+            while isLack():
+                print("Waiting for Lack Button")
+                time.sleep(0.5)
