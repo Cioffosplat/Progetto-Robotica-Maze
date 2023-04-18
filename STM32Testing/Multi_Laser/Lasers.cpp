@@ -4,10 +4,10 @@
 #define FRONT_R 1
 #define RIGHT_L 2
 #define RIGHT_R 3
-#define LEFT_L 4
-#define LEFT_R 5
-#define BACK_L 6
-#define BACK_R 7
+#define BACK_R 4
+#define BACK_L 5
+#define LEFT_L 6
+#define LEFT_R 7
 
 void setupLasers() {
     Wire.begin();
