@@ -226,10 +226,11 @@ if __name__ == '__main__':
             print(line)
             print("\n")
             if line == "0":
+                print("go back because of black")
                 robotBack()
             if line == "11":
+                print("stop because of blue")
                 time.sleep(5)
-
         if isLack():
             print("-----LACK OF PROGRESS-----")
             print("Resetting STM")
