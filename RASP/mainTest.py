@@ -127,10 +127,10 @@ if __name__ == '__main__':
             robotIndietro()
         while serSTM.in_waiting == 0:
             time.sleep(0.002)
-        #line = (serSTM.readline().decode('utf-8').rstrip())
-        serSTM.reset_input_buffer()
-        #print(line)
-        #if line == "0":
-        #    robotIndietro()
-        #if line == "11":
-        #    time.sleep(5)
+        line = (serSTM.readline().decode('utf-8').rstrip())
+        print("result")
+        print(line)
+        if line == "0":
+            robotIndietro()
+        if line == "11":
+            time.sleep(5)
