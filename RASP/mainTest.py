@@ -81,9 +81,9 @@ def getLasers():
     serSTM.write("3\n".encode('utf-8'))
     print("get lasers")
     lasers = []
-    for i in range(8):
+    for i in range(6):
         while serSTM.in_waiting == 0:
-            time.sleep(0.001)
+            time.sleep(0.002)
         line = float((serSTM.readline().decode('utf-8').rstrip()))
         print(laserName[i] + ": " + str(line))
         lasers.append(line)
@@ -95,19 +95,18 @@ def robotAvanti():
 
 
 def robotIndietro():
-    serSTM.write("12\n".encode('utf-8'))
-    serSTM.write("15\n".encode('utf-8'))
-    serSTM.write("12\n".encode('utf-8'))
-    serSTM.write("15\n".encode('utf-8'))
-    serSTM.write("10\n".encode('utf-8'))
+    robotDestra()
+    robotDestra()
 
 
 if __name__ == '__main__':
     condition = False
     while not condition:
         try:
+            print("Serial STM")
             serSTM = serial.Serial('/dev/ttyACM0', 115200, timeout=2)  # ACM0 == STM32F103C8
             serSTM.reset_input_buffer()
+            print("Serial Nano")
             serNano = serial.Serial('/dev/ttyUSB0', 57600, timeout=1)  # USB0 == Arduino Nano
             serNano.reset_input_buffer()
             condition = True
@@ -130,7 +129,7 @@ if __name__ == '__main__':
             print("INDIETRO")
             robotIndietro()
         while serSTM.in_waiting == 0:
-            time.sleep(0.001)
+            time.sleep(0.002)
         line = (serSTM.readline().decode('utf-8').rstrip())
         print(line)
         if line == "0":
