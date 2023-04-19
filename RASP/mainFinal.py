@@ -16,10 +16,12 @@ GPIO.setup(23, GPIO.IN)
 L_front_R = 0
 L_front_L = 1
 #L_left_R = 2 removed for now cause of hardware problems
-L_left_L = 3
-L_back_L = 4
-L_back_R = 5
-L_right_R = 6
+L_left_L = 2
+L_back_L = 3
+L_back_R = 4
+L_right_R = 5
+
+laserName = ["L_front_R", "L_front_L", "L_left_L", "L_back_L", "L_back_R", "L_right_R"]
 
 #cameras
 busses = Camera.list_cameras()
@@ -125,11 +127,11 @@ def getLasers():
     serSTM.write("3\n".encode('utf-8'))
     print("get lasers")
     lasers = []
-    for i in range(8):
+    for i in range(6):
         while serSTM.in_waiting == 0:
             time.sleep(0.002)
         line = float((serSTM.readline().decode('utf-8').rstrip()))
-        print("laser = " + str(line))
+        print(laserName[i] + str(line))
         lasers.append(line)
     return lasers
 
@@ -194,8 +196,10 @@ def forwardCase():
 
 if __name__ == '__main__':
     reset = False
+    print("Serial STM")
     serSTM = serial.Serial('/dev/ttyACM0', 115200, timeout=2)  # ACM0 == STM32F103C8
     serSTM.reset_input_buffer()
+    print("Serial Nano")
     serNano = serial.Serial('/dev/ttyUSB0', 57600, timeout=1)  # USB0 == Arduino Nano
     serNano.reset_input_buffer()
     while True:
