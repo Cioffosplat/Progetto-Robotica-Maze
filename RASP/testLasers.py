@@ -23,7 +23,7 @@ def getLasers():
             time.sleep(0.002)
         line = float((serSTM.readline().decode('utf-8').rstrip()))
         lasers.append(line)
-        print(laserName[i] + ": " + lasers[i])
+        print(laserName[i] + ": " + str(lasers[i]))
     return lasers
 
 if __name__ == '__main__':
