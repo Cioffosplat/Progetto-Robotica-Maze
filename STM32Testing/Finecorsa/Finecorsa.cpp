@@ -17,9 +17,17 @@ void setupCorsa(){
 }
 
 bool frontClick(){
-  return (digitalRead(CORSA_FL) == HIGH && digitalRead(CORSA_FR) == HIGH);
+  if(digitalRead(CORSA_FL) == HIGH && digitalRead(CORSA_FR) == HIGH){
+    return true;
+  }else{
+    return false;
+  }
 }
 
 bool backClick(){
-  return (digitalRead(CORSA_BL) == HIGH && digitalRead(CORSA_BR) == HIGH);
+  if(digitalRead(CORSA_BL) == HIGH && digitalRead(CORSA_BR) == HIGH){
+    return true;
+  }else{
+    return false;
+  }
 }

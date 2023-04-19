@@ -224,6 +224,7 @@ void robotGoFront(){
 }
 
 void wallAdjustament(bool back){
+  /*
   if(back == true){
     myMotors->indietro();
     while(!backClick()){;}
@@ -243,6 +244,7 @@ void wallAdjustament(bool back){
     }
     myMotors->fermo();
   }
+  */
 }
 
 void rotateRobot(bool d){

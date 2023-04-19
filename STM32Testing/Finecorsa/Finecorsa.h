@@ -7,8 +7,6 @@
 #ifndef FINECORSA_FINECORSA_H
 #define FINECORSA_FINECORSA_H
 
-
-
 void setupCorsa();
 bool frontClick();
 bool backClick();
