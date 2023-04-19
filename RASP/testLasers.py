@@ -18,7 +18,7 @@ def getLasers():
     serSTM.write("3\n".encode('utf-8'))
     print("get lasers")
     lasers = []
-    for i in range(6):
+    for i in range(5):
         while serSTM.in_waiting == 0:
             time.sleep(0.002)
         line = float((serSTM.readline().decode('utf-8').rstrip()))
