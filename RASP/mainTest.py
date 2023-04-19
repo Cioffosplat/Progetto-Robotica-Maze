@@ -11,11 +11,11 @@ from Settings import const_distaces
 
 L_front_R = 0
 L_front_L = 1
-L_left_R = 2
-L_left_L = 3
-L_back_L = 4
-L_back_R = 5
-L_right_R = 6
+#L_left_R = 2 removed for now cause of hardware problems
+L_left_L = 2
+L_back_L = 3
+L_back_R = 4
+L_right_R = 5
 
 
 # /dev/ttyACM0 is STM32F103C8
@@ -68,7 +68,7 @@ def getLasers():
     serSTM.write("3\n".encode('utf-8'))
     print("get lasers")
     lasers = []
-    for i in range(8):
+    for i in range(6):
         while serSTM.in_waiting == 0:
             time.sleep(0.001)
         line = float((serSTM.readline().decode('utf-8').rstrip()))
@@ -109,7 +109,7 @@ if __name__ == '__main__':
         elif not isWall(lasers[L_front_L], lasers[L_front_R]):
             print("AVANTI")
             robotAvanti()
-        elif not isWall(lasers[L_left_L], lasers[L_left_R]):
+        elif not isWall(lasers[L_left_L], lasers[L_left_L]):
             print("SINISTRA")
             robotSinistra()
             robotAvanti()
