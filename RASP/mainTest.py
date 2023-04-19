@@ -120,7 +120,7 @@ if __name__ == '__main__':
         elif not isWall(lasers[L_front_L], lasers[L_front_R]):
             print("AVANTI")
             robotAvanti()
-        elif not isWall(lasers[L_left_L], lasers[L_left_R]):
+        elif not isWall(lasers[L_left_L], lasers[L_left_L]):
             print("SINISTRA")
             robotSinistra()
             robotAvanti()
