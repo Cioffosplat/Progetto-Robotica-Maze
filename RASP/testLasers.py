@@ -30,3 +30,4 @@ if __name__ == '__main__':
     while True:
         l = getLasers()
         print(l[:])
+        time.sleep(0.5)
