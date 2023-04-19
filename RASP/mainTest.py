@@ -11,11 +11,10 @@ from Settings import const_distaces
 
 L_front_R = 0
 L_front_L = 1
-L_left_R = 2
-L_left_L = 3
-L_back_L = 4
-L_back_R = 5
-L_right_R = 6
+L_left_L = 2
+L_back_L = 3
+L_back_R = 4
+L_right_R = 5
 
 laserName = ["L_front_R", "L_front_L", "L_left_L", "L_back_L", "L_back_R", "L_right_R"]
 
