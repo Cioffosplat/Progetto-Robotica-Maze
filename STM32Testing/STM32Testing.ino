@@ -49,9 +49,9 @@ void setup() {
   myServo.write(0);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   delay(1000);
-  Serial.println("SETUP LASER");
+  //Serial.println("SETUP LASER");
   setupLasers();
-  Serial.println("DONE SETUP");
+  //Serial.println("DONE SETUP");
   setupRGB();
   setupCorsa();
   pinMode(LED_PIN, OUTPUT);
@@ -90,29 +90,29 @@ void commandCases(String data){
     //movement method
     case '1':
     {
-      Serial.println("entered case 1");
+      //Serial.println("entered case 1");
       if (data.charAt(1) == '0'){
-        Serial.println("entered case 10");
+        //Serial.println("entered case 10");
         robotGoFront();
       }
       if (data.charAt(1) == '2'){
-        Serial.println("entered case 12");
+        //Serial.println("entered case 12");
         rotateRobot(true);
       }
       if (data.charAt(1) == '3'){
-        Serial.println("entered case 13");
+        //Serial.println("entered case 13");
         rotateRobot(false);
       }
       if (data.charAt(1) == '4'){
-        Serial.println("entered case 14");
+        //Serial.println("entered case 14");
         goUntillSerial();
       }
       if (data.charAt(1) == '5'){
-        Serial.println("entered case 15");
+        //Serial.println("entered case 15");
         wallAdjustament(true);
       }
       if (data.charAt(1) == '6'){
-        Serial.println("entered case 16");
+        //Serial.println("entered case 16");
         wallAdjustament(false);
       }
       break;
@@ -165,16 +165,16 @@ void lasersString(){
 
 void robotGoFront(){
   String result = "1";
-  Serial.println("started method go on");
+  //Serial.println("started method go on");
   int front = getFrontR();
   int back = getBackR();
-  Serial.println("achieved the lasers data");
+  //Serial.println("achieved the lasers data");
   if(back < front){
       int startDIST = back;
       int tmp = back;
       while ( tmp < startDIST + BLOCK_SIZE){
         myMotors->avanti();
-        Serial.println("ANDANDO AVANTI");
+        //Serial.println("ANDANDO AVANTI");
         delay(100);
         if (isBlack()){
           myMotors->indietro();
