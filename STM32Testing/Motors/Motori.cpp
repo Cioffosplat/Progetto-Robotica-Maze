@@ -17,43 +17,43 @@ Motori::Motori(int d1, int d2, int d3, int d4)
 
 void Motori::avanti()
 {
-    digitalWrite(d1, HIGH);
-    digitalWrite(d2, LOW);
-    analogWrite(d3, 127);
-    analogWrite(d4, 0);
+    digitalWrite(d4, HIGH);
+    digitalWrite(d3, LOW);
+    analogWrite(d2, 127);
+    analogWrite(d1, 0);
 }
     
 void Motori::indietro()
 {
-    digitalWrite(d1, LOW);
-    digitalWrite(d2, HIGH);
-    analogWrite(d3, 0);
-    analogWrite(d4, 127);
+    digitalWrite(d4, LOW);
+    digitalWrite(d3, HIGH);
+    analogWrite(d2, 0);
+    analogWrite(d1, 127);
 }
     
 void Motori::destra()
 {
-    digitalWrite(d1, LOW);
-    digitalWrite(d2, HIGH);
+    digitalWrite(d4, LOW);
+    digitalWrite(d3, HIGH);
     analogWrite(d3, 127);
-    analogWrite(d4, 0);
+    analogWrite(d1, 0);
 
 }
 
 void Motori::sinistra()
 {
 
-    digitalWrite(d1, HIGH);
-    digitalWrite(d2, LOW);
-    analogWrite(d3, 0);
-    analogWrite(d4, 127);
+    digitalWrite(d4, HIGH);
+    digitalWrite(d3, LOW);
+    analogWrite(d2, 0);
+    analogWrite(d1, 127);
 
 }
  
 void Motori::fermo()
 {
-    digitalWrite(d1, LOW);
-    digitalWrite(d2, LOW);
-    analogWrite(d3, 0);
-    analogWrite(d4, 0);
+    digitalWrite(d4, LOW);
+    digitalWrite(d3, LOW);
+    analogWrite(d2, 0);
+    analogWrite(d1, 0);
 }
