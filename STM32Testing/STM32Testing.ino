@@ -194,7 +194,7 @@ void robotGoFront(){
     int tmp = front;
       while ( tmp > startDIST - BLOCK_SIZE){
         myMotors->avanti();
-        delay(50);
+        delay(100);
         if (isBlack()){
           myMotors->indietro();
           while ( tmp < startDIST){
