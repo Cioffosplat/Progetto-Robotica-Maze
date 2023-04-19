@@ -43,7 +43,7 @@ def robotSinistra():
     finish = angle - 90
     if angle < -90:
         finish = 0
-    lasers = getLasers();
+    lasers = getLasers()
     serSTM.write("13\n".encode('utf-8'))
     while angle > finish:
         angle = getNano()
