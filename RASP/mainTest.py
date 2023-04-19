@@ -22,7 +22,7 @@ laserName = ["L_front_R", "L_front_L", "L_left_L", "L_back_L", "L_back_R", "L_ri
 # /dev/ttyUSB0 is Arduino Nano
 
 def isWall(millisL, millisR):
-    if (millisR + millisL) < (const_distaces.WALL_MAX * 2):
+    if millisR < const_distaces.WALL_MAX and millisL < const_distaces.WALL_MAX:
         return True
     else:
         return False
