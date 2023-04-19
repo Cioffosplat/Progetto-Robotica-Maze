@@ -107,7 +107,7 @@ if __name__ == '__main__':
             serSTM.reset_input_buffer()
             print("Serial Nano")
             serNano = serial.Serial('/dev/ttyUSB0', 57600, timeout=1)  # USB0 == Arduino Nano
-            time.sleep(3.5)
+            time.sleep(4.5)
             serNano.reset_input_buffer()
             condition = True
         except:
