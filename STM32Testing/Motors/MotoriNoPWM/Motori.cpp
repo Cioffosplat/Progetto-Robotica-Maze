@@ -19,34 +19,35 @@ void Motori::avanti()
 {
     digitalWrite(d1, HIGH);
     digitalWrite(d2, LOW);
-    analogWrite(d3, 127);
-    analogWrite(d4, 0);
+    digitalWrite(d3, HIGH);
+    digitalWrite(d4, LOW);
 }
     
 void Motori::indietro()
 {
     digitalWrite(d1, LOW);
     digitalWrite(d2, HIGH);
-    analogWrite(d3, 0);
-    analogWrite(d4, 127);
+    digitalWrite(d3, LOW);
+    digitalWrite(d4, HIGH);
 }
     
 void Motori::destra()
 {
     digitalWrite(d1, LOW);
     digitalWrite(d2, HIGH);
-    analogWrite(d3, 127);
-    analogWrite(d4, 0);
+    digitalWrite(d3, HIGH);
+    digitalWrite(d4, LOW);
 
 }
-
+    
+    
 void Motori::sinistra()
 {
 
     digitalWrite(d1, HIGH);
     digitalWrite(d2, LOW);
-    analogWrite(d3, 0);
-    analogWrite(d4, 127);
+    digitalWrite(d3, LOW);
+    digitalWrite(d4, HIGH);
 
 }
  
@@ -54,6 +55,6 @@ void Motori::fermo()
 {
     digitalWrite(d1, LOW);
     digitalWrite(d2, LOW);
-    analogWrite(d3, 0);
-    analogWrite(d4, 0);
+    digitalWrite(d3, LOW);
+    digitalWrite(d4, LOW);
 }
