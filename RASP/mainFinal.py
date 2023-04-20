@@ -37,7 +37,7 @@ def isLack():
         return False
 
 def isWall(millisL, millisR):
-    if (millisR + millisL) < (const_distaces.WALL_MAX * 2):
+    if millisR < const_distaces.WALL_MAX and millisL < const_distaces.WALL_MAX:
         return True
     else:
         return False
@@ -50,16 +50,8 @@ def getNanoZ():
     line = float((serNano.readline().decode('utf-8').rstrip()))
     return line
 
-def getNanoX():
-    serNano.write("1\n".encode('utf-8'))
-    while serNano.in_waiting == 0:
-        time.sleep(0.001)
-    line = float((serNano.readline().decode('utf-8').rstrip()))
-    return line
-
-def isRamp():
-    angle = getNanoX()
-    if (angle > 20 | angle < -20):
+def isRamp(dist):
+    if (dist > const_distaces.WALL_MIN and dist < const_distaces.WALL_MAX):
         return True
     else:
         return False
