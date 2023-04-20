@@ -46,10 +46,12 @@ def robotSinistra():
     while angle < finish:
         angle = getNano()
         print(angle)
-    if isWall(lasers[L_right_R], lasers[L_right_R]):
+    serSTM.write("1\n".encode('utf-8'))
+    lasers = getLasers()
+    if isWall(lasers[L_back_R], lasers[L_back_L]):
         print("Back adjust")
         serSTM.write("15\n".encode('utf-8'))
-    elif isWall(lasers[L_left_L], lasers[L_left_L]):
+    elif isWall(lasers[L_front_R], lasers[L_front_L]):
         print("Front adjust")
         serSTM.write(("16\n".encode('utf-8')))
 
@@ -64,6 +66,7 @@ def robotDestra():
     while angle > finish:
         angle = getNano()
         print(angle)
+    serSTM.write("1\n".encode('utf-8'))
     lasers = getLasers()
     if isWall(lasers[L_back_R], lasers[L_back_L]):
         print("Back adjust")
