@@ -43,7 +43,7 @@ def robotSinistra():
     if finish >= 180:
         finish = -180 + (finish - 180)
     serSTM.write("13\n".encode('utf-8'))
-    while angle < finish:
+    while not (angle > (finish -1) and angle < (finish +1)):
         angle = getNano()
         print(angle)
     serSTM.write("1\n".encode('utf-8'))
@@ -63,7 +63,7 @@ def robotDestra():
     if finish <= - 180:
         finish = 180 + (finish + 180)
     serSTM.write("12\n".encode('utf-8'))
-    while angle > finish:
+    while not (angle > (finish -1) and angle < (finish +1)):
         angle = getNano()
         print(angle)
     serSTM.write("1\n".encode('utf-8'))
