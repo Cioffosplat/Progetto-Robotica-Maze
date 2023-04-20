@@ -260,7 +260,6 @@ void rotateRobot(bool d){
   while(Serial.available()>0){
     Serial.read();
   }
-  Serial.println("7");
 }
 
 
