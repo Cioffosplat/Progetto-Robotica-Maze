@@ -190,3 +190,4 @@ if __name__ == '__main__':
             while isLack():
                 print("Waiting for Lack Button")
                 time.sleep(0.5)
+            time.sleep(1)
