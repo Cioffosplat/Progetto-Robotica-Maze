@@ -162,26 +162,26 @@ if __name__ == '__main__':
             if line == "11":
                 print("stop because of blue")
                 time.sleep(5)
-            else:
-                break
-        if isLack():
-            print("-----LACK OF PROGRESS-----")
-            print("Resetting STM")
-            print("\n")
-            serSTM.setDTR(False)
+        else:
+            break
+    if isLack():
+        print("-----LACK OF PROGRESS-----")
+        print("Resetting STM")
+        print("\n")
+        serSTM.setDTR(False)
+        time.sleep(0.5)
+        serSTM.setDTR(True)
+        serSTM.setRTS(False)
+        serSTM.setRTS(True)
+        print("Resetting Nano")
+        print("\n")
+        serNano.setDTR(False)
+        time.sleep(0.5)
+        serNano.setDTR(True)
+        serNano.setRTS(False)
+        serNano.setRTS(True)
+        time.sleep(5)
+        serNano.reset_input_buffer()
+        while isLack():
+            print("Waiting for Lack Button")
             time.sleep(0.5)
-            serSTM.setDTR(True)
-            serSTM.setRTS(False)
-            serSTM.setRTS(True)
-            print("Resetting Nano")
-            print("\n")
-            serNano.setDTR(False)
-            time.sleep(0.5)
-            serNano.setDTR(True)
-            serNano.setRTS(False)
-            serNano.setRTS(True)
-            time.sleep(5)
-            serNano.reset_input_buffer()
-            while isLack():
-                print("Waiting for Lack Button")
-                time.sleep(0.5)
