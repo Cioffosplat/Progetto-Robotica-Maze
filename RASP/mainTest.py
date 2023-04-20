@@ -5,10 +5,10 @@ from RPi import GPIO
 from Settings import const_distaces
 
 #tipo di riferimento, numerazione della cpu
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(23, GPIO.IN)
-GPIO.setup(25, GPIO.OUT)
-GPIO.output(25, GPIO.HIGH)
+#GPIO.setmode(GPIO.BCM)
+#GPIO.setup(23, GPIO.IN)
+#GPIO.setup(25, GPIO.OUT)
+#GPIO.output(25, GPIO.HIGH)
 # L_frontUp = 0
 # L_frontDown = 1
 # L_right = 2
@@ -27,11 +27,11 @@ laserName = ["L_front_R", "L_front_L", "L_left_L", "L_back_L", "L_back_R", "L_ri
 # /dev/ttyACM0 is STM32F103C8
 # /dev/ttyUSB0 is Arduino Nano
 
-def isLack():
-    if not GPIO.input(23):
-        return True
-    else:
-        return False
+#def isLack():
+#    if not GPIO.input(23):
+#        return True
+#    else:
+#        return False
 
 def isWall(millisL, millisR):
     if millisR < const_distaces.WALL_MAX and millisL < const_distaces.WALL_MAX:
@@ -129,7 +129,6 @@ if __name__ == '__main__':
         except:
             print("Serial waiting")
     while condition:
-        while not isLack():
             print("inizio loop")
             lasers = getLasers()
             if not isWall(lasers[L_right_R], lasers[L_right_R]):
@@ -149,38 +148,18 @@ if __name__ == '__main__':
                 robotAvanti()
 
             while serSTM.in_waiting == 0:
-                if isLack():
-                    isBreaked = True
-                    break
-            if not isBreaked:
-                line = (serSTM.readline().decode('utf-8').rstrip())
-                print("result of movement :")
-                print(line)
-                print("\n")
-                if line == "0":
-                    print("go back because of black")
-                    robotIndietro()
-                if line == "11":
-                    print("stop because of blue")
-                    time.sleep(5)
-            else:
-                break
-        if isLack():
-            print("-----LACK OF PROGRESS-----")
-            print("Resetting STM")
+                #if isLack():
+                #    isBreaked = True
+                #    break
+                time.sleep(0.005)
+
+            line = (serSTM.readline().decode('utf-8').rstrip())
+            print("result of movement :")
+            print(line)
             print("\n")
-            GPIO.output(25, GPIO.LOW)
-            time.sleep(0.5)
-            GPIO.output(25, GPIO.HIGH)
-            print("Resetting Nano")
-            print("\n")
-            serNano.setDTR(False)
-            time.sleep(0.5)
-            serNano.setDTR(True)
-            serNano.setRTS(False)
-            serNano.setRTS(True)
-            time.sleep(4.5)
-            serNano.reset_input_buffer()
-            while isLack():
-                print("Waiting for Lack Button")
-                time.sleep(0.5)
+            if line == "0":
+                print("go back because of black")
+                robotIndietro()
+            if line == "11":
+                print("stop because of blue")
+                time.sleep(5)
