@@ -133,6 +133,7 @@ if __name__ == '__main__':
         while serSTM.in_waiting == 0:
             time.sleep(0.002)
         if not indietro:
+            print("aspettando il result")
             line = (serSTM.readline().decode('utf-8').rstrip())
             print("result")
             print(line)
