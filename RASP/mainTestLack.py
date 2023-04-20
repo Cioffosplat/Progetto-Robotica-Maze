@@ -135,6 +135,7 @@ if __name__ == '__main__':
                 print("Serial waiting")
         while condition:
             print("inizio loop")
+            time.sleep(2)
             lasers = getLasers()
             if not isWall(lasers[L_right_R], lasers[L_right_R]):
                 print("DESTRA")
