@@ -45,7 +45,7 @@ int process_green_value() {
 
 
 bool isBlue() {
-    if (process_red_value() >= 60 && process_red_value() <= 90 && process_green_value() >= 75 && process_green_value() <= 110 && process_blue_value() >= 50 && process_blue_value() <= 70) {
+    if (process_red_value() >= 60 && process_red_value() <= 140 && process_green_value() >= 100 && process_green_value() <= 130 && process_blue_value() >= 40 && process_blue_value() <= 95) {
         return true;
     } else {
         return false;
@@ -53,7 +53,7 @@ bool isBlue() {
 }
 
 bool isBlack() {
-    if (process_red_value() >= 80 && process_green_value() >= 110 && process_blue_value() >= 84 && process_blue_value() <= 105) {
+    if (process_red_value() >= 140 && process_green_value() >= 160 && process_blue_value() >= 100) {
         return true;
     } else {
         return false;
