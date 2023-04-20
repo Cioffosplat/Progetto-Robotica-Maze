@@ -4,9 +4,9 @@
 
 #include "Finecorsa.h"
 
-#define CORSA_FL PB8
-#define CORSA_FR PB9
-#define CORSA_BL PB4
+#define CORSA_FL PB9
+#define CORSA_FR PB4
+#define CORSA_BL PB8
 #define CORSA_BR PA2
 
 void setupCorsa(){
