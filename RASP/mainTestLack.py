@@ -57,7 +57,8 @@ def robotSinistra():
     serSTM.write("13\n".encode('utf-8'))
     while not (angle > (finish -1) and angle < (finish +1)):
         angle = getNano()
-        print(angle)
+        if isLack():
+            return False
     serSTM.write("1\n".encode('utf-8'))
     lasers = getLasers()
     if isWall(lasers[L_back_R], lasers[L_back_L]):
@@ -77,7 +78,8 @@ def robotDestra():
     serSTM.write("12\n".encode('utf-8'))
     while not (angle > (finish -1) and angle < (finish +1)):
         angle = getNano()
-        print(angle)
+        if isLack():
+            return False
     serSTM.write("1\n".encode('utf-8'))
     lasers = getLasers()
     if isWall(lasers[L_back_R], lasers[L_back_L]):
@@ -108,9 +110,11 @@ def robotAvanti():
 
 def robotIndietro():
     print("primo seriale")
-    robotDestra()
+    if not robotDestra():
+        return False
     print("secondo seriale")
-    robotDestra()
+    if not robotDestra():
+        return False
     print("finito il metodo indietro")
 
 
@@ -133,20 +137,22 @@ if __name__ == '__main__':
         lasers = getLasers()
         if not isWall(lasers[L_right_R], lasers[L_right_R]):
             print("DESTRA")
-            robotDestra()
+            if not robotDestra():
+                break
             robotAvanti()
         elif not isWall(lasers[L_front_L], lasers[L_front_R]):
             print("AVANTI")
             robotAvanti()
         elif not isWall(lasers[L_left_L], lasers[L_left_L]):
             print("SINISTRA")
-            robotSinistra()
+            if not robotSinistra():
+                break
             robotAvanti()
         elif not isWall(lasers[L_back_L], lasers[L_back_R]):
             print("INDIETRO")
-            robotIndietro()
+            if not robotIndietro():
+                break
             robotAvanti()
-
         while serSTM.in_waiting == 0:
             if isLack():
                 isBreaked = True
