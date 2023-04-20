@@ -24,7 +24,7 @@
 
 #define LED_PIN PB5
 
-const float BLOCK_SIZE = 290; 
+const float BLOCK_SIZE = 305; 
 const float MAX_DISTANCE = 9050;
 
 
