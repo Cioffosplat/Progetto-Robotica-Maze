@@ -25,7 +25,7 @@
 #define LED_PIN PB5
 
 const float BLOCK_SIZE = 290; 
-const float MAX_DISTANCE = 750;
+const float MAX_DISTANCE = 9050;
 
 
 unsigned long SB_MS = 1500;
@@ -230,7 +230,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getBackR();
     myMotors->avanti();
-    while(getBackR() < 55){
+    while(getBackR() < 45){
     }
     myMotors->fermo();
   }else{
@@ -239,7 +239,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getFrontR();
     myMotors->indietro();
-    while(getFrontR() < 55){
+    while(getFrontR() < 45){
     }
     myMotors->fermo();
   }

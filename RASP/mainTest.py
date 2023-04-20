@@ -7,7 +7,8 @@ from Settings import const_distaces
 #tipo di riferimento, numerazione della cpu
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(23, GPIO.IN)
-
+GPIO.setup(25, GPIO.OUT)
+GPIO.output(25, GPIO.HIGH)
 # L_frontUp = 0
 # L_frontDown = 1
 # L_right = 2
@@ -168,11 +169,9 @@ if __name__ == '__main__':
             print("-----LACK OF PROGRESS-----")
             print("Resetting STM")
             print("\n")
-            serSTM.setDTR(False)
+            GPIO.output(25, GPIO.LOW)
             time.sleep(0.5)
-            serSTM.setDTR(True)
-            serSTM.setRTS(False)
-            serSTM.setRTS(True)
+            GPIO.output(25, GPIO.HIGH)
             print("Resetting Nano")
             print("\n")
             serNano.setDTR(False)
