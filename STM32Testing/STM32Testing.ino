@@ -26,6 +26,7 @@
 
 const float BLOCK_SIZE = 305; 
 const float MAX_DISTANCE = 9050;
+const float MIN_LASER = 60;
 
 
 unsigned long SB_MS = 1500;
@@ -169,7 +170,7 @@ void robotGoFront(){
   int front = getFrontR();
   int back = getBackR();
   //Serial.println("achieved the lasers data");
-  if(back < front){
+  if(back - BLOCK_SIZE < front){
       int startDIST = back;
       int tmp = back;
       while ( tmp < startDIST + BLOCK_SIZE){
@@ -192,7 +193,11 @@ void robotGoFront(){
   }else{
     int startDIST = front;
     int tmp = front;
-      while ( tmp > startDIST - BLOCK_SIZE){
+    int finish = startDIST - BLOCK_SIZE;
+    if(finish < MIN_LASER){
+      finish = 62;
+    }
+      while ( tmp > finish){
         myMotors->avanti();
         delay(100);
         if (isBlack()){
