@@ -135,8 +135,6 @@ if __name__ == '__main__':
             print("INDIETRO")
             indietro = True
             robotIndietro()
-        while serSTM.in_waiting == 0:
-            time.sleep(0.002)
         if not indietro:
             while serSTM.in_waiting == 0:
                 time.sleep(0.002)
