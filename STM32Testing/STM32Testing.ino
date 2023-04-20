@@ -226,20 +226,20 @@ void robotGoFront(){
 void wallAdjustament(bool back){
   if(back == true){
     myMotors->indietro();
-    while(!backClick()){;}
+    delay(SB_MS);
     myMotors->fermo();
     int startL = getBackR();
     myMotors->avanti();
-    while(getBackR() < 45){
+    while(getBackR() < 55){
     }
     myMotors->fermo();
   }else{
     myMotors->avanti();
-    while(!frontClick()){;}
+    delay(SB_MS);
     myMotors->fermo();
     int startL = getFrontR();
     myMotors->indietro();
-    while(getFrontR() < 45){
+    while(getFrontR() < 55){
     }
     myMotors->fermo();
   }
