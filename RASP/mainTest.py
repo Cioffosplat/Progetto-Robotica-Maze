@@ -180,6 +180,8 @@ if __name__ == '__main__':
             serNano.setDTR(True)
             serNano.setRTS(False)
             serNano.setRTS(True)
+            time.sleep(4.5)
+            serNano.reset_input_buffer()
             while isLack():
                 print("Waiting for Lack Button")
                 time.sleep(0.5)
