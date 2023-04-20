@@ -43,7 +43,7 @@ def isWall(millisL, millisR):
         return False
 
 
-def getNanoZ():
+def getNano():
     serNano.write("0\n".encode('utf-8'))
     while serNano.in_waiting == 0:
         time.sleep(0.001)
@@ -58,10 +58,16 @@ def isRamp(dist):
 
 def rampRide():
     print("RIDING RAMP")
+    lasers = getLasers()
     serSTM.write("14\n".encode('utf-8'))
-    while(isRamp()):
-        pass
-    serSTM.write("\n".encode('utf-8'))
+    while True:
+        lasers = getLasers()
+        if not isWall(lasers[L_left_L], lasers[L_right_R]):
+            serSTM.write("7\n".encode('utf-8'))
+            break
+        lasers = getLasers()
+    return "101"  
+
 
 def read_wallR():
     print("lettura cum")
@@ -79,41 +85,42 @@ def read_wallR():
 
 def robotSinistra():
     print("GIRAMENTO A SINISTRA")
-    angle = getNanoZ()
+    angle = getNano()
     finish = angle - 90
-    if angle < -90:
-        finish = 0
-    lasers = getLasers()
+    if finish >= 180:
+        finish = -180 + (finish - 180)
     serSTM.write("13\n".encode('utf-8'))
-    while angle > finish:
-        angle = getNanoZ()
+    while not (angle > (finish -1) and angle < (finish +1)):
+        angle = getNano()
         print(angle)
-    serNano.write("1\n".encode('utf-8'))
-    if isWall(lasers[L_right_R], lasers[L_right_R]):
-        print('Back adjust')
+    serSTM.write("1\n".encode('utf-8'))
+    lasers = getLasers()
+    if isWall(lasers[L_back_R], lasers[L_back_L]):
+        print("Back adjust")
         serSTM.write("15\n".encode('utf-8'))
-    elif isWall(lasers[L_left_L], lasers[L_left_L]):
-        print('Front adjust')
-        serSTM.write("16\n".encode('utf-8'))
+    elif isWall(lasers[L_front_R], lasers[L_front_L]):
+        print("Front adjust")
+        serSTM.write(("16\n".encode('utf-8')))
 
 def robotDestra():
     print("GIRAMENTO A DESTRA")
-    angle = getNanoZ()
-    finish = angle + 90
-    if angle > 90:
-        finish = 0
-    lasers = getLasers()
+    angle = getNano()
+    finish = angle - 90
+    if finish <= - 180:
+        finish = 180 + (finish + 180)
     serSTM.write("12\n".encode('utf-8'))
-    while angle < finish:
-        angle = getNanoZ()
+    while not (angle > (finish -1) and angle < (finish +1)):
+        angle = getNano()
         print(angle)
-    serNano.write("1\n".encode('utf-8'))
-    if isWall(lasers[L_right_R], lasers[L_right_R]):
-        print('Back adjust')
+    serSTM.write("1\n".encode('utf-8'))
+    lasers = getLasers()
+    if isWall(lasers[L_back_R], lasers[L_back_L]):
+        print("Back adjust")
         serSTM.write("15\n".encode('utf-8'))
-    elif isWall(lasers[L_left_L], lasers[L_left_L]):
-        print('Front adjust')
-        serSTM.write("16\n".encode('utf-8'))
+        print("inviato seriale")
+    elif isWall(lasers[L_front_R], lasers[L_front_L]):
+        print("Front adjust")
+        serSTM.write(("16\n".encode('utf-8')))
 
 def getLasers():
     serSTM.write("3\n".encode('utf-8'))
@@ -182,12 +189,10 @@ def robotBack():
 def robotForward():
     serSTM.write("10\n".encode('utf-8'))
 
-def forwardCase():
-    robotForward()
-
 
 if __name__ == '__main__':
     reset = False
+    isBreaked = False
     print("Serial STM")
     serSTM = serial.Serial('/dev/ttyACM0', 115200, timeout=2)  # ACM0 == STM32F103C8
     serSTM.reset_input_buffer()
@@ -203,30 +208,36 @@ if __name__ == '__main__':
             if not isWall(lasers[L_right_R], lasers[L_right_R]):
                 print("DESTRA")
                 robotDestra()
-                forwardCase()
+                robotForward()
             elif not isWall(lasers[L_front_L], lasers[L_front_R]):
                 print("AVANTI")
-                forwardCase()
+                robotForward()
             elif not isWall(lasers[L_left_L], lasers[L_left_L]):
                 print("SINISTRA")
                 robotSinistra()
-                forwardCase()
+                robotForward()
             elif not isWall(lasers[L_back_L], lasers[L_back_R]):
                 print("INDIETRO")
                 robotBack()
-                forwardCase()
+                robotForward()
+            
             while serSTM.in_waiting == 0:
-                time.sleep(0.001)
-            line = (serSTM.readline().decode('utf-8').rstrip())
-            print("result of movement :")
-            print(line)
-            print("\n")
-            if line == "0":
-                print("go back because of black")
-                robotBack()
-            if line == "11":
-                print("stop because of blue")
-                time.sleep(5)
+                if isLack():
+                    isBreaked = True
+                    break
+            if not isBreaked:
+                line = (serSTM.readline().decode('utf-8').rstrip())
+                print("result of movement :")
+                print(line)
+                print("\n")
+                if line == "0":
+                    print("go back because of black")
+                    robotBack()
+                if line == "11":
+                    print("stop because of blue")
+                    time.sleep(5)
+            else:
+                break
         if isLack():
             print("-----LACK OF PROGRESS-----")
             print("Resetting STM")
