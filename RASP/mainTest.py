@@ -135,12 +135,11 @@ if __name__ == '__main__':
             print("INDIETRO")
             indietro = True
             robotIndietro()
-            print("post indietro")
         while serSTM.in_waiting == 0:
             time.sleep(0.002)
-        print("indietro or not")
         if not indietro:
-            print("aspettando il result")
+            while serSTM.in_waiting == 0:
+                time.sleep(0.002)
             line = (serSTM.readline().decode('utf-8').rstrip())
             print("result")
             print(line)
