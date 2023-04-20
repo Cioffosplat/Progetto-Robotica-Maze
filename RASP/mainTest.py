@@ -100,6 +100,7 @@ def robotIndietro():
 
 if __name__ == '__main__':
     condition = False
+    indietro = False
     while not condition:
         try:
             print("Serial STM")
@@ -127,13 +128,17 @@ if __name__ == '__main__':
             robotAvanti()
         elif not isWall(lasers[L_back_L], lasers[L_back_R]):
             print("INDIETRO")
+            indietro = True
             robotIndietro()
         while serSTM.in_waiting == 0:
             time.sleep(0.002)
-        line = (serSTM.readline().decode('utf-8').rstrip())
-        print("result")
-        print(line)
-        if line == "0":
-            robotIndietro()
-        if line == "11":
-            time.sleep(5)
+        if not indietro:
+            line = (serSTM.readline().decode('utf-8').rstrip())
+            print("result")
+            print(line)
+            if line == "0":
+                robotIndietro()
+            if line == "11":
+                time.sleep(5)
+        else:
+            indietro = False
