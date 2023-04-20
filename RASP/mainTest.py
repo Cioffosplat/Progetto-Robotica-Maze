@@ -114,6 +114,7 @@ if __name__ == '__main__':
         except:
             print("Serial waiting")
     while condition:
+        print("inizio loop")
         lasers = getLasers()
         if not isWall(lasers[L_right_R], lasers[L_right_R]):
             print("DESTRA")
@@ -132,6 +133,7 @@ if __name__ == '__main__':
             robotIndietro()
         while serSTM.in_waiting == 0:
             time.sleep(0.002)
+        print("indietro or not")
         if not indietro:
             print("aspettando il result")
             line = (serSTM.readline().decode('utf-8').rstrip())
