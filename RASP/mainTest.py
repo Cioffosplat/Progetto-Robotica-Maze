@@ -71,6 +71,7 @@ def robotDestra():
     if isWall(lasers[L_back_R], lasers[L_back_L]):
         print("Back adjust")
         serSTM.write("15\n".encode('utf-8'))
+        print("inviato seriale")
     elif isWall(lasers[L_front_R], lasers[L_front_L]):
         print("Front adjust")
         serSTM.write(("16\n".encode('utf-8')))
@@ -94,8 +95,11 @@ def robotAvanti():
 
 
 def robotIndietro():
+    print("primo seriale")
     robotDestra()
+    print("secondo seriale")
     robotDestra()
+    print("finito il metodo indietro")
 
 
 if __name__ == '__main__':
@@ -131,6 +135,7 @@ if __name__ == '__main__':
             print("INDIETRO")
             indietro = True
             robotIndietro()
+            print("post indietro")
         while serSTM.in_waiting == 0:
             time.sleep(0.002)
         print("indietro or not")
