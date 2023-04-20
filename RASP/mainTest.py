@@ -1,7 +1,12 @@
 import serial
 import time
 
+from RPi import GPIO
 from Settings import const_distaces
+
+#tipo di riferimento, numerazione della cpu
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(23, GPIO.IN)
 
 # L_frontUp = 0
 # L_frontDown = 1
@@ -20,6 +25,12 @@ laserName = ["L_front_R", "L_front_L", "L_left_L", "L_back_L", "L_back_R", "L_ri
 
 # /dev/ttyACM0 is STM32F103C8
 # /dev/ttyUSB0 is Arduino Nano
+
+def isLack():
+    if not GPIO.input(23):
+        return True
+    else:
+        return False
 
 def isWall(millisL, millisR):
     if millisR < const_distaces.WALL_MAX and millisL < const_distaces.WALL_MAX:
@@ -104,7 +115,6 @@ def robotIndietro():
 
 if __name__ == '__main__':
     condition = False
-    indietro = False
     while not condition:
         try:
             print("Serial STM")
@@ -118,32 +128,58 @@ if __name__ == '__main__':
         except:
             print("Serial waiting")
     while condition:
-        print("inizio loop")
-        lasers = getLasers()
-        if not isWall(lasers[L_right_R], lasers[L_right_R]):
-            print("DESTRA")
-            robotDestra()
-            robotAvanti()
-        elif not isWall(lasers[L_front_L], lasers[L_front_R]):
-            print("AVANTI")
-            robotAvanti()
-        elif not isWall(lasers[L_left_L], lasers[L_left_L]):
-            print("SINISTRA")
-            robotSinistra()
-            robotAvanti()
-        elif not isWall(lasers[L_back_L], lasers[L_back_R]):
-            print("INDIETRO")
-            indietro = True
-            robotIndietro()
-        if not indietro:
-            while serSTM.in_waiting == 0:
-                time.sleep(0.002)
-            line = (serSTM.readline().decode('utf-8').rstrip())
-            print("result")
-            print(line)
-            if line == "0":
+        while not isLack():
+            print("inizio loop")
+            lasers = getLasers()
+            if not isWall(lasers[L_right_R], lasers[L_right_R]):
+                print("DESTRA")
+                robotDestra()
+                robotAvanti()
+            elif not isWall(lasers[L_front_L], lasers[L_front_R]):
+                print("AVANTI")
+                robotAvanti()
+            elif not isWall(lasers[L_left_L], lasers[L_left_L]):
+                print("SINISTRA")
+                robotSinistra()
+                robotAvanti()
+            elif not isWall(lasers[L_back_L], lasers[L_back_R]):
+                print("INDIETRO")
                 robotIndietro()
-            if line == "11":
-                time.sleep(5)
-        else:
-            indietro = False
+                robotAvanti()
+
+            while serSTM.in_waiting == 0:
+                if isLack():
+                    isBreaked = True
+                    break
+            if not isBreaked:
+                line = (serSTM.readline().decode('utf-8').rstrip())
+                print("result of movement :")
+                print(line)
+                print("\n")
+                if line == "0":
+                    print("go back because of black")
+                    robotIndietro()
+                if line == "11":
+                    print("stop because of blue")
+                    time.sleep(5)
+            else:
+                break
+        if isLack():
+            print("-----LACK OF PROGRESS-----")
+            print("Resetting STM")
+            print("\n")
+            serSTM.setDTR(False)
+            time.sleep(0.5)
+            serSTM.setDTR(True)
+            serSTM.setRTS(False)
+            serSTM.setRTS(True)
+            print("Resetting Nano")
+            print("\n")
+            serNano.setDTR(False)
+            time.sleep(0.5)
+            serNano.setDTR(True)
+            serNano.setRTS(False)
+            serNano.setRTS(True)
+            while isLack():
+                print("Waiting for Lack Button")
+                time.sleep(0.5)
