@@ -39,7 +39,7 @@ def getNano():
 def robotSinistra():
     print("GIRAMENTO A SINISTRA")
     angle = getNano()
-    finish = angle - 90
+    finish = angle + 90
     if finish >= 180:
         finish = -180 + (finish - 180)
     serSTM.write("13\n".encode('utf-8'))
