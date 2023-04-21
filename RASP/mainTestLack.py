@@ -180,6 +180,8 @@ if __name__ == '__main__':
             GPIO.output(25, GPIO.LOW)
             time.sleep(0.25)
             GPIO.output(25, GPIO.HIGH)
+            serSTM = serial.Serial('/dev/ttyACM0', 115200, timeout=2)  # ACM0 == STM32F103C8
+            serSTM.reset_input_buffer()
             print("Resetting Nano")
             print("\n")
             serNano.setDTR(False)
