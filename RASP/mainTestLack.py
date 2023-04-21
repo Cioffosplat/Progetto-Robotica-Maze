@@ -195,4 +195,3 @@ if __name__ == '__main__':
             while not serSTM.isOpen():
                 print("Waiting for STM to open")
                 time.sleep(0.5)
-            serSTM.reset_input_buffer()
