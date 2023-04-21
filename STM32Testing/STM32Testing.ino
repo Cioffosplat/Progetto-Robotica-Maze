@@ -24,7 +24,7 @@
 
 #define LED_PIN PB5
 
-const float BLOCK_SIZE = 305; 
+const float BLOCK_SIZE = 315; 
 const float MAX_DISTANCE = 9050;
 const float MIN_LASER = 60;
 
@@ -195,7 +195,7 @@ void robotGoFront(){
     int tmp = front;
     int finish = startDIST - BLOCK_SIZE;
     if(finish < MIN_LASER){
-      finish = 62;
+      finish = 55;
     }
       while ( tmp > finish){
         myMotors->avanti();
@@ -235,7 +235,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getBackR();
     myMotors->avanti();
-    while(getBackR() < 55){
+    while(getBackR() < 65){
     }
     myMotors->fermo();
   }else{
@@ -244,7 +244,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
     int startL = getFrontR();
     myMotors->indietro();
-    while(getFrontR() < 55){
+    while(getFrontR() < 65){
     }
     myMotors->fermo();
   }
