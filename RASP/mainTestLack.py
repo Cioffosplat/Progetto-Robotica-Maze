@@ -178,7 +178,7 @@ if __name__ == '__main__':
             print("Resetting STM")
             print("\n")
             GPIO.output(25, GPIO.LOW)
-            # time.sleep(0.5)
+            time.sleep(0.25)
             GPIO.output(25, GPIO.HIGH)
             print("Resetting Nano")
             print("\n")
