@@ -24,9 +24,9 @@
 
 #define LED_PIN PB5
 
-const float BLOCK_SIZE = 315; 
+const float BLOCK_SIZE = 305; 
 const float MAX_DISTANCE = 9050;
-const float MIN_LASER = 60;
+const float MIN_LASER = 50;
 
 
 unsigned long SB_MS = 1500;
@@ -167,7 +167,7 @@ void lasersString(){
 void robotGoFront(){
   String result = "1";
   //Serial.println("started method go on");
-  int front = getFrontR();
+  int front = getFrontL();
   int back = getBackR();
   //Serial.println("achieved the lasers data");
   if(back + BLOCK_SIZE < front){
@@ -203,13 +203,13 @@ void robotGoFront(){
         if (isBlack()){
           myMotors->indietro();
           while ( tmp < startDIST){
-            tmp = getFrontR();
+            tmp = getFrontL();
           }
           myMotors->fermo();
           Serial.println("0");
           return;
         }
-        tmp = getFrontR();
+        tmp = getFrontL();
       }
       myMotors->fermo();
       delay(100);
@@ -267,7 +267,7 @@ void rotateRobot(bool d){
 
 
 void dropMedikit(){
-  myServo.write(80);
+  myServo.write(85);
   delay(1000);
   myServo.write(25);
   delay(1000);

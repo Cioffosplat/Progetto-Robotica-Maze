@@ -15,15 +15,13 @@ void loop(){
   Serial.println(getFrontR());
   Serial.print("1: ");
   Serial.println(getFrontL());
-  //Serial.print("2: ");
-  //Serial.println(getLeftR());
-  Serial.print("3: ");
+  Serial.print("2: ");
   Serial.println(getLeftL());
-  Serial.print("4: ");
+  Serial.print("3: ");
   Serial.println(getBackL());
-  Serial.print("5: ");
+  Serial.print("4: ");
   Serial.println(getBackR());
-  Serial.print("6: ");
+  Serial.print("5: ");
   Serial.println(getRightR());
   delay(200);
 }

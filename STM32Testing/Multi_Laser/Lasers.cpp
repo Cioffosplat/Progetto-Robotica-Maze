@@ -52,6 +52,7 @@ void setupLasers() {
     if (!sensor.init()) {
         while (1) {}
     }
+   
 }
 
 void TCA9548A(uint8_t bus){
@@ -64,6 +65,7 @@ void TCA9548A(uint8_t bus){
         TCA9548A(FRONT_R);
         return sensor.readRangeSingleMillimeters();
     }
+    
     uint16_t getFrontL(){
         TCA9548A(FRONT_L);
         return sensor.readRangeSingleMillimeters();
@@ -88,3 +90,4 @@ void TCA9548A(uint8_t bus){
         TCA9548A(RIGHT_R);
         return sensor.readRangeSingleMillimeters();
     }
+    
