@@ -42,10 +42,17 @@ r_camera = Camera('/dev/video0')
 #        return False
 
 def isWall(millisL, millisR):
-    if millisR < const_distaces.WALL_MAX and millisL < const_distaces.WALL_MAX:
+    if millisR < 200 and millisL < 200:
         return True
     else:
         return False
+    
+def isRamp(millis):
+    if millis < 360:
+        return True
+    else:
+        return False
+
 
 
 def getNano():
@@ -174,6 +181,9 @@ def robotAvanti():
     serSTM.write("10\n".encode('utf-8'))
 
 
+def robotRampa():
+    pass
+
 def robotIndietro():
     print("primo seriale")
     robotDestra()
@@ -203,16 +213,30 @@ if __name__ == '__main__':
             print("\n-----RUN MOVEMENTS-----")
             lasers = getLasers()
             if not isWall(lasers[L_right_R], lasers[L_right_R]):
-                print("DESTRA")
-                robotDestra()
-                robotAvanti()
+                if isRamp(lasers[L_right_R]):
+                    print("RAMPA DESTRA")
+                    robotDestra()
+                    robotRampa()
+                else:
+                    print("DESTRA")
+                    robotDestra()
+                    robotAvanti()
             elif not isWall(lasers[L_front_L], lasers[L_front_R]):
-                print("AVANTI")
-                robotAvanti()
+                if isRamp(lasers[L_front_L]):
+                    print("RAMPA AVANTI")
+                    robotRampa()
+                else:
+                    print("AVANTI")
+                    robotAvanti()
             elif not isWall(lasers[L_left_L], lasers[L_left_L]):
-                print("SINISTRA")
-                robotSinistra()
-                robotAvanti()
+                if isRamp(lasers[L_left_L]):
+                    print("RAMPA SINISTRA")
+                    robotSinistra()
+                    robotRampa()
+                else:
+                    print("SINISTRA")
+                    robotSinistra()
+                    robotAvanti()
             elif not isWall(lasers[L_back_L], lasers[L_back_R]):
                 print("INDIETRO")
                 robotIndietro()
