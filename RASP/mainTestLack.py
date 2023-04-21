@@ -134,6 +134,7 @@ if __name__ == '__main__':
             except:
                 print("Serial waiting")
         while condition:
+            isBreaked = False
             print("inizio loop")
             time.sleep(2)
             lasers = getLasers()
@@ -177,7 +178,7 @@ if __name__ == '__main__':
             print("Resetting STM")
             print("\n")
             GPIO.output(25, GPIO.LOW)
-            time.sleep(0.5)
+            # time.sleep(0.5)
             GPIO.output(25, GPIO.HIGH)
             print("Resetting Nano")
             print("\n")
