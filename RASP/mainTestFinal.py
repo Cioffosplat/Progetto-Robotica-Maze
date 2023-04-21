@@ -70,40 +70,13 @@ def read_wallR():
 
 def ctrlCam():
     ls = getLasers()
-    rotation = 0
     if isWall(ls[L_right_R],ls[L_right_R]):
         read_wallR()
-        rotation = -1
     if isWall(ls[L_front_R], ls[L_front_L]):
-        rotation += 2
         robotSinistra()
         read_wallR()
-    if rotation == 1:
-        if isWall(ls[L_left_L], ls[L_left_L]):
-            robotSinistra()
-            read_wallR()
-    elif rotation == -1:
-        if isWall(ls[L_left_L], ls[L_left_L]):
-            robotSinistra()
-            robotSinistra()
-            read_wallR()
-            robotDestra()
-            robotDestra()
-    elif rotation == 2:
-        if isWall(ls[L_left_L], ls[L_left_L]):
-            robotSinistra()
-            read_wallR()
-            robotDestra()
-            robotDestra()
-        else:
-            robotDestra()
-    elif rotation == 0:
-        if isWall(ls[L_left_L], ls[L_left_L]):
-            robotSinistra()
-            robotSinistra()
-            read_wallR()
-            robotDestra()
-            robotDestra()
+        robotDestra()
+    
 
 def blinkVictim():
     serSTM.write("0\n".encode('utf-8'))
