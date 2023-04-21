@@ -170,7 +170,7 @@ void robotGoFront(){
   int front = getFrontR();
   int back = getBackR();
   //Serial.println("achieved the lasers data");
-  if(back - BLOCK_SIZE < front){
+  if(back + BLOCK_SIZE < front){
       int startDIST = back;
       int tmp = back;
       while ( tmp < startDIST + BLOCK_SIZE){
