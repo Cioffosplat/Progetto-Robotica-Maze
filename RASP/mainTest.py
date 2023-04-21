@@ -131,6 +131,7 @@ if __name__ == '__main__':
     while condition:
             print("inizio loop")
             lasers = getLasers()
+
             if not isWall(lasers[L_right_R], lasers[L_right_R]):
                 print("DESTRA")
                 robotDestra()
