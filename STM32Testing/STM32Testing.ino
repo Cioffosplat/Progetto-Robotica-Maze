@@ -47,7 +47,7 @@ void setup() {
   Serial.begin(115200);
   Wire.begin();
   myServo.attach(SERVO_PIN);
-  myServo.write(0);
+  myServo.write(25);
   myMotors = new Motori(PIN_S1,PIN_S2,PIN_S3,PIN_S4);
   delay(1000);
   //Serial.println("SETUP LASER");
@@ -267,9 +267,9 @@ void rotateRobot(bool d){
 
 
 void dropMedikit(){
-  myServo.write(100);
+  myServo.write(80);
   delay(1000);
-  myServo.write(140);
+  myServo.write(25);
   delay(1000);
   
 }
