@@ -155,11 +155,11 @@ void goUntillSerial(){
 }
 
 void lasersString(){
-  Serial.println(getFrontR());
+  //Serial.println(getFrontR());
   Serial.println(getFrontL());
-  //Serial.println(getLeftR());
+  Serial.println(getLeftR());
   Serial.println(getLeftL());
-  Serial.println(getBackL());
+  //Serial.println(getBackL());
   Serial.println(getBackR());
   Serial.println(getRightR());
 }
@@ -242,9 +242,9 @@ void wallAdjustament(bool back){
     myMotors->avanti();
     delay(SB_MS);
     myMotors->fermo();
-    int startL = getFrontR();
+    int startL = getFrontL();
     myMotors->indietro();
-    while(getFrontR() < 65){
+    while(getFrontL() < 65){
     }
     myMotors->fermo();
   }
