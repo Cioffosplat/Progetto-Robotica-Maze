@@ -1,13 +1,13 @@
 #include "Lasers.h"
 
 //#define FRONT_R 0
-#define FRONT_L 1
-#define LEFT_R 2
-#define LEFT_L 3
-//#define BACK_L 4
-#define BACK_R 5
-#define RIGHT_R 6
-#define RIGHT_L 7
+#define FRONT_L 0
+#define LEFT_R 7
+#define LEFT_L 6
+//#define BACK_L 5
+#define BACK_R 4
+#define RIGHT_R 3
+#define RIGHT_L 2
 
 void setupLasers() {
 
