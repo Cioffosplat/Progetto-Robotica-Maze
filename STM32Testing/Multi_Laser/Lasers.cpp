@@ -1,13 +1,16 @@
 #include "Lasers.h"
 
-//#define FRONT_R 0
+//0,1,3,4,5,7
+
 #define FRONT_L 0
-#define LEFT_R 7
-#define LEFT_L 6
-//#define BACK_L 5
-#define BACK_R 4
+#define FRONT_R 1
+//#define RIGHT_L 2
 #define RIGHT_R 3
-#define RIGHT_L 2
+#define BACK_R 4
+#define BACK_L 5
+//#define LEFT_L 6
+#define LEFT_R 7
+
 
 void setupLasers() {
 
@@ -18,13 +21,13 @@ void setupLasers() {
         while (1) {}
     }
 
-    TCA9548A(LEFT_R);
+    TCA9548A(FRONT_R);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
     }
 
-    TCA9548A(LEFT_L);
+    TCA9548A(RIGHT_R);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
@@ -36,12 +39,12 @@ void setupLasers() {
         while (1) {}
     }
     
-    TCA9548A(RIGHT_R);
+    TCA9548A(BACK_L);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
     }
-    TCA9548A(RIGHT_L);
+    TCA9548A(LEFT_R);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
@@ -58,24 +61,24 @@ void TCA9548A(uint8_t bus){
         TCA9548A(FRONT_L);
         return sensor.readRangeSingleMillimeters();
     }
-    uint16_t getLeftR(){
-        TCA9548A(LEFT_R);
-        return sensor.readRangeSingleMillimeters();
-    }
-    uint16_t getLeftL(){
-        TCA9548A(LEFT_L);
-        return sensor.readRangeSingleMillimeters();
-    }
-    uint16_t getBackR(){
-        TCA9548A(BACK_R);
+    uint16_t getFrontR(){
+        TCA9548A(FRONT_R);
         return sensor.readRangeSingleMillimeters();
     }
     uint16_t getRightR(){
         TCA9548A(RIGHT_R);
         return sensor.readRangeSingleMillimeters();
     }
-    uint16_t getRightL(){
-        TCA9548A(RIGHT_L);
+    uint16_t getBackR(){
+        TCA9548A(BACK_R);
+        return sensor.readRangeSingleMillimeters();
+    }
+    uint16_t getBackL(){
+        TCA9548A(BACK_L);
+        return sensor.readRangeSingleMillimeters();
+    }
+    uint16_t getLeftR(){
+        TCA9548A(LEFT_R);
         return sensor.readRangeSingleMillimeters();
     }
     

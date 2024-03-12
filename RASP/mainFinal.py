@@ -19,14 +19,14 @@ from Settings import const_distaces
 # L_left = 3
 # L_back = 4
 
-L_front_R = 0
-L_front_L = 1
-L_left_L = 2
-L_back_L = 3
-L_back_R = 4
-L_right_R = 5
+L_front_L = 0
+L_front_R = 1
+L_right_R = 2
+L_back_R= 3
+L_back_L = 4
+L_left_R = 5
 
-laserName = ["L_front_R", "L_front_L", "L_left_L", "L_back_L", "L_back_R", "L_right_R"]
+laserName = ["L_front_L", "L_front_R", "L_right_R", "L_back_R", "L_back_L", "L_left_R"]
 
 #cameras
 busses = Camera.list_cameras()
@@ -79,18 +79,18 @@ def ctrlCam():
         robotSinistra()
         read_wallR()
     if rotation == 1:
-        if isWall(ls[L_left_L], ls[L_left_L]):
+        if isWall(ls[L_left_R], ls[L_left_R]):
             robotSinistra()
             read_wallR()
     elif rotation == -1:
-        if isWall(ls[L_left_L], ls[L_left_L]):
+        if isWall(ls[L_left_R], ls[L_left_R]):
             robotSinistra()
             robotSinistra()
             read_wallR()
             robotDestra()
             robotDestra()
     elif rotation == 2:
-        if isWall(ls[L_left_L], ls[L_left_L]):
+        if isWall(ls[L_left_R], ls[L_left_R]):
             robotSinistra()
             read_wallR()
             robotDestra()
@@ -98,7 +98,7 @@ def ctrlCam():
         else:
             robotDestra()
     elif rotation == 0:
-        if isWall(ls[L_left_L], ls[L_left_L]):
+        if isWall(ls[L_left_R], ls[L_left_R]):
             robotSinistra()
             robotSinistra()
             read_wallR()
@@ -209,7 +209,7 @@ if __name__ == '__main__':
             elif not isWall(lasers[L_front_L], lasers[L_front_R]):
                 print("AVANTI")
                 robotAvanti()
-            elif not isWall(lasers[L_left_L], lasers[L_left_L]):
+            elif not isWall(lasers[L_left_R], lasers[L_left_R]):
                 print("SINISTRA")
                 robotSinistra()
                 robotAvanti()

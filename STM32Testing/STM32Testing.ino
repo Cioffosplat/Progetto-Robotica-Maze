@@ -25,7 +25,7 @@
 #define LED_PIN PB5
 
 const float BLOCK_SIZE = 305; 
-const float MAX_DISTANCE = 9050;
+const float MAX_DISTANCE = 8000;
 const float MIN_LASER = 50;
 
 
@@ -155,13 +155,14 @@ void goUntillSerial(){
 }
 
 void lasersString(){
-  //Serial.println(getFrontR());
   Serial.println(getFrontL());
-  Serial.println(getLeftR());
-  Serial.println(getLeftL());
-  //Serial.println(getBackL());
-  Serial.println(getBackR());
+  Serial.println(getFrontR());
+  //Serial.println(getRightL());
   Serial.println(getRightR());
+  Serial.println(getBackR());
+  Serial.println(getBackL());
+  //Serial.println(getLeftL());
+  Serial.println(getLeftR());
 }
 
 void robotGoFront(){
