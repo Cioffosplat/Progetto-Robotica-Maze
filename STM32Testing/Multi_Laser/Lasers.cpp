@@ -1,9 +1,9 @@
 #include "Lasers.h"
 
-//0,1,3,4,5,7
+//0,3,4,5,7
 
 #define FRONT_L 0
-#define FRONT_R 1
+//#define FRONT_R 1
 //#define RIGHT_L 2
 #define RIGHT_R 3
 #define BACK_R 4
@@ -21,11 +21,11 @@ void setupLasers() {
         while (1) {}
     }
 
-    TCA9548A(FRONT_R);
+    /*TCA9548A(FRONT_R);
     sensor.setTimeout(500);
     if (!sensor.init()) {
         while (1) {}
-    }
+    }*/
 
     TCA9548A(RIGHT_R);
     sensor.setTimeout(500);
@@ -61,10 +61,11 @@ void TCA9548A(uint8_t bus){
         TCA9548A(FRONT_L);
         return sensor.readRangeSingleMillimeters();
     }
-    uint16_t getFrontR(){
+    
+    /*uint16_t getFrontR(){
         TCA9548A(FRONT_R);
         return sensor.readRangeSingleMillimeters();
-    }
+    }*/
     uint16_t getRightR(){
         TCA9548A(RIGHT_R);
         return sensor.readRangeSingleMillimeters();

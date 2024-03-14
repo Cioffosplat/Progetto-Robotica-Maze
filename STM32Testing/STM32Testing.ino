@@ -156,7 +156,7 @@ void goUntillSerial(){
 
 void lasersString(){
   Serial.println(getFrontL());
-  Serial.println(getFrontR());
+  //Serial.println(getFrontR());
   //Serial.println(getRightL());
   Serial.println(getRightR());
   Serial.println(getBackR());
@@ -268,9 +268,9 @@ void rotateRobot(bool d){
 
 
 void dropMedikit(){
-  myServo.write(85);
+  myServo.write(89);
   delay(1000);
-  myServo.write(25);
+  myServo.write(22);
   delay(1000);
   
 }

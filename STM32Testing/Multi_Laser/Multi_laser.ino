@@ -13,8 +13,8 @@ void setup() {
 void loop(){
   Serial.print("0: ");
   Serial.println(getFrontL());
-  Serial.print("1: ");
-  Serial.println(getFrontR());
+  //Serial.print("1: ");
+  //Serial.println(getFrontR());
   //Serial.print("2: ");
   //Serial.println(getRightL());
   Serial.print("3: ");
