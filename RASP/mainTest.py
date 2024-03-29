@@ -15,14 +15,14 @@ from Settings import const_distaces
 # L_left = 3
 # L_back = 4
 
+#L_front_L = 0
 L_front_R = 0
-L_front_L = 1
-L_left_L = 2
+L_right_R = 1
+L_back_R= 2
 L_back_L = 3
-L_back_R = 4
-L_right_R = 5
+L_left_R = 4
 
-laserName = ["L_front_R", "L_front_L", "L_left_L", "L_back_L", "L_back_R", "L_right_R"]
+laserName =  ["L_front_R", "L_right_R", "L_back_R", "L_back_L", "L_left_R"]
 
 # /dev/ttyACM0 is STM32F103C8
 # /dev/ttyUSB0 is Arduino Nano
@@ -63,7 +63,7 @@ def robotSinistra():
     if isWall(lasers[L_back_R], lasers[L_back_L]):
         print("Back adjust")
         serSTM.write("15\n".encode('utf-8'))
-    elif isWall(lasers[L_front_R], lasers[L_front_L]):
+    elif isWall(lasers[L_front_R], lasers[L_front_R]):
         print("Front adjust")
         serSTM.write(("16\n".encode('utf-8')))
 
@@ -84,7 +84,7 @@ def robotDestra():
         print("Back adjust")
         serSTM.write("15\n".encode('utf-8'))
         print("inviato seriale")
-    elif isWall(lasers[L_front_R], lasers[L_front_L]):
+    elif isWall(lasers[L_front_R], lasers[L_front_R]):
         print("Front adjust")
         serSTM.write(("16\n".encode('utf-8')))
 
@@ -93,7 +93,7 @@ def getLasers():
     serSTM.write("3\n".encode('utf-8'))
     print("get lasers")
     lasers = []
-    for i in range(6):
+    for i in range(5):
         while serSTM.in_waiting == 0:
             time.sleep(0.002)
         line = float((serSTM.readline().decode('utf-8').rstrip()))
@@ -136,10 +136,10 @@ if __name__ == '__main__':
                 print("DESTRA")
                 robotDestra()
                 robotAvanti()
-            elif not isWall(lasers[L_front_L], lasers[L_front_R]):
+            elif not isWall(lasers[L_front_R], lasers[L_front_R]):
                 print("AVANTI")
                 robotAvanti()
-            elif not isWall(lasers[L_left_L], lasers[L_left_L]):
+            elif not isWall(lasers[L_left_R], lasers[L_left_R]):
                 print("SINISTRA")
                 robotSinistra()
                 robotAvanti()
