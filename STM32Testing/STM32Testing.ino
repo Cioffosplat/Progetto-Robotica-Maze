@@ -32,6 +32,11 @@ const float MIN_LASER = 50;
 unsigned long SB_MS = 1500;
 unsigned long MOVE_MS = 1000;
 
+String data;
+String data2;
+String buffer;
+char c;
+
 #define DELTA_GYRO 3
 
 #define SERVO_PIN PB1
@@ -41,6 +46,30 @@ Servo myServo;
 //Motors on h bridge
 Motori *myMotors;
 
+void sleep(int time){
+    static unsigned long start;
+    start = millis();
+    while(millis()-start<time){
+        if(Serial.available() > 0){
+            data = Serial.readStringUntil('\n');
+            //if(data.find(ESCAPECODE)) RESET;
+            //else
+            buffer += data;
+        }
+    }
+}
+
+String readStringBuffer(){
+    if(buffer=="") return "";
+    data2 = "";
+    c = buffer.charAt(0)
+    while(c!='\n'){
+        data2+=c;
+        buffer = buffer.substr(1);
+        c = buffer.charAt(0);
+    }
+    return data2;
+}
 
 void setup() {
   //both usb and raspberry serial on pins a3 and a2
@@ -56,11 +85,13 @@ void setup() {
   setupRGB();
   setupCorsa();
   pinMode(LED_PIN, OUTPUT);
+  buffer = "";
 }
 
 void loop() {
   if (Serial.available() > 0){
-    String data = Serial.readStringUntil('\n');
+    data = readStringBuffer();
+    if(data=="") data = Serial.readStringUntil('\n');
     //Serial.println(data);
     commandCases(data);
   }
@@ -78,7 +109,7 @@ void led_blink(){
 
 void commandCases(String data){
   String result;
-  char c = data.charAt(0);
+  c = data.charAt(0);
   switch (c) {
     
     //blink led
@@ -177,7 +208,7 @@ void robotGoFront(){
       while ( tmp < startDIST + BLOCK_SIZE){
         myMotors->avanti();
         //Serial.println("ANDANDO AVANTI");
-        delay(100);
+        sleep(100);
         if (isBlack()){
           myMotors->indietro();
           while ( tmp > startDIST){
@@ -190,7 +221,7 @@ void robotGoFront(){
         tmp = getBackR();
       }
       myMotors->fermo();
-      delay(100);
+      sleep(100);
   }else{
     int startDIST = front;
     int tmp = front;
@@ -200,7 +231,7 @@ void robotGoFront(){
     }
       while ( tmp > finish){
         myMotors->avanti();
-        delay(100);
+        sleep(100);
         if (isBlack()){
           myMotors->indietro();
           while ( tmp < startDIST){
@@ -213,7 +244,7 @@ void robotGoFront(){
         tmp = getFrontL();
       }
       myMotors->fermo();
-      delay(100);
+      sleep(100);
   }
   //method to recognise blue and silver atm not needed
   if (isBlue()){
@@ -232,7 +263,7 @@ void robotGoFront(){
 void wallAdjustament(bool back){
   if(back == true){
     myMotors->indietro();
-    delay(SB_MS);
+    sleep(SB_MS);
     myMotors->fermo();
     int startL = getBackR();
     myMotors->avanti();
@@ -241,7 +272,7 @@ void wallAdjustament(bool back){
     myMotors->fermo();
   }else{
     myMotors->avanti();
-    delay(SB_MS);
+    sleep(SB_MS);
     myMotors->fermo();
     int startL = getFrontL();
     myMotors->indietro();
@@ -269,8 +300,8 @@ void rotateRobot(bool d){
 
 void dropMedikit(){
   myServo.write(89);
-  delay(1000);
+  sleep(1000);
   myServo.write(22);
-  delay(1000);
+  sleep(1000);
   
 }
